@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../../site.config.mjs';
+---
+<BaseLayout title="Security">
+  <p class="eyebrow">Security notes</p><h1>Know what each control does.</h1>
+  <div class="grid"><section class="card"><h2>Cloud access</h2><p>Cloud uses a verified email and password. You can revoke a device from your workspace.</p></section><section class="card"><h2>Profile sync</h2><p>Cloud syncs encrypted portable profiles and keeps a local cache. It detects stale uploads and warns about concurrent opens.</p></section><section class="card"><h2>Downloads</h2><p>The Windows beta is unsigned. Check the GitHub URL and SHA-256 before running a published download.</p></section></div>
+  <section class="notice"><h2>Security boundaries</h2><p>AliasMode does not claim end-to-end encryption, code signing, backups, durability, or guaranteed profile recovery.</p></section>
+  <section><h2>Report a security issue</h2>{siteConfig.securityEmail ? <p>Use <a href={`mailto:${siteConfig.securityEmail}`}>{siteConfig.securityEmail}</a>.</p> : <p>Security contact details will be published with the production site.</p>}</section>
+</BaseLayout>

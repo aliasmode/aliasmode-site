@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Email confirmation" noIndex canonical={false}>
+  <p class="eyebrow">Account status</p><h1 id="status">Checking confirmation status.</h1><p id="detail" class="lead">This page removes callback data from the address bar.</p><p class="muted">This page reports a callback result. Open AliasMode to verify the current account state.</p>
+</BaseLayout>
+<script>
+  const messages = {
+    success: ['Callback reported success.', 'Return to AliasMode to verify the email confirmation state.'],
+    expired: ['Confirmation link expired.', 'Request a new confirmation email in AliasMode.'],
+    invalid: ['Confirmation link is not valid.', 'Request a new confirmation email in AliasMode.'],
+    unknown: ['Confirmation status unavailable.', 'Return to AliasMode and request a new confirmation email if needed.'],
+  };
+  const value = new URLSearchParams(window.location.search).get('status');
+  const [title, detail] = messages[value === 'success' || value === 'expired' || value === 'invalid' ? value : 'unknown'];
+  document.querySelector('#status').textContent = title;
+  document.querySelector('#detail').textContent = detail;
+  history.replaceState(null, '', window.location.pathname);
+</script>
