@@ -11,6 +11,24 @@ const html = files(dist).filter((file) => file.endsWith('.html'));
 const production = process.env.PUBLIC_SITE_ENV === 'production';
 const routeFile = (path) => join(dist, path === '/' ? 'index.html' : path === '/404' ? '404.html' : `${path.replace(/^\//, '').replace(/\/$/, '')}/index.html`);
 const page = (path) => { const file = routeFile(path); if (!existsSync(file)) fail(`missing route ${path}`); return readFileSync(file, 'utf8'); };
+const dockerfile = readFileSync(join(root, 'Dockerfile'), 'utf8');
+const dockerignore = readFileSync(join(root, '.dockerignore'), 'utf8');
+const nginx = readFileSync(join(root, 'nginx.conf'), 'utf8');
+
+if ((dockerfile.match(/^FROM /gm) ?? []).length !== 2) fail('Dockerfile must have build and runtime stages');
+if (!dockerfile.includes('FROM nginxinc/nginx-unprivileged:')) fail('runtime image must use unprivileged NGINX');
+for (const variable of ['PUBLIC_SITE_ENV', 'PUBLIC_SITE_ORIGIN', 'PUBLIC_SUPPORT_EMAIL', 'PUBLIC_SECURITY_EMAIL']) {
+  if (!dockerfile.includes(`ARG ${variable}`)) fail(`Dockerfile is missing ${variable}`);
+}
+for (const command of ['npm ci', 'test "$PUBLIC_SITE_ENV" = "production"', 'npm run verify', 'COPY --from=build /app/dist/', 'HEALTHCHECK']) {
+  if (!dockerfile.includes(command)) fail(`Dockerfile is missing ${command}`);
+}
+for (const pattern of ['node_modules', 'dist', '.env', '.env.*']) {
+  if (!dockerignore.split('\n').includes(pattern)) fail(`.dockerignore is missing ${pattern}`);
+}
+for (const directive of ['gzip on;', 'try_files $uri $uri/ =404;', 'location = /healthz', 'error_page 404 /404.html;', 'Content-Security-Policy', 'Referrer-Policy', 'X-Content-Type-Options', 'Permissions-Policy']) {
+  if (!nginx.includes(directive)) fail(`NGINX config is missing ${directive}`);
+}
 
 for (const route of ['/', '/download', '/local-vs-cloud', '/security', '/contact', '/auth/email-confirmation', '/auth/password-reset', '/terms', '/privacy', '/acceptable-use', '/terms/v1', '/privacy/v1', '/acceptable-use/v1', '/404']) page(route);
 const robots = readFileSync(join(dist, 'robots.txt'), 'utf8');
@@ -53,4 +71,4 @@ for (const [route, expected] of Object.entries(legalSnapshots)) {
   const actual = createHash('sha256').update(readFileSync(source)).digest('hex');
   if (actual !== expected) fail(`${route} changed; create a new legal version instead`);
 }
-console.log(`Verified ${html.length} pages, internal links, ${production ? 'production' : 'preview'} policy, release state, auth callbacks, and legal snapshots.`);
+console.log(`Verified ${html.length} pages, internal links, ${production ? 'production' : 'preview'} policy, release state, auth callbacks, legal snapshots, and deployment config.`);
