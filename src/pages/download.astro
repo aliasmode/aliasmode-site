@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DownloadPanel from '../components/DownloadPanel.astro';
+---
+<BaseLayout title="Download">
+  <p class="eyebrow">Windows beta</p><h1>Download with the facts in view.</h1>
+  <p class="lead">The Windows beta is unsigned. SmartScreen can warn about unsigned or uncommon software.</p>
+  <DownloadPanel />
+  <section><h2>Before you run a published download</h2><ol><li>Open the GitHub release URL and check that it is under <code>github.com/aliasmode/aliasmode</code>.</li><li>Verify the downloaded file against the published SHA-256 checksum.</li><li>If Windows shows SmartScreen, select <strong>More info</strong>, then <strong>Run anyway</strong> only if you accept the risk and Windows offers that option.</li></ol><p>Do not disable Windows protection. A checksum helps verify a downloaded file. It does not sign the app.</p></section>
+</BaseLayout>

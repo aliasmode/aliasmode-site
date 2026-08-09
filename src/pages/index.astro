@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DownloadPanel from '../components/DownloadPanel.astro';
+---
+<BaseLayout title="A clearer way to manage browser profiles">
+  <p class="eyebrow">AliasMode by Xreacher</p>
+  <h1>Browser profiles with a clear choice.</h1>
+  <p class="lead">Keep profiles on one computer with Local, or choose Cloud to sync an encrypted portable profile between your devices.</p>
+  <div class="actions"><a class="button" href="/download">Get the Windows beta</a><a class="button secondary" href="/local-vs-cloud">Compare Local and Cloud</a></div>
+  <div class="grid"><section class="card"><h2>Local</h2><p>No account. No AliasMode Cloud traffic. Your profile data stays on that computer.</p></section><section class="card"><h2>Cloud</h2><p>Use a verified email and password to work with one workspace and sync encrypted portable profiles.</p></section><section class="card"><h2>Your choice</h2><p>Moving a Local profile to Cloud requires clear confirmation before upload.</p></section></div>
+  <DownloadPanel />
+</BaseLayout>

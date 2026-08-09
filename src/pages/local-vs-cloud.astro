@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Local vs Cloud">
+  <p class="eyebrow">Choose your mode</p><h1>Local first, or Cloud when you need it.</h1>
+  <div class="grid"><section class="card"><h2>Local</h2><ul><li>Requires no AliasMode account.</li><li>Sends no traffic to AliasMode Cloud.</li><li>Keeps profile data on that computer.</li><li>Uses app analytics only when you explicitly opt in.</li></ul></section><section class="card"><h2>Cloud</h2><ul><li>Uses a verified email and password.</li><li>Gives each account one workspace with owner and member roles.</li><li>Syncs encrypted portable profiles and keeps a local cache.</li><li>Lets you revoke devices and use trash for deleted profiles.</li></ul></section></div>
+  <section><h2>When profiles meet</h2><p>Cloud gives warning-only notices when the same profile opens at the same time. It rejects stale uploads and retries pending uploads. These controls reduce conflicts; they do not promise recovery.</p><p>To move a Local profile to Cloud, AliasMode asks for clear confirmation before it uploads the profile.</p></section>
+</BaseLayout>
