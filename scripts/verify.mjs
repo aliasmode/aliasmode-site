@@ -20,7 +20,7 @@ if (!dockerfile.includes('FROM nginxinc/nginx-unprivileged:')) fail('runtime ima
 for (const variable of ['PUBLIC_SITE_ENV', 'PUBLIC_SITE_ORIGIN', 'PUBLIC_SUPPORT_EMAIL', 'PUBLIC_SECURITY_EMAIL']) {
   if (!dockerfile.includes(`ARG ${variable}`)) fail(`Dockerfile is missing ${variable}`);
 }
-for (const command of ['npm ci', 'test "$PUBLIC_SITE_ENV" = "production"', 'npm run verify', 'COPY --from=build /app/dist/', 'HEALTHCHECK']) {
+for (const command of ['npm ci', 'production|preview', 'PUBLIC_SITE_ENV must be production or preview', 'npm run verify', 'COPY --from=build /app/dist/', 'HEALTHCHECK']) {
   if (!dockerfile.includes(command)) fail(`Dockerfile is missing ${command}`);
 }
 for (const pattern of ['node_modules', 'dist', '.env', '.env.*']) {
