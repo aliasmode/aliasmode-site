@@ -37,13 +37,12 @@ jobs:
             fi
             sleep 1
           done
-          redirect_headers="$(curl --silent --show-error --head -H 'Host: aliasmode.com' http://127.0.0.1:18080/local-vs-cloud | tr -d '\r')"
-          grep -Fx 'HTTP/1.1 301 Moved Permanently' <<<"$redirect_headers" >/dev/null
-          grep -Fx 'Location: /local-vs-cloud/' <<<"$redirect_headers" >/dev/null
-          if grep --fixed-strings ':8080' <<<"$redirect_headers" >/dev/null; then
-            printf '%s\n' "$redirect_headers"
+          route_headers="$(curl --silent --show-error --head -H 'Host: aliasmode.com' http://127.0.0.1:18080/local-vs-cloud | tr -d '\r')"
+          grep -Fx 'HTTP/1.1 200 OK' <<<"$route_headers" >/dev/null
+          if grep -i '^Location:' <<<"$route_headers" >/dev/null || grep --fixed-strings ':8080' <<<"$route_headers" >/dev/null; then
+            printf '%s\n' "$route_headers"
             exit 1
           fi
-          curl --fail --silent --location -H 'Host: aliasmode.com' http://127.0.0.1:18080/local-vs-cloud >/dev/null
+          curl --fail --silent -H 'Host: aliasmode.com' http://127.0.0.1:18080/local-vs-cloud >/dev/null
           curl --fail --silent http://127.0.0.1:18080/ | grep --fixed-strings 'noindex,nofollow' >/dev/null
           curl --fail --silent http://127.0.0.1:18080/security/ | grep --fixed-strings 'noindex,nofollow' >/dev/null

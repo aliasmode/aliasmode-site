@@ -26,14 +26,14 @@ for (const command of ['npm ci', 'production|preview', 'PUBLIC_SITE_ENV must be 
 for (const pattern of ['node_modules', 'dist', '.env', '.env.*']) {
   if (!dockerignore.split('\n').includes(pattern)) fail(`.dockerignore is missing ${pattern}`);
 }
-for (const directive of ['gzip on;', 'absolute_redirect off;', 'try_files $uri $uri/ =404;', 'location = /healthz', 'error_page 404 /404.html;', 'Content-Security-Policy', 'Referrer-Policy', 'X-Content-Type-Options', 'Permissions-Policy']) {
+for (const directive of ['gzip on;', 'absolute_redirect off;', 'try_files $uri/index.html $uri $uri/ =404;', 'location = /healthz', 'error_page 404 /404.html;', 'Content-Security-Policy', 'Referrer-Policy', 'X-Content-Type-Options', 'Permissions-Policy']) {
   if (!nginx.includes(directive)) fail(`NGINX config is missing ${directive}`);
 }
 
 for (const route of ['/', '/pricing', '/download', '/local-vs-cloud', '/security', '/contact', '/auth/email-confirmation', '/auth/password-reset', '/terms', '/privacy', '/acceptable-use', '/terms/v1', '/privacy/v1', '/acceptable-use/v1', '/404']) page(route);
 const home = page('/');
 const pricing = page('/pricing');
-if (!home.includes('href="/download"') || !pricing.includes('href="/download"')) fail('home and pricing must link to the download flow');
+if (!home.includes('href="/download/"') || !pricing.includes('href="/download/"')) fail('home and pricing must link to the download flow');
 for (const [route, text] of [['/', home], ['/pricing', pricing]]) {
   for (const copy of ['Cloud', 'Local', 'Premium Support', '$0', 'Talk to sales', 'All AliasMode functionality is free.', 'Premium Support purchases support, not feature access.']) {
     if (!text.includes(copy)) fail(`${route} is missing pricing copy: ${copy}`);
