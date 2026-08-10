@@ -30,7 +30,11 @@ for (const directive of ['gzip on;', 'try_files $uri $uri/ =404;', 'location = /
   if (!nginx.includes(directive)) fail(`NGINX config is missing ${directive}`);
 }
 
-for (const route of ['/', '/download', '/local-vs-cloud', '/security', '/contact', '/auth/email-confirmation', '/auth/password-reset', '/terms', '/privacy', '/acceptable-use', '/terms/v1', '/privacy/v1', '/acceptable-use/v1', '/404']) page(route);
+for (const route of ['/', '/pricing', '/download', '/local-vs-cloud', '/security', '/contact', '/auth/email-confirmation', '/auth/password-reset', '/terms', '/privacy', '/acceptable-use', '/terms/v1', '/privacy/v1', '/acceptable-use/v1', '/404']) page(route);
+const home = page('/');
+const pricing = page('/pricing');
+if (!home.includes('href="/download"') || !pricing.includes('href="/download"')) fail('home and pricing must link to the download flow');
+if (!pricing.includes('AliasMode Standard') || !pricing.includes('$0') || !pricing.includes('Unlimited browser profiles')) fail('pricing must show the free Standard plan and unlimited profiles');
 const robots = readFileSync(join(dist, 'robots.txt'), 'utf8');
 const expectedRobots = production ? 'User-agent: *\nAllow: /\n' : 'User-agent: *\nDisallow: /\n';
 if (robots !== expectedRobots) fail(`${production ? 'production' : 'preview'} robots policy is incorrect`);

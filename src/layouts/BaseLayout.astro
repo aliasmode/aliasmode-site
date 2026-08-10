@@ -2,7 +2,7 @@
 import { siteConfig } from '../../site.config.mjs';
 
 interface Props { title: string; description?: string; noIndex?: boolean; canonical?: boolean }
-const { title, description = 'AliasMode helps you use browser profiles with a clear local or cloud choice.', noIndex = false, canonical: includeCanonical = true } = Astro.props;
+const { title, description = 'AliasMode is a free, open-source antidetect browser for managing multiple accounts.', noIndex = false, canonical: includeCanonical = true } = Astro.props;
 const canonical = siteConfig.origin && includeCanonical ? new URL(Astro.url.pathname, siteConfig.origin).toString() : undefined;
 const shouldIndex = siteConfig.index && !noIndex;
 ---
@@ -20,12 +20,80 @@ const shouldIndex = siteConfig.index && !noIndex;
     <title>{title} · AliasMode</title>
   </head>
   <body>
-    <header><a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 512 512" fill="none" aria-hidden="true"><path d="M152 96H320C380 96 416 136 416 196V316C416 376 376 416 316 416H196C136 416 96 376 96 316V288" stroke="currentColor" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 288C96 240 136 208 184 208H280" stroke="#2457D6" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/></svg>AliasMode <span>by Xreacher</span></a><nav aria-label="Main navigation"><a href="/download">Download</a><a href="/local-vs-cloud">Local vs Cloud</a><a href="/security">Security</a><a href="/contact">Contact</a></nav></header>
+    <header class="site-header">
+      <a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 512 512" fill="none" aria-hidden="true"><path d="M152 96H320C380 96 416 136 416 196V316C416 376 376 416 316 416H196C136 416 96 376 96 316V288" stroke="currentColor" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 288C96 240 136 208 184 208H280" stroke="#2457D6" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/></svg>AliasMode <span>by Xreacher</span></a>
+      <nav class="main-nav" aria-label="Main navigation"><a href="/#features">Features</a><a href="/pricing">Pricing</a><a href="/local-vs-cloud">Local vs Cloud</a><a href="/security">Security</a></nav>
+      <a class="header-cta" href="/download">Download free</a>
+    </header>
     <main><slot /></main>
-    <footer><div><strong>AliasMode</strong><span> Browser profiles, on your terms.</span></div><nav aria-label="Legal navigation"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/acceptable-use">Acceptable Use</a></nav></footer>
+    <footer>
+      <div class="footer-brand"><strong>AliasMode</strong><span>Free, open-source multi-account browsing.</span></div>
+      <nav aria-label="Footer navigation"><a href="/download">Download</a><a href="/pricing">Pricing</a><a href="/contact">Contact</a><a href="https://github.com/aliasmode/aliasmode">GitHub</a></nav>
+      <nav aria-label="Legal navigation"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/acceptable-use">Acceptable Use</a></nav>
+    </footer>
   </body>
 </html>
 <style is:global>
-  :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #172033; background: #f8fafc; line-height: 1.55; }
-  * { box-sizing: border-box; } body { margin: 0; } a { color: inherit; text-underline-offset: .18em; } header, footer, main { max-width: 72rem; margin: auto; padding-left: 1.5rem; padding-right: 1.5rem; } header { min-height: 5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; } nav { display: flex; flex-wrap: wrap; gap: 1rem; font-size: .92rem; } .brand { color: #111827; display: inline-flex; align-items: center; gap: .5rem; font-size: 1.1rem; font-weight: 750; text-decoration: none; letter-spacing: -.02em; } .brand-mark { width: 1.5rem; height: 1.5rem; } .brand span { color: #64748b; font-weight: 500; } main { min-height: calc(100vh - 11.5rem); padding-top: 3.5rem; padding-bottom: 5rem; } footer { border-top: 1px solid #dbe3ee; color: #526077; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 6.5rem; font-size: .88rem; } h1 { font-size: clamp(2.4rem, 6vw, 4.8rem); line-height: 1.02; letter-spacing: -.055em; margin: 0 0 1.25rem; max-width: 12ch; } h2 { font-size: 1.5rem; letter-spacing: -.03em; margin: 0 0 .6rem; } h3 { margin-bottom: .25rem; } p { max-width: 68ch; } .eyebrow { color: #536eae; font-size: .82rem; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; } .lead { color: #3e4d65; font-size: 1.15rem; max-width: 58ch; } .actions { display: flex; flex-wrap: wrap; gap: .8rem; margin: 1.7rem 0; } .button { background: #214dcb; border-radius: .5rem; color: #fff; display: inline-block; font-weight: 700; padding: .7rem 1rem; text-decoration: none; } .button.secondary { background: #e8eefc; color: #173c9d; } .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin: 2.5rem 0; } .card, .notice { background: #fff; border: 1px solid #dbe3ee; border-radius: .75rem; padding: 1.25rem; } .notice { border-left: .3rem solid #e0a630; } .muted { color: #526077; } code { background: #edf2f8; border-radius: .2rem; padding: .1rem .25rem; word-break: break-all; } ul { max-width: 68ch; padding-left: 1.2rem; } li + li { margin-top: .5rem; } .legal h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); } @media (max-width: 42rem) { header, footer { align-items: flex-start; flex-direction: column; padding-top: 1.25rem; padding-bottom: 1.25rem; } main { padding-top: 2.5rem; } }
+  :root {
+    color: #172033;
+    background: #f7f9fc;
+    font-family: Aptos, "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; overflow-x: hidden; }
+  a { color: inherit; text-underline-offset: .18em; }
+  a:focus-visible, button:focus-visible { outline: 3px solid #31b8c7; outline-offset: 3px; }
+  .site-header, footer, main { margin: auto; max-width: 72rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+  .site-header { align-items: center; display: grid; gap: 1.5rem; grid-template-columns: auto 1fr auto; min-height: 5.25rem; }
+  .main-nav { justify-content: center; }
+  nav { display: flex; flex-wrap: wrap; gap: 1.25rem; font-size: .88rem; }
+  nav a { color: #46556d; font-weight: 600; text-decoration: none; }
+  nav a:hover { color: #2457d6; }
+  .brand { align-items: center; color: #111827; display: inline-flex; font-size: 1.1rem; font-weight: 800; gap: .5rem; letter-spacing: -.025em; text-decoration: none; white-space: nowrap; }
+  .brand-mark { height: 1.65rem; width: 1.65rem; }
+  .brand span { color: #64748b; font-size: .75rem; font-weight: 550; }
+  .header-cta { background: #2457d6; border-radius: .45rem; color: white; font-size: .8rem; font-weight: 750; padding: .6rem .85rem; text-decoration: none; white-space: nowrap; }
+  .header-cta:hover { background: #173c9d; }
+  main { min-height: calc(100vh - 14rem); padding-bottom: 5rem; padding-top: 3.5rem; }
+  footer { align-items: flex-start; border-top: 1px solid #dbe3ee; color: #526077; display: grid; font-size: .8rem; gap: 2rem; grid-template-columns: 1fr auto auto; min-height: 8.5rem; padding-bottom: 2rem; padding-top: 2rem; }
+  .footer-brand { display: flex; flex-direction: column; }
+  .footer-brand strong { color: #172033; font-size: .95rem; }
+  h1 { font-size: clamp(2.4rem, 6vw, 4.8rem); letter-spacing: -.058em; line-height: .98; margin: 0 0 1.25rem; max-width: 13ch; text-wrap: balance; }
+  h2 { font-size: 1.5rem; letter-spacing: -.04em; line-height: 1.08; margin: 0 0 .7rem; text-wrap: balance; }
+  h3 { letter-spacing: -.02em; margin-bottom: .25rem; }
+  p { max-width: 68ch; }
+  .eyebrow { color: #536eae; font: 800 .73rem/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .095em; text-transform: uppercase; }
+  .lead { color: #3e4d65; font-size: 1.15rem; max-width: 58ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: .8rem; margin: 1.7rem 0; }
+  .button { background: #2457d6; border: 1px solid #2457d6; border-radius: .48rem; color: #fff; display: inline-block; font-size: .9rem; font-weight: 750; padding: .78rem 1.05rem; text-decoration: none; transition: background .18s ease, border-color .18s ease, transform .18s ease; }
+  .button:hover { background: #173c9d; border-color: #173c9d; transform: translateY(-1px); }
+  .button.secondary { background: #fff; border-color: #cbd7e7; color: #173c9d; }
+  .button.secondary:hover { background: #edf3ff; border-color: #aebee0; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin: 2.5rem 0; }
+  .card, .notice { background: #fff; border: 1px solid #dbe3ee; border-radius: .65rem; padding: 1.4rem; }
+  .notice { border-left: .3rem solid #e0a630; }
+  .muted { color: #526077; }
+  code { background: #edf2f8; border-radius: .2rem; padding: .1rem .25rem; word-break: break-all; }
+  ul { max-width: 68ch; padding-left: 1.2rem; }
+  li + li { margin-top: .5rem; }
+  .legal h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
+  @media (max-width: 54rem) {
+    .site-header { gap: .8rem; grid-template-columns: 1fr auto; padding-bottom: 1rem; padding-top: 1rem; }
+    .main-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; order: 3; }
+    footer { grid-template-columns: 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 36rem) {
+    .brand span { display: none; }
+    .main-nav { gap: .75rem 1rem; }
+    main { padding-top: 2rem; }
+    footer { grid-template-columns: 1fr; }
+    .footer-brand { grid-column: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .button { transition: none; }
+  }
 </style>

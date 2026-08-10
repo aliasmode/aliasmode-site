@@ -2,9 +2,53 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DownloadPanel from '../components/DownloadPanel.astro';
 ---
-<BaseLayout title="Download">
-  <p class="eyebrow">Windows beta</p><h1>Download with the facts in view.</h1>
-  <p class="lead">The Windows beta is unsigned. SmartScreen can warn about unsigned or uncommon software.</p>
+<BaseLayout
+  title="Download AliasMode Free"
+  description="Download the free, open-source AliasMode Windows beta. Create unlimited browser profiles and sign up inside the app for Cloud sync and team collaboration."
+>
+  <section class="download-hero">
+    <div>
+      <p class="eyebrow">Free Windows beta</p>
+      <h1>Download AliasMode. Start free.</h1>
+      <p class="lead">Install AliasMode, choose Cloud, and create your free account inside the app. You can then synchronize profiles across devices and invite your team.</p>
+    </div>
+    <ol class="onboarding">
+      <li><span>1</span><div><strong>Download</strong><small>Get the Windows beta.</small></div></li>
+      <li><span>2</span><div><strong>Launch</strong><small>Open AliasMode.</small></div></li>
+      <li><span>3</span><div><strong>Sign up</strong><small>Choose Cloud in the app.</small></div></li>
+    </ol>
+  </section>
+
   <DownloadPanel />
-  <section><h2>Before you run a published download</h2><ol><li>Open the GitHub release URL and check that it is under <code>github.com/aliasmode/aliasmode</code>.</li><li>Verify the downloaded file against the published SHA-256 checksum.</li><li>If Windows shows SmartScreen, select <strong>More info</strong>, then <strong>Run anyway</strong> only if you accept the risk and Windows offers that option.</li></ol><p>Do not disable Windows protection. A checksum helps verify a downloaded file. It does not sign the app.</p></section>
+
+  <section class="after-install">
+    <h2>After installation</h2>
+    <div class="grid"><article class="card"><strong>Create unlimited profiles</strong><p>Give each account, client, brand, or project its own browser profile.</p></article><article class="card"><strong>Turn on Cloud sync</strong><p>Create your free account inside AliasMode to synchronize portable profiles.</p></article><article class="card"><strong>Invite your team</strong><p>Use one workspace with owner and member roles for collaboration.</p></article></div>
+  </section>
+
+  <section class="install-notes">
+    <p class="eyebrow">Windows installation</p>
+    <h2>Check your download before you run it.</h2>
+    <p>The Windows beta is unsigned, so SmartScreen can warn about unsigned or uncommon software.</p>
+    <ol><li>Open the GitHub release URL and check that it is under <code>github.com/aliasmode/aliasmode</code>.</li><li>Verify the downloaded file against the published SHA-256 checksum.</li><li>If Windows shows SmartScreen, select <strong>More info</strong>, then <strong>Run anyway</strong> only if you accept the risk and Windows offers that option.</li></ol>
+    <p>Do not disable Windows protection. A checksum helps verify a downloaded file. It does not sign the app.</p>
+  </section>
 </BaseLayout>
+
+<style>
+  .download-hero { align-items: end; display: grid; gap: 4rem; grid-template-columns: 1fr .8fr; margin-bottom: 3rem; }
+  .download-hero h1 { font-size: clamp(3rem, 7vw, 5.5rem); }
+  .onboarding { list-style: none; margin: 0; max-width: none; padding: 0; }
+  .onboarding li { align-items: center; border-top: 1px solid #dbe3ee; display: grid; gap: 1rem; grid-template-columns: 2rem 1fr; padding: .9rem 0; }
+  .onboarding li:last-child { border-bottom: 1px solid #dbe3ee; }
+  .onboarding li > span { color: #2457d6; font: 800 .7rem/1 ui-monospace, monospace; }
+  .onboarding div { display: flex; flex-direction: column; }
+  .onboarding small { color: #64748b; }
+  .after-install { margin: 5rem 0; }
+  .after-install > h2, .install-notes h2 { font-size: clamp(2rem, 4vw, 3.3rem); }
+  .after-install .card { border-radius: 0; }
+  .after-install .card strong { color: #173c9d; }
+  .after-install .card p { color: #526077; font-size: .9rem; }
+  .install-notes { background: #edf3f7; border-left: .35rem solid #2457d6; padding: clamp(1.5rem, 4vw, 3rem); }
+  @media (max-width: 48rem) { .download-hero { gap: 2rem; grid-template-columns: 1fr; } }
+</style>
