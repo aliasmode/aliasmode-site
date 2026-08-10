@@ -26,7 +26,7 @@ for (const command of ['npm ci', 'production|preview', 'PUBLIC_SITE_ENV must be 
 for (const pattern of ['node_modules', 'dist', '.env', '.env.*']) {
   if (!dockerignore.split('\n').includes(pattern)) fail(`.dockerignore is missing ${pattern}`);
 }
-for (const directive of ['gzip on;', 'try_files $uri $uri/ =404;', 'location = /healthz', 'error_page 404 /404.html;', 'Content-Security-Policy', 'Referrer-Policy', 'X-Content-Type-Options', 'Permissions-Policy']) {
+for (const directive of ['gzip on;', 'absolute_redirect off;', 'try_files $uri $uri/ =404;', 'location = /healthz', 'error_page 404 /404.html;', 'Content-Security-Policy', 'Referrer-Policy', 'X-Content-Type-Options', 'Permissions-Policy']) {
   if (!nginx.includes(directive)) fail(`NGINX config is missing ${directive}`);
 }
 
@@ -34,7 +34,14 @@ for (const route of ['/', '/pricing', '/download', '/local-vs-cloud', '/security
 const home = page('/');
 const pricing = page('/pricing');
 if (!home.includes('href="/download"') || !pricing.includes('href="/download"')) fail('home and pricing must link to the download flow');
-if (!pricing.includes('AliasMode Standard') || !pricing.includes('$0') || !pricing.includes('Unlimited browser profiles')) fail('pricing must show the free Standard plan and unlimited profiles');
+for (const [route, text] of [['/', home], ['/pricing', pricing]]) {
+  for (const copy of ['Cloud', 'Local', 'Premium Support', '$0', 'Talk to sales', 'All AliasMode functionality is free.', 'Premium Support purchases support, not feature access.']) {
+    if (!text.includes(copy)) fail(`${route} is missing pricing copy: ${copy}`);
+  }
+}
+for (const copy of ['AdsPower-compatible local API', 'Playwright CDP', '/api/v1/browser/start']) {
+  if (!home.includes(copy)) fail(`home is missing API copy: ${copy}`);
+}
 const robots = readFileSync(join(dist, 'robots.txt'), 'utf8');
 const expectedRobots = production ? 'User-agent: *\nAllow: /\n' : 'User-agent: *\nDisallow: /\n';
 if (robots !== expectedRobots) fail(`${production ? 'production' : 'preview'} robots policy is incorrect`);

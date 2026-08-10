@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '../../site.config.mjs';
+import GitHubButton from '../components/GitHubButton.astro';
 
 interface Props { title: string; description?: string; noIndex?: boolean; canonical?: boolean }
 const { title, description = 'AliasMode is a free, open-source antidetect browser for managing multiple accounts.', noIndex = false, canonical: includeCanonical = true } = Astro.props;
@@ -22,13 +23,13 @@ const shouldIndex = siteConfig.index && !noIndex;
   <body>
     <header class="site-header">
       <a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 512 512" fill="none" aria-hidden="true"><path d="M152 96H320C380 96 416 136 416 196V316C416 376 376 416 316 416H196C136 416 96 376 96 316V288" stroke="currentColor" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 288C96 240 136 208 184 208H280" stroke="#2457D6" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/></svg>AliasMode <span>by Xreacher</span></a>
-      <nav class="main-nav" aria-label="Main navigation"><a href="/#features">Features</a><a href="/pricing">Pricing</a><a href="/local-vs-cloud">Local vs Cloud</a><a href="/security">Security</a></nav>
+      <nav class="main-nav" aria-label="Main navigation"><a href="/#features">Features</a><a href="/#api">API</a><a href="/pricing">Pricing</a><a href="/local-vs-cloud">Local vs Cloud</a><a href="/security">Security</a></nav>
       <a class="header-cta" href="/download">Download free</a>
     </header>
     <main><slot /></main>
     <footer>
       <div class="footer-brand"><strong>AliasMode</strong><span>Free, open-source multi-account browsing.</span></div>
-      <nav aria-label="Footer navigation"><a href="/download">Download</a><a href="/pricing">Pricing</a><a href="/contact">Contact</a><a href="https://github.com/aliasmode/aliasmode">GitHub</a></nav>
+      <nav aria-label="Footer navigation"><a href="/download">Download</a><a href="/pricing">Pricing</a><a href="/contact">Contact</a><GitHubButton href="https://github.com/aliasmode/aliasmode" label="GitHub" compact /></nav>
       <nav aria-label="Legal navigation"><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/acceptable-use">Acceptable Use</a></nav>
     </footer>
   </body>

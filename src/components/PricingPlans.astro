@@ -1,0 +1,82 @@
+<section class="plans" aria-label="AliasMode plans">
+  <div class="pricing-message"><strong>All AliasMode functionality is free.</strong><span>Premium Support purchases support, not feature access.</span></div>
+  <div class="pricing-grid">
+    <article class="plan cloud-plan">
+      <div class="plan-top"><div><p class="plan-label">Recommended</p><h3>Cloud</h3></div><span class="plan-badge">Free</span></div>
+      <div class="price"><strong>$0</strong><span>Full product access</span></div>
+      <p>Manage unlimited profiles, synchronize your work, and collaborate with your team.</p>
+      <ul>
+        <li>Unlimited browser profiles</li>
+        <li>Isolated browser identities</li>
+        <li>Encrypted portable-profile sync</li>
+        <li>One workspace with owner/member roles</li>
+        <li>Device revocation and trash</li>
+      </ul>
+      <a class="plan-button primary" href="/download">Download &amp; sign up free</a>
+    </article>
+
+    <article class="plan local-plan">
+      <div class="plan-top"><div><p class="plan-label">Account-free</p><h3>Local</h3></div><span class="plan-badge">Free</span></div>
+      <div class="price"><strong>$0</strong><span>Unlimited local use</span></div>
+      <p>Keep your browser profiles on one computer and work without an AliasMode account.</p>
+      <ul>
+        <li>Unlimited on-device profiles</li>
+        <li>Isolated browser identities</li>
+        <li>No account required</li>
+        <li>No AliasMode Cloud traffic</li>
+        <li>Open-source desktop app</li>
+      </ul>
+      <a class="plan-button secondary" href="/download">Download Local</a>
+    </article>
+
+    <article class="plan support-plan">
+      <div class="plan-top"><div><p class="plan-label">For growing teams</p><h3>Premium Support</h3></div></div>
+      <div class="support-price"><strong>Talk to sales</strong><span>Support services only</span></div>
+      <p>Get direct help from the AliasMode team while every product feature stays free.</p>
+      <ul>
+        <li>Guided team onboarding</li>
+        <li>Priority product support</li>
+        <li>Direct technical assistance</li>
+        <li>Enterprise rollout guidance</li>
+        <li>Every AliasMode feature included free</li>
+      </ul>
+      <a class="plan-button dark" href="/contact">Talk to sales</a>
+    </article>
+  </div>
+</section>
+
+<style>
+  .plans { margin: 2rem 0 0; }
+  .pricing-message { align-items: center; background: #eaf0ff; border-left: .3rem solid #2457d6; display: flex; gap: .6rem 1.2rem; justify-content: center; margin-bottom: 1rem; padding: .9rem 1.2rem; text-align: center; }
+  .pricing-message strong { color: #173c9d; }
+  .pricing-message span { color: #526077; font-size: .85rem; }
+  .pricing-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .plan { background: white; border: 1px solid #dbe3ee; display: flex; flex-direction: column; min-width: 0; padding: clamp(1.4rem, 2.6vw, 2rem); }
+  .cloud-plan { background: #2457d6; border-color: #2457d6; box-shadow: 0 1.2rem 3rem rgba(36, 87, 214, .2); color: white; transform: translateY(-.5rem); }
+  .plan-top { align-items: flex-start; display: flex; gap: 1rem; justify-content: space-between; }
+  .plan-label { color: #63728a; font: 800 .65rem/1.2 ui-monospace, monospace; letter-spacing: .08em; margin: 0 0 .35rem; text-transform: uppercase; }
+  .cloud-plan .plan-label { color: #c6d2ff; }
+  .plan h3 { font-size: 1.65rem; margin: 0; }
+  .plan-badge { background: #eaf0ff; border-radius: 2rem; color: #173c9d; font-size: .67rem; font-weight: 800; padding: .3rem .6rem; text-transform: uppercase; }
+  .cloud-plan .plan-badge { background: white; }
+  .price { align-items: baseline; display: flex; flex-wrap: wrap; gap: .25rem .65rem; margin: 2rem 0 1rem; }
+  .price strong { font-size: 3.6rem; letter-spacing: -.07em; line-height: .8; }
+  .price span, .support-price span { color: #68778e; font-size: .72rem; }
+  .cloud-plan .price span { color: #dce5ff; }
+  .support-price { display: flex; flex-direction: column; margin: 2rem 0 1rem; min-height: 3rem; }
+  .support-price strong { font-size: 1.6rem; letter-spacing: -.04em; }
+  .plan > p { color: #526077; font-size: .85rem; min-height: 4.1rem; }
+  .cloud-plan > p { color: #dce5ff; }
+  .plan ul { flex: 1; list-style: none; margin: 1rem 0 1.6rem; padding: 0; }
+  .plan li { font-size: .78rem; padding-left: 1.25rem; position: relative; }
+  .plan li::before { color: #2457d6; content: '✓'; font-weight: 900; left: 0; position: absolute; }
+  .cloud-plan li { color: #edf2ff; }
+  .cloud-plan li::before { color: #78e1df; }
+  .plan li + li { margin-top: .55rem; }
+  .plan-button { border: 1px solid #2457d6; border-radius: .46rem; display: block; font-size: .82rem; font-weight: 800; padding: .72rem .8rem; text-align: center; text-decoration: none; }
+  .plan-button.primary { background: white; border-color: white; color: #173c9d; }
+  .plan-button.secondary { background: #eaf0ff; color: #173c9d; }
+  .plan-button.dark { background: #111827; border-color: #111827; color: white; }
+  .plan-button:hover { filter: brightness(.96); }
+  @media (max-width: 58rem) { .pricing-grid { grid-template-columns: 1fr; }.cloud-plan { transform: none; }.plan > p { min-height: auto; }.pricing-message { align-items: flex-start; flex-direction: column; text-align: left; } }
+</style>

@@ -1,4 +1,23 @@
 ---
 import { published, releasePage } from '../data/release';
+import GitHubButton from './GitHubButton.astro';
 ---
-{published ? <section class="card"><h2>Download for Windows</h2><p>Version {published.version}</p><p><a class="button" href={published.downloadUrl}>Download {published.windowsFile}</a> <a href={published.pageUrl}>Source code and release notes</a></p><p class="muted">SHA-256: <code>{published.sha256}</code></p><p class="muted">Compare the file checksum before you run it. A checksum confirms the file you downloaded; it is not code signing.</p></section> : <section class="notice"><h2>Windows beta is not published yet</h2><p>The release tag, Windows asset, and checksum are not published, so there is no download link yet.</p><p><a href={releasePage}>Watch GitHub Releases</a></p></section>}
+{published ? (
+  <section class="card">
+    <h2>Download for Windows</h2>
+    <p>Version {published.version}</p>
+    <div class="download-actions"><a class="button" href={published.downloadUrl}>Download {published.windowsFile}</a><GitHubButton href={published.pageUrl} label="Source code and release notes" tone="outline" compact /></div>
+    <p class="muted">SHA-256: <code>{published.sha256}</code></p>
+    <p class="muted">Compare the file checksum before you run it. A checksum confirms the file you downloaded; it is not code signing.</p>
+  </section>
+) : (
+  <section class="notice">
+    <h2>Windows beta is not published yet</h2>
+    <p>The release tag, Windows asset, and checksum are not published, so there is no download link yet.</p>
+    <GitHubButton href={releasePage} label="Watch GitHub Releases" tone="outline" compact />
+  </section>
+)}
+
+<style>
+  .download-actions { align-items: center; display: flex; flex-wrap: wrap; gap: .7rem; margin: 1rem 0; }
+</style>
