@@ -28,6 +28,18 @@ npm run verify
 
 Production rejects a non-HTTPS origin and placeholder or invalid contact addresses. Do not put secrets in public build variables.
 
+### Temporary live preview
+
+Until the support addresses and legal documents are final, `aliasmode.com` can run the preview image. Preview remains publicly reachable but sends `noindex,nofollow`, blocks crawling in `robots.txt`, hides unset contact details, and labels the legal pages as drafts.
+
+```sh
+docker build \
+  --build-arg PUBLIC_SITE_ENV=preview \
+  --tag aliasmode-site:preview .
+```
+
+The test deployment in `aliasmode-cloud` builds and serves this image automatically. Switch to the production build variables above only after the contact addresses and legal text are final.
+
 ## VPS deployment
 
 On a fresh Ubuntu VPS, install Git and Docker Engine:

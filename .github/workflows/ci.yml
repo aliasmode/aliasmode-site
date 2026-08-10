@@ -19,3 +19,23 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run verify
+      - name: Build preview container
+        run: docker build --build-arg PUBLIC_SITE_ENV=preview --tag aliasmode-site:preview .
+      - name: Smoke-test preview container
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --detach --name aliasmode-site-preview --publish 127.0.0.1:18080:8080 aliasmode-site:preview
+          trap 'docker rm --force aliasmode-site-preview >/dev/null 2>&1 || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:18080/healthz >/dev/null; then
+              break
+            fi
+            if [ "$attempt" -eq 30 ]; then
+              docker logs aliasmode-site-preview
+              exit 1
+            fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:18080/ | grep --fixed-strings 'noindex,nofollow' >/dev/null
+          curl --fail --silent http://127.0.0.1:18080/security/ | grep --fixed-strings 'noindex,nofollow' >/dev/null

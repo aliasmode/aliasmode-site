@@ -10,7 +10,10 @@ ARG PUBLIC_SITE_ORIGIN
 ARG PUBLIC_SUPPORT_EMAIL
 ARG PUBLIC_SECURITY_EMAIL
 
-RUN test "$PUBLIC_SITE_ENV" = "production" && npm run verify
+RUN case "$PUBLIC_SITE_ENV" in \
+      production|preview) npm run verify ;; \
+      *) echo "PUBLIC_SITE_ENV must be production or preview" >&2; exit 1 ;; \
+    esac
 
 FROM nginxinc/nginx-unprivileged:1.30-alpine
 
