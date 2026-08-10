@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import ContentSections from '../components/ContentSections.astro';
+import HubGrid from '../components/HubGrid.astro';
+import PageHero from '../components/PageHero.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+import { comparisons, getComparison } from '../data/comparisons';
+import { proxyCriteria, proxyProviders } from '../data/proxy-providers';
+import { getSeoPage, seoPages } from '../data/seo-pages';
+import { canonicalPath, getSiteRoute } from '../data/site-routes';
+
+export function getStaticPaths() {
+  return [...seoPages.map((page) => page.path), ...comparisons.map((comparison) => comparison.path)].map((path) => ({
+    params: { slug: path.replace(/^\//, '').replace(/\/$/, '') },
+  }));
+}
+
+const path = canonicalPath(Astro.url.pathname);
+const page = getSeoPage(path);
+const comparison = getComparison(path);
+const route = getSiteRoute(path);
+if (!route || (!page && !comparison)) throw new Error(`Missing SEO content for ${path}`);
+---
+<BaseLayout>
+  {comparison ? (
+    <article data-page-family="comparison">
+      <PageHero eyebrow={comparison.eyebrow} title={comparison.headline} lead={comparison.lead} primaryHref="/download/" primaryLabel="Download AliasMode free" secondaryHref="/alternatives/" secondaryLabel="View all comparisons" />
+      <p class="tested">Facts last verified <strong>{comparison.verified}</strong>. Official sources appear beside comparison rows.</p>
+      <section class="direct-answer"><p class="eyebrow">Direct answer</p><h2>Who should choose each product?</h2><p>{comparison.directAnswer}</p></section>
+      <section class="comparison-section"><p class="eyebrow">Side-by-side</p><h2>AliasMode vs {comparison.name}</h2><ComparisonTable rows={comparison.rows} competitor={comparison.name} /></section>
+      <section class="fit-grid">
+        <div><p class="eyebrow">Choose AliasMode when</p><ul>{comparison.aliasModeFits.map((item) => <li>{item}</li>)}</ul></div>
+        <div><p class="eyebrow">Choose {comparison.name} when</p><ul>{comparison.competitorFits.map((item) => <li>{item}</li>)}</ul></div>
+      </section>
+      <section class="migration"><p class="eyebrow">Migration plan</p><h2>Move one verified workflow at a time.</h2><ol>{comparison.migration.map((item) => <li>{item}</li>)}</ol></section>
+      <section class="sources"><p class="eyebrow">Sources</p><h2>Official product evidence</h2><ul class="source-list">{comparison.sources.map((source) => <li><a href={source.href} rel="noreferrer">{source.label}</a></li>)}</ul><p class="muted">AliasMode is not affiliated with {comparison.name}. Public product details can change after the verification date.</p></section>
+      <RelatedLinks paths={route.related ?? []} title="Evaluate the next step" />
+    </article>
+  ) : page && (
+    <article data-page-family={route.kind}>
+      <PageHero eyebrow={page.eyebrow} title={page.headline} lead={page.lead} primaryHref={page.primary?.href} primaryLabel={page.primary?.label} secondaryHref={page.secondary?.href} secondaryLabel={page.secondary?.label} />
+      {page.lastTested && <p class="tested">Product instructions last tested <strong>{page.lastTested}</strong>.</p>}
+      {page.facts && <div class="fact-strip">{page.facts.map((fact) => <div><strong>{fact.value}</strong><span>{fact.label}</span></div>)}</div>}
+      {page.children && <HubGrid paths={page.children} />}
+
+      {page.template === 'calculator' && (
+        <section class="calculator" data-proxy-calculator>
+          <div class="calculator-inputs">
+            <label>Browser profiles<input name="profiles" type="number" min="1" step="1" value="100" inputmode="numeric" /></label>
+            <label>Profiles per proxy<input name="profilesPerProxy" type="number" min="1" step="1" value="1" inputmode="numeric" /></label>
+            <label>Monthly cost per proxy (USD)<input name="cost" type="number" min="0" step="0.01" value="3.50" inputmode="decimal" /></label>
+          </div>
+          <div class="calculator-results" aria-live="polite">
+            <div><span>Required proxies</span><strong data-proxy-count>100</strong></div>
+            <div><span>Estimated monthly cost</span><strong data-proxy-cost>$350.00</strong></div>
+          </div>
+        </section>
+      )}
+
+      {page.template === 'providers' && (
+        <>
+          <section class="criteria"><p class="eyebrow">Evaluation criteria</p><h2>The same questions for every provider.</h2><ol>{proxyCriteria.map((criterion) => <li>{criterion}</li>)}</ol></section>
+          <div class="table-scroll provider-table">
+            <table>
+              <thead><tr><th>Provider</th><th>Best fit</th><th>Public offer</th><th>Targeting and protocols</th><th>Commercial model</th><th>Evidence</th></tr></thead>
+              <tbody>{proxyProviders.map((provider) => <tr><th scope="row"><a href={provider.source} rel="noreferrer">{provider.name}</a></th><td>{provider.fit}</td><td>{provider.publicOffer}</td><td>{provider.targeting} {provider.protocols}</td><td>{provider.commercialModel}</td><td><strong>{provider.evidence}</strong><br />{provider.relationship}<br /><a href={provider.source} rel="noreferrer">{provider.sourceLabel}</a></td></tr>)}</tbody>
+            </table>
+          </div>
+        </>
+      )}
+
+      <ContentSections sections={page.sections} />
+      <RelatedLinks paths={route.related ?? []} />
+    </article>
+  )}
+</BaseLayout>
+
+{page?.template === 'calculator' && (
+  <script>
+    const calculator = document.querySelector('[data-proxy-calculator]');
+    if (calculator instanceof HTMLElement) {
+      const profiles = calculator.querySelector('[name="profiles"]');
+      const profilesPerProxy = calculator.querySelector('[name="profilesPerProxy"]');
+      const cost = calculator.querySelector('[name="cost"]');
+      const proxyCount = calculator.querySelector('[data-proxy-count]');
+      const proxyCost = calculator.querySelector('[data-proxy-cost]');
+      const update = () => {
+        if (!(profiles instanceof HTMLInputElement) || !(profilesPerProxy instanceof HTMLInputElement) || !(cost instanceof HTMLInputElement)) return;
+        const count = Math.ceil(Math.max(1, Number(profiles.value) || 1) / Math.max(1, Number(profilesPerProxy.value) || 1));
+        const monthly = count * Math.max(0, Number(cost.value) || 0);
+        if (proxyCount) proxyCount.textContent = String(count);
+        if (proxyCost) proxyCost.textContent = `$${monthly.toFixed(2)}`;
+      };
+      calculator.addEventListener('input', update);
+      update();
+    }
+  </script>
+)}
+
+<style>
+  .tested { color: #526077; font-size: .82rem; margin-top: 1.1rem; }
+  .direct-answer { background: #eaf0ff; border-left: .35rem solid #2457d6; margin: 3rem 0; padding: clamp(1.4rem, 4vw, 2.5rem); }
+  .direct-answer h2, .comparison-section h2, .migration h2, .sources h2, .criteria h2 { font-size: clamp(1.9rem, 4vw, 3rem); }
+  .direct-answer p:last-child { font-size: 1.1rem; max-width: 75ch; }
+  .comparison-section, .migration, .sources, .criteria { margin-top: 4.5rem; }
+  .fit-grid { display: grid; gap: 1px; grid-template-columns: 1fr 1fr; margin-top: 3rem; }
+  .fit-grid > div { background: #fff; border: 1px solid #dbe3ee; padding: clamp(1.4rem, 3vw, 2.2rem); }
+  .fit-grid > div + div { background: #f0f4fa; }
+  .calculator { background: #111827; color: white; display: grid; gap: 2rem; grid-template-columns: 1.2fr .8fr; margin: 3rem 0 4rem; padding: clamp(1.4rem, 4vw, 2.8rem); }
+  .calculator-inputs { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); }
+  .calculator label { color: #c7d2e3; display: flex; flex-direction: column; font-size: .78rem; font-weight: 700; gap: .45rem; }
+  .calculator input { background: #fff; border: 2px solid transparent; border-radius: .25rem; color: #172033; font: 750 1.2rem/1.2 inherit; min-width: 0; padding: .8rem; width: 100%; }
+  .calculator-results { display: grid; gap: .75rem; }
+  .calculator-results div { background: #1e2b41; padding: 1rem; }
+  .calculator-results span { color: #aab8cd; display: block; font-size: .75rem; }
+  .calculator-results strong { display: block; font-size: 1.8rem; margin-top: .2rem; }
+  .provider-table { background: #fff; border: 1px solid #dbe3ee; margin: 2rem 0 4rem; }
+  .provider-table td { min-width: 13rem; }
+  .provider-table th[scope="row"] { background: #f7f9fc; font-size: 1rem; text-transform: none; }
+  .provider-table a, .sources a { color: #2457d6; font-weight: 700; }
+  @media (max-width: 48rem) {
+    .fit-grid, .calculator { grid-template-columns: 1fr; }
+    .calculator-inputs { grid-template-columns: 1fr; }
+  }
+</style>

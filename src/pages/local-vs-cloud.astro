@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
 ---
 <BaseLayout
   title="Cloud vs Local"
@@ -10,10 +11,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <p class="lead">Most people start with a free Cloud account for portable profiles and team access. Local mode is ready when you prefer to work without an account.</p>
   <div class="actions"><a class="button" href="/download/">Download &amp; sign up free</a><a class="button secondary" href="#local">See Local mode</a></div>
   <div class="grid mode-grid">
-    <section class="card cloud-card"><p class="mode-label">Recommended</p><h2>AliasMode Cloud</h2><ul><li>Uses a verified email and password.</li><li>Gives each account one workspace with owner and member roles.</li><li>Syncs encrypted portable profiles and keeps a local cache.</li><li>Lets you revoke devices and use trash for deleted profiles.</li></ul></section>
-    <section class="card" id="local"><p class="mode-label">Account-free</p><h2>AliasMode Local</h2><ul><li>Requires no AliasMode account.</li><li>Sends no traffic to AliasMode Cloud.</li><li>Keeps profile data on that computer.</li><li>Uses app analytics only when you explicitly opt in.</li></ul></section>
+    <section class="card cloud-card"><p class="mode-label">Recommended</p><h2>AliasMode Cloud</h2><ul><li>Uses a verified email and password.</li><li>Gives each account one workspace with owner and member roles.</li><li>Syncs encrypted portable profiles and keeps a local cache.</li><li>Lets you revoke devices and use trash for deleted profiles.</li></ul><a class="mode-link" href="/cloud/">Explore Cloud →</a></section>
+    <section class="card" id="local"><p class="mode-label">Account-free</p><h2>AliasMode Local</h2><ul><li>Requires no AliasMode account.</li><li>Sends no traffic to AliasMode Cloud.</li><li>Keeps profile data on that computer.</li><li>Uses app analytics only when you explicitly opt in.</li></ul><a class="mode-link" href="/local/">Explore Local →</a></section>
   </div>
   <section class="sync-section"><p class="eyebrow">Built for real work</p><h2>Keep profile changes moving.</h2><p>Cloud warns when the same profile opens at the same time, rejects stale uploads, and retries pending uploads. When you move a Local profile to Cloud, AliasMode asks for clear confirmation before upload.</p></section>
+  <RelatedLinks paths={['/local/', '/cloud/', '/pricing/']} title="Choose your AliasMode setup" />
 </BaseLayout>
 
 <style>
@@ -23,6 +25,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .cloud-card li { color: #c1ccdc; }
   .mode-label { color: #536eae; font: 800 .68rem/1.2 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
   .cloud-card .mode-label { color: #7f9cff; }
+  .mode-link { color: #2457d6; display: inline-block; font-size: .88rem; font-weight: 750; margin-top: 1rem; }
+  .cloud-card .mode-link { color: #9fb4ff; }
   .sync-section { background: #eaf0ff; border-left: .35rem solid #2457d6; margin-top: 4rem; padding: clamp(1.5rem, 4vw, 3rem); }
   .sync-section h2 { font-size: clamp(2rem, 4vw, 3.2rem); }
   @media (max-width: 44rem) { .mode-grid { grid-template-columns: 1fr; } }

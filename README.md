@@ -1,6 +1,6 @@
 # AliasMode Site
 
-Static public site for AliasMode by Xreacher. It has no third-party assets or website analytics.
+Static public site for AliasMode by Xreacher. It uses no third-party assets, trackers, visitor IDs, or browsing analytics.
 
 ## Setup
 
@@ -10,7 +10,7 @@ npm run dev
 npm run verify
 ```
 
-`npm run verify` type-checks, builds, and checks generated routes, internal links, preview policy, release state, auth callbacks, and frozen legal snapshots.
+`npm run verify` type-checks, builds, and checks the route registry, sitemap, metadata, structured data, internal links, preview or production policy, SEO content, release state, auth callbacks, and frozen legal snapshots.
 
 ## Build modes
 
@@ -23,14 +23,17 @@ PUBLIC_SITE_ENV=production \
 PUBLIC_SITE_ORIGIN="$PUBLIC_SITE_ORIGIN" \
 PUBLIC_SUPPORT_EMAIL="$PUBLIC_SUPPORT_EMAIL" \
 PUBLIC_SECURITY_EMAIL="$PUBLIC_SECURITY_EMAIL" \
+PUBLIC_GOOGLE_SITE_VERIFICATION="$PUBLIC_GOOGLE_SITE_VERIFICATION" \
+PUBLIC_BING_SITE_VERIFICATION="$PUBLIC_BING_SITE_VERIFICATION" \
+PUBLIC_ANALYTICS_ENDPOINT="$PUBLIC_ANALYTICS_ENDPOINT" \
 npm run verify
 ```
 
-Production rejects a non-HTTPS origin and placeholder or invalid contact addresses. Do not put secrets in public build variables.
+Google, Bing, and analytics variables are optional. When configured, the analytics endpoint must use the production site origin. Public build variables must not contain secrets.
 
-### Temporary live preview
+### Preview build
 
-Until the support addresses and legal documents are final, `aliasmode.com` can run the preview image. Preview remains publicly reachable but sends `noindex,nofollow`, blocks crawling in `robots.txt`, hides unset contact details, and labels the legal pages as drafts.
+Use preview mode for staging deployments. It remains publicly reachable but sends `noindex,nofollow`, blocks crawling in `robots.txt`, and hides unset contact details.
 
 ```sh
 docker build \
@@ -38,7 +41,7 @@ docker build \
   --tag aliasmode-site:preview .
 ```
 
-The test deployment in `aliasmode-cloud` builds and serves this image automatically. Switch to the production build variables above only after the contact addresses and legal text are final.
+The test deployment in `aliasmode-cloud` builds and serves this image automatically. Production deployments must use the production variables above so search engines receive canonicals, indexable pages, and the sitemap reference.
 
 ## VPS deployment
 
@@ -74,6 +77,9 @@ docker build \
   --build-arg PUBLIC_SITE_ORIGIN \
   --build-arg PUBLIC_SUPPORT_EMAIL \
   --build-arg PUBLIC_SECURITY_EMAIL \
+  --build-arg PUBLIC_GOOGLE_SITE_VERIFICATION \
+  --build-arg PUBLIC_BING_SITE_VERIFICATION \
+  --build-arg PUBLIC_ANALYTICS_ENDPOINT \
   --tag aliasmode-site:local .
 ```
 
@@ -102,14 +108,12 @@ Release metadata lives in `src/data/release.ts`. It is deliberately `unpublished
 
 For every published Windows beta, check the GitHub release URL and SHA-256. The beta is unsigned. SmartScreen guidance must remain conditional: use **More info** then **Run anyway** only when the person accepts the risk and Windows offers it. Never advise disabling protection. A checksum is not signing.
 
-## Current blockers
+## Search indexing
 
-- Published GitHub tag, Windows asset name, and SHA-256.
-- Real production origin, support address, and security address.
-- Final reviewed legal text before treating the draft pages as final.
+Production builds generate self-canonicals, Open Graph and Twitter metadata, JSON-LD, `sitemap.xml`, and a crawlable `robots.txt`. Preview builds remain blocked. Configure Google and Bing verification values before submitting `https://aliasmode.com/sitemap.xml` in each webmaster console.
 
 ## Policy notes
 
-The site has analytics off. If download intent is measured later, it must be same-origin and aggregate only. It must use no cookies, IDs, page trails, referrer data, profile data, fingerprinting, ads, or session replay.
+Optional CTA measurement is same-origin and aggregate. It records only page group, CTA type, campaign code, and destination product. It uses no cookies, persistent IDs, page trails, referrer data, profile data, fingerprinting, ads, or session replay.
 
 The `/terms`, `/privacy`, and `/acceptable-use` routes are draft pages. Their `/v1` pages are frozen snapshots. Create a new version route instead of editing a v1 page; `scripts/v1-manifest.mjs` makes unintended changes fail verification.

@@ -1,0 +1,29 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  type: string;
+  pageGroup: string;
+  destination?: string;
+  campaign?: string;
+  class?: string;
+}
+const {
+  href,
+  label,
+  type,
+  pageGroup,
+  destination = 'aliasmode',
+  campaign = '',
+  class: className = 'button',
+} = Astro.props;
+---
+<a
+  href={href}
+  class={className}
+  data-track-cta
+  data-cta-type={type}
+  data-page-group={pageGroup}
+  data-destination={destination}
+  data-campaign={campaign}
+>{label}</a>

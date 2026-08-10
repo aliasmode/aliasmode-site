@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
 import { siteConfig } from '../../site.config.mjs';
 ---
 <BaseLayout title="Contact and Premium Support" description="Contact AliasMode for product help, team onboarding, and Premium or Enterprise Support.">
@@ -10,6 +11,7 @@ import { siteConfig } from '../../site.config.mjs';
     <section class="card premium-card"><p class="contact-label">Premium / Enterprise Support</p><h2>Talk to sales</h2><p>Tell us about your team and the help you need. You are buying support services, not access to product functionality.</p>{siteConfig.supportEmail ? <a class="button" href={`mailto:${siteConfig.supportEmail}?subject=AliasMode%20Premium%20Support`}>Contact Premium Support</a> : <p class="muted">Sales and support contact details will be published with the production site.</p>}</section>
     <section class="card"><p class="contact-label">Product help</p><h2>Questions or feedback</h2>{siteConfig.supportEmail ? <p>For product and account help, email <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>.</p> : <p class="muted">Support contact details will be published with the production site.</p>}<p>For security reports, see <a href="/security/">Security</a>.</p></section>
   </div>
+  <RelatedLinks paths={['/pricing/', '/docs/troubleshooting/', '/security/']} title="Find the right support path" />
 </BaseLayout>
 
 <style>

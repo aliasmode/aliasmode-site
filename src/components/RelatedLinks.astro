@@ -1,0 +1,35 @@
+---
+import { getSiteRoute } from '../data/site-routes';
+import type { SiteRoute } from '../data/site-routes';
+
+interface Props { paths: string[]; title?: string }
+const { paths, title = 'Continue with AliasMode' } = Astro.props;
+const routes = paths.map(getSiteRoute).filter(Boolean);
+---
+{routes.length > 0 && (
+  <aside class="related" aria-labelledby="related-title">
+    <p class="eyebrow">Related</p>
+    <h2 id="related-title">{title}</h2>
+    <div class="related-grid">
+      {routes.map((route: SiteRoute | undefined) => route && (
+        <a href={route.path}>
+          <strong>{route.label}</strong>
+          <span>{route.description}</span>
+          <span class="arrow" aria-hidden="true">Read next →</span>
+        </a>
+      ))}
+    </div>
+  </aside>
+)}
+
+<style>
+  .related { border-top: 1px solid #dbe3ee; margin-top: 5rem; padding-top: 3rem; }
+  .related h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); }
+  .related-grid { display: grid; gap: .85rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin-top: 1.5rem; }
+  .related-grid a { background: #fff; border: 1px solid #dbe3ee; display: flex; flex-direction: column; gap: .5rem; min-height: 12rem; padding: 1.35rem; text-decoration: none; transition: border-color .18s ease, transform .18s ease; }
+  .related-grid a:hover { border-color: #8ea6d7; transform: translateY(-2px); }
+  .related-grid strong { color: #172033; font-size: 1.05rem; }
+  .related-grid span { color: #526077; font-size: .88rem; }
+  .related-grid .arrow { color: #2457d6; font-weight: 750; margin-top: auto; }
+  @media (prefers-reduced-motion: reduce) { .related-grid a { transition: none; } }
+</style>

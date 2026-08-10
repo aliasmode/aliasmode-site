@@ -1,10 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
 import { siteConfig } from '../../site.config.mjs';
 ---
 <BaseLayout title="Security">
-  <p class="eyebrow">Security notes</p><h1>Know what each control does.</h1>
-  <div class="grid"><section class="card"><h2>Cloud access</h2><p>Cloud uses a verified email and password. You can revoke a device from your workspace.</p></section><section class="card"><h2>Profile sync</h2><p>Cloud syncs encrypted portable profiles and keeps a local cache. It detects stale uploads and warns about concurrent opens.</p></section><section class="card"><h2>Downloads</h2><p>The Windows beta is unsigned. Check the GitHub URL and SHA-256 before running a published download.</p></section></div>
-  <section class="notice"><h2>Security boundaries</h2><p>AliasMode does not claim end-to-end encryption, code signing, backups, durability, or guaranteed profile recovery.</p></section>
-  <section><h2>Report a security issue</h2>{siteConfig.securityEmail ? <p>Use <a href={`mailto:${siteConfig.securityEmail}`}>{siteConfig.securityEmail}</a>.</p> : <p>Security contact details will be published with the production site.</p>}</section>
+  <p class="eyebrow">Security architecture</p>
+  <h1>Know where profile data and access live.</h1>
+  <p class="lead">AliasMode separates browser profiles, makes Local and Cloud explicit modes, and gives Cloud workspaces device, version, concurrency, and deletion controls.</p>
+
+  <div class="grid security-grid">
+    <section class="card"><h2>Profile isolation</h2><p>Each profile has a persistent user-data directory with its own cookies, session state, extensions, proxy, user agent, screen values, and fingerprint seed.</p></section>
+    <section class="card"><h2>Local boundary</h2><p>Local mode requires no AliasMode account, sends no traffic to AliasMode Cloud, and keeps AliasMode profile data on that computer.</p></section>
+    <section class="card"><h2>Cloud access</h2><p>Cloud uses a verified email and password. Each account has one workspace with owner and member roles, and workspace devices can be revoked.</p></section>
+    <section class="card"><h2>Synchronization controls</h2><p>Cloud synchronizes encrypted portable profiles, keeps a local cache, rejects stale uploads, retries pending uploads, and warns about concurrent opens.</p></section>
+    <section class="card"><h2>Deletion workflow</h2><p>Cloud workspaces include trash for deleted profiles. Keep profile lifecycle and client offboarding steps clear for every operator.</p></section>
+    <section class="card"><h2>Release integrity</h2><p>The Windows beta publishes its release source and SHA-256 when an installer is available. The current beta is unsigned, so Windows can show SmartScreen.</p></section>
+  </div>
+
+  <section class="architecture-note">
+    <div><p class="eyebrow">Inspect the desktop client</p><h2>Apache-2.0 source is public.</h2></div>
+    <div><p>The AliasMode desktop client is open source. CloakBrowser installs separately under its own license, and AliasMode Cloud is a managed service.</p><a class="button secondary" href="https://github.com/aliasmode/aliasmode">View the desktop source</a></div>
+  </section>
+
+  <section class="report"><h2>Report a security issue</h2>{siteConfig.securityEmail ? <p>Send a responsible report to <a href={`mailto:${siteConfig.securityEmail}`}>{siteConfig.securityEmail}</a>. Include the affected component, version, reproduction steps, and expected impact.</p> : <p>Security contact details will be published with the production site.</p>}</section>
+  <RelatedLinks paths={['/product/', '/local/', '/cloud/']} title="Review each product boundary" />
 </BaseLayout>
+
+<style>
+  .security-grid { grid-template-columns: repeat(3, 1fr); margin-top: 3rem; }
+  .security-grid .card { border-radius: 0; }
+  .security-grid p { color: #526077; font-size: .9rem; }
+  .architecture-note { align-items: start; background: #111827; color: white; display: grid; gap: 3rem; grid-template-columns: 1fr 1fr; margin-top: 4rem; padding: clamp(1.5rem, 4vw, 3rem); }
+  .architecture-note .eyebrow { color: #8da7ff; }
+  .architecture-note h2 { font-size: clamp(2rem, 4vw, 3rem); }
+  .architecture-note p:not(.eyebrow) { color: #b7c3d5; }
+  .report { border-left: .35rem solid #2457d6; margin-top: 4rem; padding: 1rem 0 1rem 1.5rem; }
+  @media (max-width: 54rem) { .security-grid { grid-template-columns: repeat(2, 1fr); }.architecture-note { grid-template-columns: 1fr; } }
+  @media (max-width: 36rem) { .security-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PricingPlans from '../components/PricingPlans.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
 ---
 <BaseLayout
   title="Pricing — Free Antidetect Browser"
@@ -18,6 +19,7 @@ import PricingPlans from '../components/PricingPlans.astro';
     <div><p class="eyebrow">Free from the start</p><h2>Use the full product without upgrading.</h2></div>
     <div><p>Cloud and Local include complete AliasMode functionality. Premium Support gives growing teams onboarding and direct help—it does not unlock extra product features.</p><a class="button" href="/download/">Download AliasMode free</a></div>
   </section>
+  <RelatedLinks paths={['/cloud/', '/local/', '/contact/']} title="Choose a free mode or direct support" />
 </BaseLayout>
 
 <style>

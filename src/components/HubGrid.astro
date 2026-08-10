@@ -1,0 +1,29 @@
+---
+import { getSiteRoute } from '../data/site-routes';
+import type { SiteRoute } from '../data/site-routes';
+
+interface Props { paths: string[] }
+const { paths } = Astro.props;
+const routes = paths.map(getSiteRoute).filter(Boolean);
+---
+<div class="hub-grid">
+  {routes.map((route: SiteRoute | undefined) => route && (
+    <a href={route.path}>
+      <span class="kind">{route.kind}</span>
+      <strong>{route.label}</strong>
+      <p>{route.description}</p>
+      <span class="open">Open →</span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .hub-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); margin: 3rem 0; }
+  .hub-grid a { background: #fff; border: 1px solid #dbe3ee; display: flex; flex-direction: column; min-height: 15rem; padding: 1.5rem; text-decoration: none; transition: border-color .18s ease, transform .18s ease; }
+  .hub-grid a:hover { border-color: #8ea6d7; transform: translateY(-2px); }
+  .hub-grid .kind { color: #536eae; font: 800 .67rem/1.2 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .hub-grid strong { color: #172033; font-size: 1.25rem; margin-top: 1.2rem; }
+  .hub-grid p { color: #526077; font-size: .9rem; }
+  .hub-grid .open { color: #2457d6; font-size: .85rem; font-weight: 750; margin-top: auto; }
+  @media (prefers-reduced-motion: reduce) { .hub-grid a { transition: none; } }
+</style>

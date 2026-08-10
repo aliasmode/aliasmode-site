@@ -1,0 +1,32 @@
+---
+import TrackedCta from './TrackedCta.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
+const { eyebrow, title, lead, primaryHref, primaryLabel, secondaryHref, secondaryLabel } = Astro.props;
+const pageGroup = eyebrow.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+---
+<header class="page-hero">
+  <p class="eyebrow">{eyebrow}</p>
+  <h1>{title}</h1>
+  <p class="lead">{lead}</p>
+  {(primaryHref || secondaryHref) && (
+    <div class="actions">
+      {primaryHref && primaryLabel && <TrackedCta href={primaryHref} label={primaryLabel} type="primary" pageGroup={pageGroup} />}
+      {secondaryHref && secondaryLabel && <TrackedCta href={secondaryHref} label={secondaryLabel} type="secondary" pageGroup={pageGroup} destination={secondaryHref.startsWith('https://xreacher.com') ? 'xreacher' : 'aliasmode'} class="button secondary" />}
+    </div>
+  )}
+</header>
+
+<style>
+  .page-hero { border-bottom: 1px solid #dbe3ee; padding: 1rem 0 clamp(2.5rem, 6vw, 4.5rem); }
+  .page-hero h1 { font-size: clamp(2.7rem, 6vw, 5.1rem); max-width: 16ch; }
+  .page-hero .lead { font-size: clamp(1.05rem, 2vw, 1.28rem); max-width: 64ch; }
+</style>

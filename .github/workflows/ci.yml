@@ -18,7 +18,15 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run verify
+      - name: Verify preview build
+        run: PUBLIC_SITE_ENV=preview npm run verify
+      - name: Verify production build
+        env:
+          PUBLIC_SITE_ENV: production
+          PUBLIC_SITE_ORIGIN: https://aliasmode.com
+          PUBLIC_SUPPORT_EMAIL: support@aliasmode.com
+          PUBLIC_SECURITY_EMAIL: security@aliasmode.com
+        run: npm run verify
       - name: Build preview container
         run: docker build --build-arg PUBLIC_SITE_ENV=preview --tag aliasmode-site:preview .
       - name: Smoke-test preview container
@@ -46,3 +54,29 @@ jobs:
           curl --fail --silent -H 'Host: aliasmode.com' http://127.0.0.1:18080/local-vs-cloud >/dev/null
           curl --fail --silent http://127.0.0.1:18080/ | grep --fixed-strings 'noindex,nofollow' >/dev/null
           curl --fail --silent http://127.0.0.1:18080/security/ | grep --fixed-strings 'noindex,nofollow' >/dev/null
+      - name: Build production container
+        run: |
+          docker build \
+            --build-arg PUBLIC_SITE_ENV=production \
+            --build-arg PUBLIC_SITE_ORIGIN=https://aliasmode.com \
+            --build-arg PUBLIC_SUPPORT_EMAIL=support@aliasmode.com \
+            --build-arg PUBLIC_SECURITY_EMAIL=security@aliasmode.com \
+            --tag aliasmode-site:production .
+      - name: Smoke-test production container
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --detach --name aliasmode-site-production --publish 127.0.0.1:18081:8080 aliasmode-site:production
+          trap 'docker rm --force aliasmode-site-production >/dev/null 2>&1 || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:18081/healthz >/dev/null; then break; fi
+            if [ "$attempt" -eq 30 ]; then docker logs aliasmode-site-production; exit 1; fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:18081/robots.txt | grep -Fx 'Sitemap: https://aliasmode.com/sitemap.xml' >/dev/null
+          curl --fail --silent http://127.0.0.1:18081/sitemap.xml | grep -F '<loc>https://aliasmode.com/product/</loc>' >/dev/null
+          home="$(curl --fail --silent http://127.0.0.1:18081/)"
+          grep -F '<link rel="canonical" href="https://aliasmode.com/">' <<<"$home" >/dev/null
+          grep -F 'application/ld+json' <<<"$home" >/dev/null
+          curl --fail --silent http://127.0.0.1:18081/product | grep -F '<link rel="canonical" href="https://aliasmode.com/product/">' >/dev/null
+          if grep -F 'noindex,nofollow' <<<"$home" >/dev/null; then exit 1; fi

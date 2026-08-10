@@ -1,0 +1,28 @@
+---
+import type { ComparisonRow } from '../data/comparisons';
+
+interface Props { rows: ComparisonRow[]; competitor: string }
+const { rows, competitor } = Astro.props;
+---
+<div class="table-scroll comparison-table">
+  <table>
+    <thead><tr><th>Criterion</th><th>AliasMode</th><th>{competitor}</th><th>Evidence</th></tr></thead>
+    <tbody>
+      {rows.map((row: ComparisonRow) => (
+        <tr>
+          <th scope="row">{row.criterion}</th>
+          <td>{row.aliasMode}</td>
+          <td>{row.competitor}</td>
+          <td>{row.source ? <a href={row.source} rel="noreferrer">Official source</a> : 'AliasMode product record'}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .comparison-table { background: #fff; border: 1px solid #dbe3ee; margin: 2rem 0; }
+  .comparison-table th[scope="row"] { background: #f7f9fc; color: #172033; font-size: .88rem; letter-spacing: 0; text-transform: none; }
+  .comparison-table td { min-width: 14rem; }
+  .comparison-table a { color: #2457d6; font-weight: 700; }
+</style>

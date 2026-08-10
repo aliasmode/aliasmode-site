@@ -1,11 +1,86 @@
 ---
 import { siteConfig } from '../../site.config.mjs';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import GitHubButton from '../components/GitHubButton.astro';
+import { canonicalPath, getBreadcrumbs, getSiteRoute } from '../data/site-routes';
 
-interface Props { title: string; description?: string; noIndex?: boolean; canonical?: boolean }
-const { title, description = 'AliasMode is a free, open-source antidetect browser for managing multiple accounts.', noIndex = false, canonical: includeCanonical = true } = Astro.props;
-const canonical = siteConfig.origin && includeCanonical ? new URL(Astro.url.pathname, siteConfig.origin).toString() : undefined;
+interface Props { title?: string; description?: string; noIndex?: boolean; canonical?: boolean }
+const {
+  title = 'Free Open-Source Antidetect Browser',
+  description = 'AliasMode is a free, open-source antidetect browser for managing multiple accounts.',
+  noIndex = false,
+  canonical: includeCanonical = true,
+} = Astro.props;
+const route = getSiteRoute(Astro.url.pathname);
+const routePath = route?.path ?? canonicalPath(Astro.url.pathname);
+const resolvedTitle = route?.title ?? title;
+const resolvedDescription = route?.description ?? description;
+const fullTitle = `${resolvedTitle} · AliasMode`;
 const shouldIndex = siteConfig.index && !noIndex;
+const canonical = shouldIndex && includeCanonical ? new URL(routePath, siteConfig.origin).toString() : undefined;
+const metadataUrl = new URL(routePath, siteConfig.metadataOrigin).toString();
+const socialImage = new URL('/social/aliasmode-open-source-antidetect-browser.png', siteConfig.metadataOrigin).toString();
+const breadcrumbs = route ? getBreadcrumbs(route) : [];
+const organizationId = `${siteConfig.metadataOrigin}/#organization`;
+const schemas: Record<string, unknown>[] = [];
+
+if (route) {
+  schemas.push({
+    '@type': 'Organization',
+    '@id': organizationId,
+    name: 'Xreacher',
+    url: 'https://xreacher.com/',
+    brand: { '@type': 'Brand', name: 'AliasMode', url: siteConfig.metadataOrigin },
+  });
+}
+if (route?.kind === 'home') {
+  schemas.push({
+    '@type': 'WebSite',
+    '@id': `${siteConfig.metadataOrigin}/#website`,
+    url: siteConfig.metadataOrigin,
+    name: 'AliasMode',
+    description: resolvedDescription,
+    publisher: { '@id': organizationId },
+  });
+}
+if (route && (route.kind === 'product' || route.kind === 'home')) {
+  schemas.push({
+    '@type': 'SoftwareApplication',
+    name: 'AliasMode',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Windows',
+    url: metadataUrl,
+    description: resolvedDescription,
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    publisher: { '@id': organizationId },
+  });
+}
+if (route && ['documentation', 'comparison', 'integration', 'use-case', 'guide', 'article'].includes(route.kind)) {
+  schemas.push({
+    '@type': route.kind === 'documentation' ? 'TechArticle' : 'Article',
+    headline: resolvedTitle,
+    description: resolvedDescription,
+    url: metadataUrl,
+    dateModified: '2026-08-10',
+    author: { '@id': organizationId },
+    publisher: { '@id': organizationId },
+  });
+}
+if (breadcrumbs.length > 1) {
+  schemas.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.label,
+      item: new URL(crumb.path, siteConfig.metadataOrigin).toString(),
+    })),
+  });
+}
+const structuredData = schemas.length
+  ? JSON.stringify({ '@context': 'https://schema.org', '@graph': schemas }).replace(/</g, '\\u003c')
+  : '';
 ---
 <!doctype html>
 <html lang="en">
@@ -13,25 +88,61 @@ const shouldIndex = siteConfig.index && !noIndex;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="referrer" content="no-referrer" />
-    <meta name="description" content={description} />
+    <meta name="description" content={resolvedDescription} />
+    <meta property="og:site_name" content="AliasMode" />
+    <meta property="og:type" content={route?.kind === 'article' ? 'article' : 'website'} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={resolvedDescription} />
+    <meta property="og:url" content={metadataUrl} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AliasMode — free, open-source antidetect browser" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={resolvedDescription} />
+    <meta name="twitter:image" content={socialImage} />
     <link rel="icon" href="/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     {!shouldIndex && <meta name="robots" content="noindex,nofollow" />}
     {canonical && <link rel="canonical" href={canonical} />}
-    <title>{title} · AliasMode</title>
+    {siteConfig.googleSiteVerification && !noIndex && <meta name="google-site-verification" content={siteConfig.googleSiteVerification} />}
+    {siteConfig.bingSiteVerification && !noIndex && <meta name="msvalidate.01" content={siteConfig.bingSiteVerification} />}
+    {structuredData && <script is:inline type="application/ld+json" set:html={structuredData} />}
+    <title>{fullTitle}</title>
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 512 512" fill="none" aria-hidden="true"><path d="M152 96H320C380 96 416 136 416 196V316C416 376 376 416 316 416H196C136 416 96 376 96 316V288" stroke="currentColor" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 288C96 240 136 208 184 208H280" stroke="#2457D6" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/></svg>AliasMode <span>by Xreacher</span></a>
-      <nav class="main-nav" aria-label="Main navigation"><a href="/#features">Features</a><a href="/#api">API</a><a href="/pricing/">Pricing</a><a href="/local-vs-cloud/">Local vs Cloud</a><a href="/security/">Security</a></nav>
+      <nav class="main-nav" aria-label="Main navigation"><a href="/product/">Product</a><a href="/agencies/">Agencies</a><a href="/docs/">Docs</a><a href="/alternatives/">Alternatives</a><a href="/pricing/">Pricing</a></nav>
       <a class="header-cta" href="/download/">Download free</a>
     </header>
-    <main><slot /></main>
+    <main>
+      {route && <Breadcrumbs route={route} />}
+      <slot />
+    </main>
     <footer>
-      <div class="footer-brand"><strong>AliasMode</strong><span>Free, open-source multi-account browsing.</span></div>
-      <nav aria-label="Footer navigation"><a href="/download/">Download</a><a href="/pricing/">Pricing</a><a href="/contact/">Contact</a><GitHubButton href="https://github.com/aliasmode/aliasmode" label="GitHub" compact /></nav>
-      <nav aria-label="Legal navigation"><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/acceptable-use/">Acceptable Use</a></nav>
+      <div class="footer-brand"><strong>AliasMode</strong><span>Free, open-source multi-account browsing.</span><GitHubButton href={siteConfig.githubRepository} label="GitHub" compact /></div>
+      <nav aria-label="Product navigation"><strong>Product</strong><a href="/download/">Download</a><a href="/local/">Local</a><a href="/cloud/">Cloud</a><a href="/security/">Security</a></nav>
+      <nav aria-label="Resource navigation"><strong>Resources</strong><a href="/docs/">Documentation</a><a href="/integrations/">Integrations</a><a href="/guides/">Guides</a><a href="/tools/">Tools</a></nav>
+      <nav aria-label="Company and legal navigation"><strong>Company</strong><a href="/contact/">Contact</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/acceptable-use/">Acceptable Use</a></nav>
     </footer>
+    {siteConfig.analyticsEndpoint && !noIndex && (
+      <script is:inline define:vars={{ endpoint: siteConfig.analyticsEndpoint }}>
+        document.addEventListener('click', (event) => {
+          if (!(event.target instanceof Element)) return;
+          const link = event.target.closest('[data-track-cta]');
+          if (!(link instanceof HTMLElement)) return;
+          const body = JSON.stringify({
+            pageGroup: link.dataset.pageGroup,
+            ctaType: link.dataset.ctaType,
+            destination: link.dataset.destination,
+            campaign: link.dataset.campaign || undefined,
+          });
+          navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
+        });
+      </script>
+    )}
   </body>
 </html>
 <style is:global>
@@ -43,9 +154,9 @@ const shouldIndex = siteConfig.index && !noIndex;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; overflow-x: hidden; }
+  body { background: #f7f9fc; margin: 0; overflow-x: hidden; }
   a { color: inherit; text-underline-offset: .18em; }
-  a:focus-visible, button:focus-visible { outline: 3px solid #31b8c7; outline-offset: 3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #31b8c7; outline-offset: 3px; }
   .site-header, footer, main { margin: auto; max-width: 72rem; padding-left: 1.5rem; padding-right: 1.5rem; }
   .site-header { align-items: center; display: grid; gap: 1.5rem; grid-template-columns: auto 1fr auto; min-height: 5.25rem; }
   .main-nav { justify-content: center; }
@@ -58,8 +169,10 @@ const shouldIndex = siteConfig.index && !noIndex;
   .header-cta { background: #2457d6; border-radius: .45rem; color: white; font-size: .8rem; font-weight: 750; padding: .6rem .85rem; text-decoration: none; white-space: nowrap; }
   .header-cta:hover { background: #173c9d; }
   main { min-height: calc(100vh - 14rem); padding-bottom: 5rem; padding-top: 3.5rem; }
-  footer { align-items: flex-start; border-top: 1px solid #dbe3ee; color: #526077; display: grid; font-size: .8rem; gap: 2rem; grid-template-columns: 1fr auto auto; min-height: 8.5rem; padding-bottom: 2rem; padding-top: 2rem; }
-  .footer-brand { display: flex; flex-direction: column; }
+  footer { align-items: flex-start; border-top: 1px solid #dbe3ee; color: #526077; display: grid; font-size: .8rem; gap: 2rem; grid-template-columns: 1.4fr repeat(3, 1fr); min-height: 8.5rem; padding-bottom: 2.5rem; padding-top: 2.5rem; }
+  footer nav { align-items: flex-start; flex-direction: column; gap: .5rem; }
+  footer nav strong { color: #172033; font-size: .74rem; letter-spacing: .07em; margin-bottom: .2rem; text-transform: uppercase; }
+  .footer-brand { align-items: flex-start; display: flex; flex-direction: column; gap: .45rem; }
   .footer-brand strong { color: #172033; font-size: .95rem; }
   h1 { font-size: clamp(2.4rem, 6vw, 4.8rem); letter-spacing: -.058em; line-height: .98; margin: 0 0 1.25rem; max-width: 13ch; text-wrap: balance; }
   h2 { font-size: 1.5rem; letter-spacing: -.04em; line-height: 1.08; margin: 0 0 .7rem; text-wrap: balance; }
@@ -76,15 +189,36 @@ const shouldIndex = siteConfig.index && !noIndex;
   .card, .notice { background: #fff; border: 1px solid #dbe3ee; border-radius: .65rem; padding: 1.4rem; }
   .notice { border-left: .3rem solid #e0a630; }
   .muted { color: #526077; }
-  code { background: #edf2f8; border-radius: .2rem; padding: .1rem .25rem; word-break: break-all; }
-  ul { max-width: 68ch; padding-left: 1.2rem; }
+  code { background: #edf2f8; border-radius: .2rem; padding: .1rem .25rem; word-break: break-word; }
+  pre { background: #111827; color: #e9eff9; max-width: 100%; overflow-x: auto; padding: 1.25rem; }
+  pre code { background: transparent; color: inherit; padding: 0; white-space: pre; }
+  table { border-collapse: collapse; min-width: 42rem; width: 100%; }
+  th, td { border-bottom: 1px solid #dbe3ee; padding: .85rem; text-align: left; vertical-align: top; }
+  th { background: #edf3ff; color: #26344a; font-size: .78rem; letter-spacing: .035em; text-transform: uppercase; }
+  .table-scroll { max-width: 100%; overflow-x: auto; }
+  ul, ol { max-width: 68ch; padding-left: 1.2rem; }
   li + li { margin-top: .5rem; }
   .legal h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
+  .content-body { display: grid; gap: 3.5rem; margin-top: 3.5rem; }
+  .content-section { display: grid; gap: .65rem; grid-template-columns: minmax(12rem, .65fr) minmax(0, 1.35fr); }
+  .content-section > div > :first-child, .content-section > :first-child { margin-top: 0; }
+  .content-section h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); }
+  .content-section-copy > *:first-child { margin-top: 0; }
+  .content-section-copy > *:last-child { margin-bottom: 0; }
+  .fact-strip { display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); margin: 2rem 0; }
+  .fact-strip > div { background: #eaf0ff; padding: 1.2rem; }
+  .fact-strip strong { display: block; font-size: 1.25rem; }
+  .callout { background: #eaf0ff; border-left: .3rem solid #2457d6; margin: 2rem 0; padding: 1.2rem 1.4rem; }
+  .source-list { color: #526077; font-size: .84rem; }
+  @media (max-width: 60rem) {
+    .main-nav { gap: .75rem; }
+    footer { grid-template-columns: repeat(3, 1fr); }
+    .footer-brand { grid-column: 1 / -1; }
+  }
   @media (max-width: 54rem) {
     .site-header { gap: .8rem; grid-template-columns: 1fr auto; padding-bottom: 1rem; padding-top: 1rem; }
     .main-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; order: 3; }
-    footer { grid-template-columns: 1fr 1fr; }
-    .footer-brand { grid-column: 1 / -1; }
+    .content-section { grid-template-columns: 1fr; }
   }
   @media (max-width: 36rem) {
     .brand span { display: none; }

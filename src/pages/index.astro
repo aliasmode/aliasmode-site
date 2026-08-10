@@ -17,7 +17,7 @@ import PricingPlans from '../components/PricingPlans.astro';
         <a class="button" href="/download/">Download &amp; sign up free</a>
         <GitHubButton href="https://github.com/aliasmode/aliasmode" label="View on GitHub" tone="outline" />
       </div>
-      <p class="hero-note"><a href="/local-vs-cloud/">Prefer no account? Use Local mode.</a></p>
+      <p class="hero-note"><a href="/local/">Prefer no account? Use Local mode.</a></p>
     </div>
 
     <div class="workspace" role="img" aria-label="AliasMode workspace with separate synchronized browser profiles">
@@ -92,7 +92,7 @@ import PricingPlans from '../components/PricingPlans.astro';
       <h2>Automate profiles with the tools you already use.</h2>
       <p>Open profiles through an AdsPower-compatible local API, then automate them over Playwright CDP.</p>
       <ul><li>Start and stop browser profiles through HTTP.</li><li>Check profile and service status programmatically.</li><li>Connect Playwright directly to the running browser over CDP.</li></ul>
-      <GitHubButton href="https://github.com/aliasmode/aliasmode" label="View the API on GitHub" tone="outline" />
+      <div class="actions"><a class="button" href="/docs/local-api/">Read the Local API</a><a class="button secondary" href="/integrations/playwright/">Use Playwright</a></div>
     </div>
     <div class="api-code" aria-label="Playwright API connection example">
       <div class="code-top"><span></span><span></span><span></span><b>automation.js</b></div>
@@ -115,14 +115,33 @@ import PricingPlans from '../components/PricingPlans.astro';
     <div>
       <p class="eyebrow">Open by default</p>
       <h2>Built in the open.</h2>
-      <p>Read the source, follow development, report issues, and contribute directly. AliasMode gives you a transparent alternative to closed multi-account browsers.</p>
-      <GitHubButton href="https://github.com/aliasmode/aliasmode" label="Explore the project on GitHub" />
+      <p>The AliasMode desktop client is Apache-2.0 open source. Read the code, follow releases, report issues, and contribute directly. CloakBrowser installs separately under its own license, and AliasMode Cloud is a managed service.</p>
+      <div class="actions"><GitHubButton href="https://github.com/aliasmode/aliasmode" label="Explore the project on GitHub" /><a class="button secondary" href="/product/">See the product architecture</a></div>
     </div>
   </section>
 
   <section class="local-section">
     <div><p class="eyebrow">Local mode</p><h2>Want to work without an account?</h2></div>
-    <div><p>Use AliasMode Local. Your profile data stays on that computer and AliasMode sends no traffic to Cloud.</p><a class="text-link" href="/local-vs-cloud/">Compare Local and Cloud <span>→</span></a></div>
+    <div><p>Use AliasMode Local. Your profile data stays on that computer and AliasMode sends no traffic to Cloud.</p><a class="text-link" href="/local/">Explore account-free Local mode <span>→</span></a></div>
+  </section>
+
+  <section class="pathways-section">
+    <div class="section-intro">
+      <p class="eyebrow">Built for real account work</p>
+      <h2>Move from profiles to a repeatable workflow.</h2>
+      <p class="lead">Organize authorized client sessions, assign proxies, connect automation, and compare the operating model with established tools.</p>
+    </div>
+    <div class="pathways-grid">
+      <a href="/agencies/"><span>Agency operations</span><strong>Separate client sessions and team handoffs.</strong><small>AliasMode for agencies →</small></a>
+      <a href="/alternatives/"><span>Product evaluation</span><strong>Compare price, source, Local, Cloud, and APIs.</strong><small>Browse alternatives →</small></a>
+      <a href="/docs/proxies/"><span>Proxy setup</span><strong>Configure HTTP, HTTPS, and SOCKS5 per profile.</strong><small>Read proxy documentation →</small></a>
+      <a href="/docs/"><span>Documentation</span><strong>Install, create profiles, troubleshoot, and automate.</strong><small>Open the docs →</small></a>
+    </div>
+  </section>
+
+  <section class="maker-section">
+    <p class="eyebrow">Built by Xreacher</p>
+    <div><h2>A free browser profile manager from a team that runs account workflows.</h2><p>AliasMode is built by Xreacher. The desktop project stays useful on its own, while Cloud adds free synchronization and collaboration when work moves between operators.</p></div>
   </section>
 
   <section class="pricing-section" id="pricing">
@@ -221,20 +240,29 @@ import PricingPlans from '../components/PricingPlans.astro';
   .code-card pre { margin: 0; padding: 2rem; }
   .code-card code { background: transparent; color: #aebbd0; font-size: .86rem; line-height: 2; }
   .code-card code b { color: white; }.code-card code span { color: #31b8c7; }
-  .local-section { align-items: center; background: #eaf0ff; border-left: .35rem solid #2457d6; display: grid; gap: 3rem; grid-template-columns: 1fr 1fr; margin-bottom: 5rem; padding: 2.5rem; }
+  .local-section { align-items: center; background: #eaf0ff; border-left: .35rem solid #2457d6; display: grid; gap: 3rem; grid-template-columns: 1fr 1fr; margin-bottom: 6rem; padding: 2.5rem; }
   .local-section h2 { margin-bottom: 0; }
+  .pathways-section { margin-bottom: 6rem; }
+  .pathways-grid { display: grid; gap: 1px; grid-template-columns: repeat(2, 1fr); }
+  .pathways-grid a { background: #fff; border: 1px solid #dbe3ee; display: flex; flex-direction: column; min-height: 14rem; padding: 1.6rem; text-decoration: none; transition: border-color .18s ease, transform .18s ease; }
+  .pathways-grid a:hover { border-color: #8ea6d7; transform: translateY(-2px); }
+  .pathways-grid span { color: #536eae; font: 800 .68rem/1.2 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .pathways-grid strong { font-size: 1.35rem; margin-top: 1.2rem; max-width: 25ch; }
+  .pathways-grid small { color: #2457d6; font-size: .82rem; font-weight: 750; margin-top: auto; }
+  .maker-section { align-items: start; border-bottom: 1px solid #dbe3ee; border-top: 1px solid #dbe3ee; display: grid; gap: 3rem; grid-template-columns: .55fr 1.45fr; margin-bottom: 6rem; padding: 3rem 0; }
+  .maker-section h2 { font-size: clamp(2rem, 4vw, 3.2rem); }
   .pricing-section { margin-bottom: 5rem; scroll-margin-top: 2rem; }
   .pricing-section .section-intro { margin-bottom: 2rem; }
   .download-section { margin-bottom: 0; }
   @media (max-width: 58rem) {
     .hero { grid-template-columns: 1fr; }.hero::before { left: 25%; }.workspace { margin-inline: auto; max-width: 40rem; transform: none; width: 100%; }
     .feature-grid { grid-template-columns: 1fr; }.feature-card { min-height: auto; }.feature-card h3 { margin-top: 2.5rem; }.feature-card.featured { transform: none; }
-    .workflow-section, .api-section, .open-section, .local-section { grid-template-columns: 1fr; }.open-section .code-card { max-width: 36rem; width: 100%; }
+    .workflow-section, .api-section, .open-section, .local-section, .maker-section { grid-template-columns: 1fr; }.open-section .code-card { max-width: 36rem; width: 100%; }
   }
   @media (max-width: 42rem) {
     .hero { min-height: auto; padding-top: 0; }.hero h1 { font-size: clamp(2.5rem, 10.5vw, 3.25rem); max-width: 15ch; }.workspace-body { grid-template-columns: 1fr; }.workspace aside { display: none; }.profile-board { padding: .9rem; }
     .proof-row { grid-template-columns: 1fr 1fr; margin-bottom: 5rem; }.proof-row div:nth-child(3) { border-left: 0; border-top: 1px solid #dbe3ee; }.proof-row div:nth-child(4) { border-top: 1px solid #dbe3ee; }
-    .workflow-section { gap: 2rem; padding-block: 3.5rem; }.open-section { margin-bottom: 5rem; }.local-section { gap: 1rem; padding: 1.5rem; }
+    .workflow-section { gap: 2rem; padding-block: 3.5rem; }.open-section { margin-bottom: 5rem; }.local-section { gap: 1rem; padding: 1.5rem; }.pathways-grid { grid-template-columns: 1fr; }.maker-section { gap: 1rem; }
   }
   @media (prefers-reduced-motion: reduce) { .text-link span { transition: none; } }
 </style>

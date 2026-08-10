@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DownloadPanel from '../components/DownloadPanel.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
 ---
 <BaseLayout
   title="Download AliasMode Free"
@@ -23,7 +24,7 @@ import DownloadPanel from '../components/DownloadPanel.astro';
 
   <section class="after-install">
     <h2>After installation</h2>
-    <div class="grid"><article class="card"><strong>Create unlimited profiles</strong><p>Give each account, client, brand, or project its own browser profile.</p></article><article class="card"><strong>Turn on Cloud sync</strong><p>Create your free account inside AliasMode to synchronize portable profiles.</p></article><article class="card"><strong>Invite your team</strong><p>Use one workspace with owner and member roles for collaboration.</p></article></div>
+    <div class="grid"><article class="card"><strong>Install CloakBrowser</strong><p>AliasMode installs the separately licensed browser runtime used to open profiles.</p></article><article class="card"><strong>Create unlimited profiles</strong><p>Give each account, client, brand, or project its own browser profile.</p></article><article class="card"><strong>Turn on Cloud sync</strong><p>Create your free account inside AliasMode to synchronize portable profiles.</p></article><article class="card"><strong>Invite your team</strong><p>Use one workspace with owner and member roles for collaboration.</p></article></div>
   </section>
 
   <section class="install-notes">
@@ -33,6 +34,8 @@ import DownloadPanel from '../components/DownloadPanel.astro';
     <ol><li>Open the GitHub release URL and check that it is under <code>github.com/aliasmode/aliasmode</code>.</li><li>Verify the downloaded file against the published SHA-256 checksum.</li><li>If Windows shows SmartScreen, select <strong>More info</strong>, then <strong>Run anyway</strong> only if you accept the risk and Windows offers that option.</li></ol>
     <p>Do not disable Windows protection. A checksum helps verify a downloaded file. It does not sign the app.</p>
   </section>
+
+  <RelatedLinks paths={['/docs/getting-started/', '/docs/cloakbrowser/', '/security/']} title="Install and verify AliasMode" />
 </BaseLayout>
 
 <style>
