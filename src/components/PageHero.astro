@@ -26,7 +26,8 @@ const pageGroup = eyebrow.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|
 </header>
 
 <style>
-  .page-hero { border-bottom: 1px solid #dbe3ee; padding: 1rem 0 clamp(2.5rem, 6vw, 4.5rem); }
+  .page-hero { padding: 1rem 0 clamp(2.5rem, 6vw, 4.5rem); position: relative; }
+  .page-hero::before { background: radial-gradient(34rem 16rem at 18% 20%, rgba(61, 107, 255, .16), transparent 65%); content: ''; inset: -4rem 0 0 -8rem; pointer-events: none; position: absolute; z-index: -1; }
   .page-hero h1 { font-size: clamp(2.7rem, 6vw, 5.1rem); max-width: 16ch; }
   .page-hero .lead { font-size: clamp(1.05rem, 2vw, 1.28rem); max-width: 64ch; }
 </style>
