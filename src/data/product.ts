@@ -46,10 +46,39 @@ export const localApiEndpoints = [
 
 export const playwrightExample = `import { chromium } from 'playwright';
 
-const response = await fetch(
-  'http://127.0.0.1:50400/api/v1/browser/start?user_id=PROFILE_ID'
-).then((result) => result.json());
+const origin = '${productFacts.localApiOrigin}';
+// Find this ID with GET /api/v1/user/list.
+const profileId = process.env.ALIASMODE_PROFILE_ID;
+if (!profileId) throw new Error('Set ALIASMODE_PROFILE_ID');
 
-const browser = await chromium.connectOverCDP(
-  response.data.ws.puppeteer
-);`;
+const startUrl = new URL('/api/v1/browser/start', origin);
+startUrl.searchParams.set('user_id', profileId);
+
+let browser;
+let started = false;
+try {
+  const startResponse = await fetch(startUrl);
+  if (!startResponse.ok) {
+    throw new Error(\`AliasMode returned HTTP \${startResponse.status}\`);
+  }
+
+  const payload = await startResponse.json();
+  const cdpUrl = payload?.data?.ws?.puppeteer;
+  if (payload?.code !== 0 || typeof cdpUrl !== 'string') {
+    throw new Error(payload?.msg || 'AliasMode did not return a CDP URL');
+  }
+
+  started = true;
+  browser = await chromium.connectOverCDP(cdpUrl);
+  // Run automation with the connected browser.
+} finally {
+  try {
+    await browser?.close();
+  } finally {
+    if (started) {
+      const stopUrl = new URL('/api/v1/browser/stop', origin);
+      stopUrl.searchParams.set('user_id', profileId);
+      await fetch(stopUrl);
+    }
+  }
+}`;

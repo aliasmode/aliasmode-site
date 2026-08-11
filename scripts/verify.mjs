@@ -157,9 +157,14 @@ const localApi = page('/docs/local-api/');
 for (const endpoint of ['GET /status', 'GET /api/v1/status', 'GET /api/v1/browser/start?user_id=&launch_args=', 'GET /api/v1/browser/stop?user_id=', 'GET /api/v1/browser/active?user_id=', 'POST /api/v2/browser-profile/delete-cache', 'GET /api/v1/browser/cookies?user_id=&urls=', 'GET /api/v1/group/list', 'POST /api/v1/group/create', 'GET /api/v1/user/list', 'POST /api/v1/user/create', 'POST /api/v1/user/delete', 'POST /api/v1/user/update']) {
   if (!localApi.includes(endpoint.replaceAll('&', '&amp;'))) fail(`/docs/local-api/ is missing ${endpoint}`);
 }
+for (const copy of ['The Local API has no authentication', 'Never expose it to a LAN or the internet', 'Responses use the JSON envelope', 'The optional launch_args value is a URL-encoded JSON array']) {
+  if (!localApi.includes(copy)) fail(`/docs/local-api/ is missing API guidance: ${copy}`);
+}
 for (const route of ['/docs/local-api/', '/docs/playwright/', '/integrations/playwright/']) {
   const text = page(route);
-  if (!text.includes('data.ws.puppeteer') || !text.includes('chromium.connectOverCDP')) fail(`${route} is missing the supported CDP connection`);
+  for (const copy of ['GET /api/v1/user/list', 'process.env.ALIASMODE_PROFILE_ID', 'startUrl.searchParams.set', 'startResponse.ok', 'payload?.code', 'typeof cdpUrl', 'chromium.connectOverCDP', 'finally', '/api/v1/browser/stop']) {
+    if (!text.includes(copy)) fail(`${route} is missing safe CDP workflow: ${copy}`);
+  }
 }
 const calculator = page('/tools/agency-proxy-budget-calculator/');
 for (const copy of ['Browser profiles', 'Profiles per proxy', 'Monthly cost per proxy', 'Required proxies', 'Estimated monthly cost', 'Math.ceil', 'toFixed(2)']) {

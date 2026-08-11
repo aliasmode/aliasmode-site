@@ -274,14 +274,43 @@ export const seoPages: SeoPage[] = [
     path: '/docs/local-api/',
     eyebrow: 'Local API reference',
     headline: 'Control AliasMode through a loopback API.',
-    lead: 'The optional API exposes an AdsPower-shaped compatible subset for status, profiles, groups, browser control, cookies, cache, and CDP attachment.',
+    lead: 'The Local API exposes an AdsPower-shaped compatible subset for status, profiles, groups, browser control, cookies, cache, and CDP attachment.',
+    primary: { href: '/docs/playwright/', label: 'Connect with Playwright' },
+    secondary: { href: '/download/', label: 'Download AliasMode' },
     lastTested: '2026-08-10',
     facts: [{ value: '127.0.0.1:50400', label: 'Default loopback endpoint' }, { value: '13', label: 'Documented routes' }, { value: 'CDP', label: 'Browser automation connection' }],
     sections: [
-      { title: 'Start the API', paragraphs: ['Enable the Local API in the desktop app. Requests stay on the loopback interface by default. Check GET /status or GET /api/v1/status before sending profile commands.'], code: 'curl http://127.0.0.1:50400/api/v1/status' },
-      { title: 'Supported endpoints', paragraphs: ['AliasMode implements the following current subset. Build integrations against these documented routes rather than assuming the complete AdsPower API is present.'], bullets: localApiEndpoints, code: localApiEndpoints.join('\n') },
-      { title: 'Start a profile and use CDP', paragraphs: ['Pass user_id to the browser start route. A successful response includes data.ws.puppeteer and a debug port. Use that WebSocket URL with Playwright chromium.connectOverCDP.'], code: playwrightExample, links: [{ href: '/docs/playwright/', label: 'Follow the Playwright setup' }, { href: '/integrations/adspower-api/', label: 'Plan an AdsPower API migration' }] },
-      { title: 'Errors and access', paragraphs: ['Treat profile identifiers and returned CDP endpoints as local operational data. Stop a browser before deleting its profile. If a route fails, confirm the desktop app is open, the API is enabled, and the profile identifier exists.'], links: [{ href: '/docs/troubleshooting/', label: 'Troubleshoot Local API access' }] },
+      {
+        title: 'Keep the API local',
+        paragraphs: ['The Local API has no authentication. Keep port 50400 on the loopback interface. Never expose it to a LAN or the internet through port forwarding or a reverse proxy. A returned CDP URL grants control of the active browser profile, so do not share or publish it.'],
+      },
+      {
+        title: 'Check API availability',
+        paragraphs: ['Start the AliasMode desktop app on the same computer as your integration. Confirm one status route returns a JSON response before sending profile commands.'],
+        code: 'curl http://127.0.0.1:50400/api/v1/status',
+      },
+      {
+        title: 'Find the route you need',
+        paragraphs: ['AliasMode implements only the documented subset below. Do not assume that an unlisted AdsPower API route is available.'],
+        bullets: ['Status — API health and compatibility', 'Browser lifecycle — start, stop, and active state', 'Session data — cookies and browser cache', 'Groups — list and create', 'Profiles — list, create, update, and delete'],
+        code: localApiEndpoints.join('\n'),
+      },
+      {
+        title: 'Follow the request conventions',
+        paragraphs: ['Responses use the JSON envelope { code, msg, data }. Treat code 0 as success. A successful HTTP response can still contain code -1 and an error message.', 'Send POST bodies as JSON. URL-encode query values. The user_id value is a profile ID from GET /api/v1/user/list. The optional launch_args value is a URL-encoded JSON array of browser arguments.'],
+        code: '{"code":0,"msg":"success","data":{}}\n\nlaunch_args=["--lang=en-US"]',
+      },
+      {
+        title: 'Discover, start, and stop a profile',
+        paragraphs: ['Call GET /api/v1/user/list to find a profile ID. Set ALIASMODE_PROFILE_ID, then run the example. It checks both HTTP status and the API envelope, validates data.ws.puppeteer, connects through chromium.connectOverCDP, and stops the profile during cleanup.'],
+        code: playwrightExample,
+        links: [{ href: '/docs/playwright/', label: 'Follow the Playwright setup' }, { href: '/integrations/adspower-api/', label: 'Plan an AdsPower API migration' }],
+      },
+      {
+        title: 'Handle failures and cleanup',
+        paragraphs: ['If a command fails, confirm the desktop app is open, the status route responds, and the profile ID exists. Check both the HTTP status and the response code and message. Treat a missing CDP URL as a failed start.', 'Disconnect Playwright and stop the profile when automation finishes. Stop a browser before deleting its profile.'],
+        links: [{ href: '/docs/troubleshooting/', label: 'Troubleshoot Local API access' }],
+      },
     ],
   },
   {
@@ -293,7 +322,7 @@ export const seoPages: SeoPage[] = [
     sections: [
       { title: 'Prerequisites', paragraphs: ['Install AliasMode and CloakBrowser, create a profile, enable the Local API, and add Playwright to the automation project. The profile must be available on the same computer as the script.'], bullets: ['AliasMode desktop app running', 'Local API available at 127.0.0.1:50400', 'A valid profile ID', 'Playwright installed in the Node.js project'] },
       { title: 'Start and connect', paragraphs: ['Call the browser start route with the profile ID. Read response.data.ws.puppeteer, then pass it to chromium.connectOverCDP. The attached browser uses the profile’s persistent data, proxy, cookies, and active session.'], code: playwrightExample },
-      { title: 'Close cleanly', paragraphs: ['Disconnect Playwright when automation finishes, then stop the profile through AliasMode or the Local API. Keep one automation owner per active profile to avoid overlapping actions.'], code: "await browser.close();\nawait fetch('http://127.0.0.1:50400/api/v1/browser/stop?user_id=PROFILE_ID');", links: [{ href: '/integrations/playwright/', label: 'Review integration fit' }, { href: '/docs/local-api/', label: 'See every supported API route' }] },
+      { title: 'Close cleanly', paragraphs: ['The example uses finally so it disconnects Playwright and stops the profile after success or failure. Keep one automation owner per active profile to avoid overlapping actions.'], links: [{ href: '/integrations/playwright/', label: 'Review integration fit' }, { href: '/docs/local-api/', label: 'See every supported API route' }] },
     ],
   },
   {
