@@ -3,12 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import RelatedLinks from '../components/RelatedLinks.astro';
 import { siteConfig } from '../../site.config.mjs';
 ---
-<BaseLayout title="Contact and Premium Support" description="Contact AliasMode for product help, team onboarding, and Premium or Enterprise Support.">
+<BaseLayout title="Contact and Donations" description="Contact AliasMode for product help, feedback, donations, or responsible security reporting.">
   <p class="eyebrow">Contact AliasMode</p>
-  <h1>Get help from the team.</h1>
-  <p class="lead">Every AliasMode feature is free. Premium Support gives teams direct help with onboarding, rollout, and technical questions.</p>
+  <h1>Get help or support the project.</h1>
+  <p class="lead">Every AliasMode feature is free. AliasMode is a non-profit project supported by optional donations.</p>
   <div class="contact-grid">
-    <section class="card premium-card"><p class="contact-label">Premium / Enterprise Support</p><h2>Talk to sales</h2><p>Tell us about your team and the help you need. You are buying support services, not access to product functionality.</p>{siteConfig.supportEmail ? <a class="button" href={`mailto:${siteConfig.supportEmail}?subject=AliasMode%20Premium%20Support`}>Contact Premium Support</a> : <p class="muted">Sales and support contact details will be published with the production site.</p>}</section>
+    <section class="card donation-card"><p class="contact-label">Donations</p><h2>Support AliasMode</h2><p>If AliasMode is useful to you and you want to help fund development and infrastructure, email us about making a donation.</p>{siteConfig.supportEmail ? <a class="button" href={`mailto:${siteConfig.supportEmail}?subject=AliasMode%20Donation`}>Email us about donating</a> : <p class="muted">Donation contact details will be published with the production site.</p>}</section>
     <section class="card"><p class="contact-label">Product help</p><h2>Questions or feedback</h2>{siteConfig.supportEmail ? <p>For product and account help, email <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>.</p> : <p class="muted">Support contact details will be published with the production site.</p>}<p>For security reports, see <a href="/security/">Security</a>.</p></section>
   </div>
   <RelatedLinks paths={['/pricing/', '/docs/troubleshooting/', '/security/']} title="Find the right support path" />
@@ -17,9 +17,9 @@ import { siteConfig } from '../../site.config.mjs';
 <style>
   .contact-grid { display: grid; gap: 1rem; grid-template-columns: 1.1fr .9fr; margin-top: 3rem; }
   .contact-grid .card { border-radius: 0; padding: clamp(1.5rem, 4vw, 2.6rem); }
-  .premium-card { background: #111827; border-color: #111827; color: white; }
-  .premium-card p:not(.contact-label) { color: #bac6d8; }
+  .donation-card { background: #111827; border-color: #111827; color: white; }
+  .donation-card p:not(.contact-label) { color: #bac6d8; }
   .contact-label { color: #536eae; font: 800 .68rem/1.2 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
-  .premium-card .contact-label { color: #8da7ff; }
+  .donation-card .contact-label { color: #8da7ff; }
   @media (max-width: 44rem) { .contact-grid { grid-template-columns: 1fr; } }
 </style>

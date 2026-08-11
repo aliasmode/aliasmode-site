@@ -123,7 +123,7 @@ export const comparisons: CompetitorComparison[] = [
       { criterion: 'Local workflow', aliasMode: commonAlias.local, competitor: 'Dolphin documents an option to disable cloud synchronization inside its account-backed commercial product.', source: 'https://dolphin-anty.com/' },
       { criterion: 'Cloud and teams', aliasMode: commonAlias.team, competitor: 'Official material describes roles, sharing, synchronization, and team workflows.', source: 'https://dolphin-anty.com/' },
       { criterion: 'API and automation', aliasMode: commonAlias.automation, competitor: 'Dolphin Anty publishes API and automation capabilities for its product workflow.', source: 'https://dolphin-anty.com/' },
-      { criterion: 'Operating model', aliasMode: 'Cloud and Local functionality is free; Premium Support is optional.', competitor: 'Free allowance plus commercial plans and service.', source: 'https://dolphin-anty.com/' },
+      { criterion: 'Operating model', aliasMode: 'Cloud and Local functionality is free; optional donations support the non-profit project.', competitor: 'Free allowance plus commercial plans and service.', source: 'https://dolphin-anty.com/' },
     ],
     migration: ['Export only data the current Dolphin workflow can safely provide.', 'Record profile names, groups, proxies, owners, and extensions.', 'Create matching AliasMode profiles and re-establish approved sessions.', 'Map API operations to the documented AliasMode subset.', 'Test one full launch, work, close, and handoff cycle before scaling.'],
     competitorFits: ['The current process depends on Dolphin-specific API or automation features.', 'The team wants its established commercial support and interface.', 'Five free profiles are sufficient and minimize a near-term migration.'],

@@ -99,7 +99,7 @@ const home = page('/');
 const pricing = page('/pricing/');
 if (!home.includes('href="/download/"') || !pricing.includes('href="/download/"')) fail('home and pricing must link to the download flow');
 for (const [route, text] of [['/', home], ['/pricing/', pricing]]) {
-  for (const copy of ['Cloud', 'Local', 'Premium Support', '$0', 'Talk to sales', 'All AliasMode functionality is free.', 'Premium Support purchases support, not feature access.']) {
+  for (const copy of ['Cloud', 'Local', 'Donate', '$0', 'Optional', 'All AliasMode functionality is free.', 'AliasMode is a non-profit project supported by optional donations.', 'Email us about donating']) {
     if (!text.includes(copy)) fail(`${route} is missing pricing copy: ${copy}`);
   }
 }
