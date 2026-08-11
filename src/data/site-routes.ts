@@ -1,4 +1,4 @@
-export type RouteKind = 'home' | 'product' | 'documentation' | 'comparison' | 'integration' | 'use-case' | 'guide' | 'tool' | 'article' | 'legal';
+export type RouteKind = 'home' | 'product' | 'company' | 'documentation' | 'comparison' | 'integration' | 'use-case' | 'guide' | 'tool' | 'article' | 'legal';
 
 export interface SiteRoute {
   path: string;
@@ -32,6 +32,14 @@ export const siteRoutes: SiteRoute[] = [
     description: 'Explore AliasMode browser profiles, proxy support, Local and Cloud modes, team collaboration, and Playwright browser automation.',
     kind: 'product',
     related: ['/local/', '/cloud/', '/docs/', '/integrations/'],
+  },
+  {
+    path: '/about/',
+    label: 'About',
+    title: 'About AliasMode and Xreacher',
+    description: 'Learn how the Xreacher team developed AliasMode, used it internally for months, and released it as a free, open-source browser profile manager.',
+    kind: 'company',
+    related: ['/product/', '/use-cases/outreach-agencies/', '/contact/'],
   },
   {
     path: '/local/',

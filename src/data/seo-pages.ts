@@ -47,10 +47,12 @@ export const seoPages: SeoPage[] = [
         paragraphs: [
           'The AliasMode desktop client manages profiles, groups, proxies, Local API requests, and profile launches. The desktop client is Apache-2.0 open source.',
           'AliasMode installs and launches CloakBrowser separately. CloakBrowser keeps its own license. AliasMode Cloud is the managed synchronization and collaboration service.',
+          'The Xreacher team developed AliasMode and used it internally for months before releasing the desktop client as a free, open-source product.',
         ],
         links: [
           { href: '/docs/cloakbrowser/', label: 'Install CloakBrowser' },
           { href: '/cloud/', label: 'Explore Cloud collaboration' },
+          { href: '/about/', label: 'Read the AliasMode story' },
         ],
       },
       {
@@ -61,6 +63,35 @@ export const seoPages: SeoPage[] = [
           { href: '/docs/proxies/', label: 'Configure proxies' },
           { href: '/integrations/', label: 'View automation integrations' },
         ],
+      },
+    ],
+  },
+  {
+    path: '/about/',
+    eyebrow: 'About AliasMode',
+    headline: 'Built at Xreacher for real multi-account operations.',
+    lead: 'The Xreacher team developed AliasMode for its own work, used it internally for months, and released it as a free, open-source browser profile manager.',
+    primary: { href: '/product/', label: 'Explore AliasMode' },
+    secondary: { href: 'https://xreacher.com/', label: 'Visit Xreacher' },
+    facts: [
+      { value: 'Xreacher', label: 'Development team' },
+      { value: 'Months', label: 'Internal use before release' },
+      { value: 'Apache-2.0', label: 'Desktop client license' },
+    ],
+    sections: [
+      {
+        title: 'Developed by the Xreacher team',
+        paragraphs: ['AliasMode started as an internal Xreacher tool for managing separate browser profiles across real multi-account operations. The same team continues to develop the public product.'],
+      },
+      {
+        title: 'Proven in our own operations',
+        paragraphs: ['Before the public release, Xreacher used AliasMode internally for months. That operating history shaped its persistent profiles, proxy assignments, organization tools, Cloud handoffs, and browser automation support.'],
+        links: [{ href: '/product/', label: 'See what AliasMode includes' }],
+      },
+      {
+        title: 'Two products from one team',
+        paragraphs: ['AliasMode manages browser profiles and is available as a free, open-source desktop client with optional Cloud synchronization. Xreacher is the team’s separate outreach product. Each product works independently.'],
+        links: [{ href: 'https://xreacher.com/', label: 'Explore Xreacher' }],
       },
     ],
   },
