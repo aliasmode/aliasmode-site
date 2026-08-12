@@ -112,7 +112,7 @@ const expectedRobots = production
   : 'User-agent: *\nDisallow: /\n';
 if (robots !== expectedRobots) fail(`${production ? 'production' : 'preview'} robots policy is incorrect`);
 
-const frozenLegal = new Set(['acceptable-use/v1/index.html', 'privacy/v1/index.html', 'terms/v1/index.html']);
+const frozenLegal = new Set(['acceptable-use/v2/index.html', 'privacy/v2/index.html', 'terms/v2/index.html']);
 for (const file of html) {
   const text = readFileSync(file, 'utf8');
   const builtPath = relative(dist, file);

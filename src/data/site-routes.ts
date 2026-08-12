@@ -351,15 +351,6 @@ export const siteRoutes: SiteRoute[] = [
     path: '/acceptable-use/', label: 'Acceptable Use', title: 'Acceptable Use Policy', description: 'Read the current AliasMode Acceptable Use Policy for authorized browser-profile and automation workflows.', kind: 'legal', related: ['/terms/', '/privacy/'],
   },
   {
-    path: '/terms/v1/', label: 'Terms v1', title: 'Terms of Service v1', description: 'Version 1 of the AliasMode Terms of Service.', kind: 'legal', parent: '/terms/', sitemap: false,
-  },
-  {
-    path: '/privacy/v1/', label: 'Privacy v1', title: 'Privacy Policy v1', description: 'Version 1 of the AliasMode Privacy Policy.', kind: 'legal', parent: '/privacy/', sitemap: false,
-  },
-  {
-    path: '/acceptable-use/v1/', label: 'Acceptable Use v1', title: 'Acceptable Use Policy v1', description: 'Version 1 of the AliasMode Acceptable Use Policy.', kind: 'legal', parent: '/acceptable-use/', sitemap: false,
-  },
-  {
     path: '/terms/v2/', label: 'Terms v2', title: 'Terms of Service v2', description: 'Version 2 of the AliasMode Terms of Service, effective August 12, 2026.', kind: 'legal', parent: '/terms/', sitemap: false,
   },
   {
