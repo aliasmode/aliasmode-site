@@ -1,8 +1,7 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { siteConfig } from '../../site.config.mjs';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Terms of Service"><article class="legal"><p class="eyebrow">Terms of Service</p><h1>Terms of Use</h1>
+<BaseLayout title="Terms v2"><article class="legal"><p class="eyebrow">Immutable v2 snapshot</p><h1>Terms of Use v2</h1>
   <p class="muted">Effective: August 12, 2026 · Governing law: United States</p>
   <p>AliasMode is a free, open-source browser profile manager developed and operated by the Xreacher team. These terms govern your use of the AliasMode website, the AliasMode desktop application (&ldquo;the app&rdquo;), and the AliasMode Cloud synchronization service (&ldquo;AliasMode Cloud&rdquo;). By using AliasMode you agree to these terms, the <a href="/acceptable-use/">Acceptable Use Policy</a>, and the <a href="/privacy/">Privacy Notice</a>.</p>
   <h2>Eligibility</h2>
@@ -33,8 +32,6 @@ import { siteConfig } from '../../site.config.mjs';
   <h2>Governing law</h2>
   <p>These terms are governed by the laws of the United States of America, without regard to conflict-of-law rules. Disputes will be resolved in courts of competent jurisdiction in the United States.</p>
   <h2>Contact</h2>
-  <p>Questions about these terms? {siteConfig.supportEmail ? <>Email <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>.</> : <a href="/contact/">Contact AliasMode</a>}</p>
-  <h2>Version history</h2>
-  <p>Current version: <a href="/terms/v2/">v2 (effective August 12, 2026)</a>.</p>
-  <p>Earlier version: <a href="/terms/v1/">v1 (draft snapshot)</a>.</p>
-</article></BaseLayout>
+  <p>Questions about these terms? <a href="/contact/">Contact AliasMode</a></p>
+
+<p><a href="/terms/">View the current Terms route</a></p></article></BaseLayout>

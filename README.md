@@ -116,4 +116,4 @@ Production builds generate self-canonicals, Open Graph and Twitter metadata, JSO
 
 Optional CTA measurement is same-origin and aggregate. It records only page group, CTA type, campaign code, and destination product. It uses no cookies, persistent IDs, page trails, referrer data, profile data, fingerprinting, ads, or session replay.
 
-The `/terms`, `/privacy`, and `/acceptable-use` routes are draft pages. Their `/v1` pages are frozen snapshots. Create a new version route instead of editing a v1 page; `scripts/v1-manifest.mjs` makes unintended changes fail verification.
+The `/terms`, `/privacy`, and `/acceptable-use` routes are the current legal pages. Versioned pages (`/v1`, `/v2`, ...) are frozen snapshots. Create a new version route instead of editing a versioned page; `scripts/v1-manifest.mjs` makes unintended changes fail verification.

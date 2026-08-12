@@ -80,7 +80,7 @@ export const proxyProviders: ProxyProvider[] = [
     protocols: 'Verify protocol and authentication support for the selected plan.',
     commercialModel: 'Compare monthly price, usable IP count, replacement terms, and minimum commitment with the same method used for every provider.',
     evidence: 'Not independently tested',
-    relationship: 'Relationship disclosure pending confirmation; no scoring preference is applied.',
+    relationship: 'No relationship disclosed.',
     source: 'https://outreachproxy.com/',
     sourceLabel: 'Outreach Proxy homepage',
   },

@@ -1,8 +1,7 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { siteConfig } from '../../site.config.mjs';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Privacy Policy"><article class="legal"><p class="eyebrow">Privacy Notice</p><h1>Privacy Notice</h1>
+<BaseLayout title="Privacy v2"><article class="legal"><p class="eyebrow">Immutable v2 snapshot</p><h1>Privacy Notice v2</h1>
   <p class="muted">Effective: August 12, 2026 · Governing law: United States</p>
   <p>This notice explains what data AliasMode (developed and operated by the Xreacher team) handles for the website, the desktop application (&ldquo;the app&rdquo;), and the AliasMode Cloud synchronization service (&ldquo;AliasMode Cloud&rdquo;).</p>
   <h2>What we do not do</h2>
@@ -34,9 +33,8 @@ import { siteConfig } from '../../site.config.mjs';
   <h2>Security</h2>
   <p>Cloud encrypts portable profiles, supports device revocation, and provides workspace controls. See the <a href="/security/">Security page</a> for the architecture.</p>
   <h2>Your choices and rights</h2>
-  <p>In the app you can manage workspace members and devices, restore or delete profiles from trash, and request account deletion. For questions or requests, {siteConfig.supportEmail ? <>email <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>.</> : <a href="/contact/">contact AliasMode</a>}</p>
+  <p>In the app you can manage workspace members and devices, restore or delete profiles from trash, and request account deletion. For questions or requests, <a href="/contact/">Contact AliasMode</a></p>
   <h2>Children</h2>
   <p>AliasMode is not intended for people under 18, and we do not knowingly collect their data.</p>
-  <h2>Changes and versions</h2>
-  <p>If we change this notice we publish a new version. Current version: <a href="/privacy/v2/">v2 (effective August 12, 2026)</a>. Earlier version: <a href="/privacy/v1/">v1 (draft snapshot)</a>.</p>
-</article></BaseLayout>
+
+<p><a href="/privacy/">View the current Privacy route</a></p></article></BaseLayout>

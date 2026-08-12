@@ -359,6 +359,15 @@ export const siteRoutes: SiteRoute[] = [
   {
     path: '/acceptable-use/v1/', label: 'Acceptable Use v1', title: 'Acceptable Use Policy v1', description: 'Version 1 of the AliasMode Acceptable Use Policy.', kind: 'legal', parent: '/acceptable-use/', sitemap: false,
   },
+  {
+    path: '/terms/v2/', label: 'Terms v2', title: 'Terms of Service v2', description: 'Version 2 of the AliasMode Terms of Service, effective August 12, 2026.', kind: 'legal', parent: '/terms/', sitemap: false,
+  },
+  {
+    path: '/privacy/v2/', label: 'Privacy v2', title: 'Privacy Policy v2', description: 'Version 2 of the AliasMode Privacy Policy, effective August 12, 2026.', kind: 'legal', parent: '/privacy/', sitemap: false,
+  },
+  {
+    path: '/acceptable-use/v2/', label: 'Acceptable Use v2', title: 'Acceptable Use Policy v2', description: 'Version 2 of the AliasMode Acceptable Use Policy, effective August 12, 2026.', kind: 'legal', parent: '/acceptable-use/', sitemap: false,
+  },
 ].map((route) => ({ ...route, path: canonicalPath(route.path) }));
 
 const routeMap = new Map(siteRoutes.map((route) => [route.path, route]));
