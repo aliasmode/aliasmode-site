@@ -16,11 +16,10 @@ import { siteConfig } from '../../site.config.mjs';
 
 <style>
   .contact-grid { display: grid; gap: 1rem; grid-template-columns: 1.1fr .9fr; margin-top: 3rem; }
-  .contact-grid .card { border-radius: 1rem; padding: clamp(1.5rem, 4vw, 2.6rem); }
-  .contact-grid .card p:not(.contact-label) { color: var(--muted); }
-  .contact-grid .card a:not(.button) { color: var(--accent-bright); font-weight: 700; }
-  .donation-card { background: linear-gradient(160deg, rgba(61, 107, 255, .22), rgba(49, 184, 199, .12)), var(--panel) !important; border-color: rgba(110, 231, 242, .4); box-shadow: 0 0 3rem rgba(61, 107, 255, .16); }
-  .contact-label { color: var(--accent); font: 700 .68rem/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
-  .donation-card .contact-label { color: var(--accent-bright); }
+  .contact-grid .card { border-radius: 0; padding: clamp(1.5rem, 4vw, 2.6rem); }
+  .donation-card { background: #111827; border-color: #111827; color: white; }
+  .donation-card p:not(.contact-label) { color: #bac6d8; }
+  .contact-label { color: #536eae; font: 800 .68rem/1.2 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .donation-card .contact-label { color: #8da7ff; }
   @media (max-width: 44rem) { .contact-grid { grid-template-columns: 1fr; } }
 </style>

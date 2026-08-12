@@ -99,30 +99,26 @@ if (!route || (!page && !comparison)) throw new Error(`Missing SEO content for $
 )}
 
 <style>
-  .tested { color: var(--muted); font-size: .82rem; margin-top: 1.1rem; }
-  .tested strong { color: var(--accent-bright); }
-  .direct-answer { background: linear-gradient(90deg, rgba(61, 107, 255, .12), rgba(49, 184, 199, .07)); border: 1px solid rgba(110, 231, 242, .3); border-left: .35rem solid var(--accent); border-radius: .8rem; margin: 3rem 0; padding: clamp(1.4rem, 4vw, 2.5rem); }
+  .tested { color: #526077; font-size: .82rem; margin-top: 1.1rem; }
+  .direct-answer { background: #eaf0ff; border-left: .35rem solid #2457d6; margin: 3rem 0; padding: clamp(1.4rem, 4vw, 2.5rem); }
   .direct-answer h2, .comparison-section h2, .migration h2, .sources h2, .criteria h2 { font-size: clamp(1.9rem, 4vw, 3rem); }
-  .direct-answer p:last-child { color: var(--muted); font-size: 1.1rem; max-width: 75ch; }
+  .direct-answer p:last-child { font-size: 1.1rem; max-width: 75ch; }
   .comparison-section, .migration, .sources, .criteria { margin-top: 4.5rem; }
-  .comparison-section p, .migration p, .criteria p, .migration li, .criteria li { color: var(--muted); }
   .fit-grid { display: grid; gap: 1px; grid-template-columns: 1fr 1fr; margin-top: 3rem; }
-  .fit-grid > div { background: linear-gradient(180deg, rgba(139, 167, 255, .05), rgba(139, 167, 255, .015)); border: 1px solid var(--line); padding: clamp(1.4rem, 3vw, 2.2rem); }
-  .fit-grid > div + div { background: rgba(49, 184, 199, .05); }
-  .fit-grid li { color: var(--muted); }
-  .calculator { background: linear-gradient(160deg, rgba(61, 107, 255, .18), rgba(49, 184, 199, .08)), var(--panel); border: 1px solid rgba(110, 231, 242, .3); border-radius: 1.2rem; color: white; display: grid; gap: 2rem; grid-template-columns: 1.2fr .8fr; margin: 3rem 0 4rem; padding: clamp(1.4rem, 4vw, 2.8rem); }
+  .fit-grid > div { background: #fff; border: 1px solid #dbe3ee; padding: clamp(1.4rem, 3vw, 2.2rem); }
+  .fit-grid > div + div { background: #f0f4fa; }
+  .calculator { background: #111827; color: white; display: grid; gap: 2rem; grid-template-columns: 1.2fr .8fr; margin: 3rem 0 4rem; padding: clamp(1.4rem, 4vw, 2.8rem); }
   .calculator-inputs { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); }
-  .calculator label { color: var(--muted); display: flex; flex-direction: column; font-size: .78rem; font-weight: 700; gap: .45rem; }
-  .calculator input { background: rgba(4, 6, 11, .7); border: 1px solid var(--line-strong); border-radius: .45rem; color: var(--ink); font: 700 1.2rem/1.2 inherit; min-width: 0; padding: .8rem; width: 100%; }
-  .calculator input:focus { border-color: var(--accent); }
+  .calculator label { color: #c7d2e3; display: flex; flex-direction: column; font-size: .78rem; font-weight: 700; gap: .45rem; }
+  .calculator input { background: #fff; border: 2px solid transparent; border-radius: .25rem; color: #172033; font: 750 1.2rem/1.2 inherit; min-width: 0; padding: .8rem; width: 100%; }
   .calculator-results { display: grid; gap: .75rem; }
-  .calculator-results div { background: rgba(4, 6, 11, .55); border: 1px solid var(--line); border-radius: .6rem; padding: 1rem; }
-  .calculator-results span { color: var(--faint); display: block; font-size: .75rem; }
-  .calculator-results strong { color: var(--accent-bright); display: block; font-family: var(--font-display); font-size: 1.8rem; margin-top: .2rem; }
-  .provider-table { background: rgba(139, 167, 255, .03); border: 1px solid var(--line); border-radius: .8rem; margin: 2rem 0 4rem; }
-  .provider-table td { color: var(--muted); min-width: 13rem; }
-  .provider-table th[scope="row"] { background: rgba(139, 167, 255, .06); color: var(--ink); font-size: 1rem; text-transform: none; }
-  .provider-table a, .sources a { color: var(--accent-bright); font-weight: 700; }
+  .calculator-results div { background: #1e2b41; padding: 1rem; }
+  .calculator-results span { color: #aab8cd; display: block; font-size: .75rem; }
+  .calculator-results strong { display: block; font-size: 1.8rem; margin-top: .2rem; }
+  .provider-table { background: #fff; border: 1px solid #dbe3ee; margin: 2rem 0 4rem; }
+  .provider-table td { min-width: 13rem; }
+  .provider-table th[scope="row"] { background: #f7f9fc; font-size: 1rem; text-transform: none; }
+  .provider-table a, .sources a { color: #2457d6; font-weight: 700; }
   @media (max-width: 48rem) {
     .fit-grid, .calculator { grid-template-columns: 1fr; }
     .calculator-inputs { grid-template-columns: 1fr; }
