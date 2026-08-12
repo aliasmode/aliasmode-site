@@ -3,7 +3,8 @@ import { published, releasePage } from '../data/release';
 import GitHubButton from './GitHubButton.astro';
 ---
 {published ? (
-  <section class="card">
+  <section class="card download-card">
+    <p class="eyebrow">Latest release</p>
     <h2>Download for Windows</h2>
     <p>Version {published.version}</p>
     <div class="download-actions"><a class="button" href={published.downloadUrl}>Download {published.windowsFile}</a><GitHubButton href={published.pageUrl} label="Source code and release notes" tone="outline" compact /></div>
@@ -20,4 +21,5 @@ import GitHubButton from './GitHubButton.astro';
 
 <style>
   .download-actions { align-items: center; display: flex; flex-wrap: wrap; gap: .7rem; margin: 1rem 0; }
+  .download-card { border-color: rgba(110, 231, 242, .35); box-shadow: 0 0 3rem rgba(49, 184, 199, .12); }
 </style>
