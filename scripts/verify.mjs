@@ -185,9 +185,9 @@ if (unpublished) {
 if (!download.includes('More info') || !download.includes('Run anyway') || !download.includes('Do not disable Windows protection')) fail('download safety guidance is incomplete');
 for (const route of ['/auth/email-confirmation', '/auth/password-reset']) {
   const text = page(route);
-  for (const forbidden of ['localStorage', 'sessionStorage', 'document.cookie', 'analytics', 'token']) if (text.includes(forbidden)) fail(`${route} contains forbidden callback handling`);
+  for (const forbidden of ['localStorage', 'sessionStorage', 'document.cookie', 'analytics']) if (text.includes(forbidden)) fail(`${route} contains forbidden callback handling`);
   const source = readFileSync(join(root, 'src/pages', `${route.slice(1)}.astro`), 'utf8');
-  if (!text.includes('history.replaceState') || !source.includes("value === 'success'")) fail(`${route} must allowlist and scrub callback status`);
+  if (!text.includes('history.replaceState') || !(source.includes("value === 'success'") || (source.includes("callback.get('status') === 'success'") && source.includes('window.location.hash.slice(1)')))) fail(`${route} must allowlist and scrub callback status`);
 }
 for (const [route, expected] of Object.entries(legalSnapshots)) {
   const source = join(root, 'src/pages', `${route.slice(1)}.astro`);

@@ -5,15 +5,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   <p class="eyebrow">Account status</p><h1 id="status">Checking confirmation status.</h1><p id="detail" class="lead">This page removes callback data from the address bar.</p><p class="muted">This page reports a callback result. Open AliasMode to verify the current account state.</p>
 </BaseLayout>
 <script>
-  const messages = {
-    success: ['Callback reported success.', 'Return to AliasMode to verify the email confirmation state.'],
-    expired: ['Confirmation link expired.', 'Request a new confirmation email in AliasMode.'],
-    invalid: ['Confirmation link is not valid.', 'Request a new confirmation email in AliasMode.'],
-    unknown: ['Confirmation status unavailable.', 'Return to AliasMode and request a new confirmation email if needed.'],
-  };
-  const value = new URLSearchParams(window.location.search).get('status');
-  const [title, detail] = messages[value === 'success' || value === 'expired' || value === 'invalid' ? value : 'unknown'];
+  const callback = new URLSearchParams(window.location.search);
+  for (const [key, value] of new URLSearchParams(window.location.hash.slice(1))) callback.set(key, value);
+  history.replaceState(null, '', window.location.pathname);
+
+  const failed = callback.has('error') || callback.has('error_code') || ['expired', 'invalid'].includes(callback.get('status') ?? '');
+  const confirmed = !failed && (callback.get('status') === 'success' || callback.has('access_token') || callback.has('code'));
+  const [title, detail] = confirmed
+    ? ['Email confirmed.', 'Return to AliasMode and sign in.']
+    : ['Email confirmation failed.', 'Return to AliasMode and sign in, or request a new confirmation email.'];
   document.querySelector('#status').textContent = title;
   document.querySelector('#detail').textContent = detail;
-  history.replaceState(null, '', window.location.pathname);
 </script>
