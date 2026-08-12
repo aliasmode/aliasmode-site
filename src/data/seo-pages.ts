@@ -512,11 +512,11 @@ export const seoPages: SeoPage[] = [
   {
     path: '/blog/',
     eyebrow: 'Maintained research',
-    headline: 'Evidence for browser-profile operating decisions.',
-    lead: 'AliasMode research pages publish their method, source dates, and evidence state so agencies can compare proxy and workflow options without hidden scoring.',
+    headline: 'Research for browser-profile operating decisions.',
+    lead: 'AliasMode research pages publish their method and source dates so agencies can compare proxy and workflow options.',
     children: ['/blog/static-residential-proxies-browser-profiles/'],
     sections: [
-      { title: 'Static residential proxies', paragraphs: ['Compare provider claims and public plan details against a consistent set of criteria for persistent browser profiles.'], links: [{ href: '/blog/static-residential-proxies-browser-profiles/', label: 'Open the provider comparison' }] },
+      { title: 'Static residential proxies', paragraphs: ['Compare public plan details against a consistent set of criteria for persistent browser profiles.'], links: [{ href: '/blog/static-residential-proxies-browser-profiles/', label: 'Open the provider comparison' }] },
       { title: 'Supporting guides', paragraphs: ['Use the provider shortlist with the static-versus-rotating guide, AliasMode proxy setup, and the agency calculator.'], links: [{ href: '/guides/static-vs-rotating-proxies/', label: 'Choose a proxy session model' }, { href: '/tools/agency-proxy-budget-calculator/', label: 'Estimate monthly cost' }] },
     ],
   },
@@ -524,13 +524,12 @@ export const seoPages: SeoPage[] = [
     path: '/blog/static-residential-proxies-browser-profiles/',
     eyebrow: 'Proxy provider research',
     headline: 'Static residential proxies for persistent profiles.',
-    lead: 'Compare public provider information using the same session, targeting, protocol, commitment, replacement, and pricing criteria. This maintained shortlist records evidence instead of forcing a universal ranking.',
+    lead: 'Compare public provider information using the same session, targeting, protocol, commitment, replacement, and pricing criteria.',
     template: 'providers',
     lastTested: '2026-08-10',
     sections: [
-      { title: 'Published method', paragraphs: ['We record whether a provider offers static or sticky residential sessions, dedicated or shared IPs, location targeting, HTTP/HTTPS/SOCKS5, authentication, bandwidth and concurrency terms, minimum commitment, and replacement policy. Public provider statements remain provider claims until equivalent testing is available.'] },
+      { title: 'Published method', paragraphs: ['We record whether a provider offers static or sticky residential sessions, dedicated or shared IPs, location targeting, HTTP/HTTPS/SOCKS5, authentication, bandwidth and concurrency terms, minimum commitment, and replacement policy.'] },
       { title: 'How to choose', paragraphs: ['Start with the required country or region, session lifetime, simultaneous profile count, authentication support, and monthly commitment. Calculate cost per usable persistent IP rather than comparing only a headline price.'] },
-      { title: 'Disclosure', paragraphs: ['AliasMode is built by Xreacher. Any ownership, partnership, referral, affiliate, or commercial relationship involving a listed provider is disclosed in the provider record. Relationships do not change the comparison criteria.'] },
     ],
   },
 ];

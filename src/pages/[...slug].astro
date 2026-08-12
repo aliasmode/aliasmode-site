@@ -34,7 +34,7 @@ if (!route || (!page && !comparison)) throw new Error(`Missing SEO content for $
         <div><p class="eyebrow">Choose {comparison.name} when</p><ul>{comparison.competitorFits.map((item) => <li>{item}</li>)}</ul></div>
       </section>
       <section class="migration"><p class="eyebrow">Migration plan</p><h2>Move one verified workflow at a time.</h2><ol>{comparison.migration.map((item) => <li>{item}</li>)}</ol></section>
-      <section class="sources"><p class="eyebrow">Sources</p><h2>Official product evidence</h2><ul class="source-list">{comparison.sources.map((source) => <li><a href={source.href} rel="noreferrer">{source.label}</a></li>)}</ul><p class="muted">AliasMode is not affiliated with {comparison.name}. Public product details can change after the verification date.</p></section>
+      <section class="sources"><p class="eyebrow">Sources</p><h2>Official product evidence</h2><ul class="source-list">{comparison.sources.map((source) => <li><a href={source.href} rel="noreferrer">{source.label}</a></li>)}</ul><p class="muted">Public product details can change after the verification date.</p></section>
       <RelatedLinks paths={route.related ?? []} title="Evaluate the next step" />
     </article>
   ) : page && (
@@ -63,8 +63,8 @@ if (!route || (!page && !comparison)) throw new Error(`Missing SEO content for $
           <section class="criteria"><p class="eyebrow">Evaluation criteria</p><h2>The same questions for every provider.</h2><ol>{proxyCriteria.map((criterion) => <li>{criterion}</li>)}</ol></section>
           <div class="table-scroll provider-table">
             <table>
-              <thead><tr><th>Provider</th><th>Best fit</th><th>Public offer</th><th>Targeting and protocols</th><th>Commercial model</th><th>Evidence</th></tr></thead>
-              <tbody>{proxyProviders.map((provider) => <tr><th scope="row"><a href={provider.source} rel="noreferrer">{provider.name}</a></th><td>{provider.fit}</td><td>{provider.publicOffer}</td><td>{provider.targeting} {provider.protocols}</td><td>{provider.commercialModel}</td><td><strong>{provider.evidence}</strong><br />{provider.relationship}<br /><a href={provider.source} rel="noreferrer">{provider.sourceLabel}</a></td></tr>)}</tbody>
+              <thead><tr><th>Provider</th><th>Best fit</th><th>Public offer</th><th>Targeting and protocols</th><th>Commercial model</th><th>Source</th></tr></thead>
+              <tbody>{proxyProviders.map((provider) => <tr><th scope="row"><a href={provider.source} rel="noreferrer">{provider.name}</a></th><td>{provider.fit}</td><td>{provider.publicOffer}</td><td>{provider.targeting} {provider.protocols}</td><td>{provider.commercialModel}</td><td><a href={provider.source} rel="noreferrer">{provider.sourceLabel}</a></td></tr>)}</tbody>
             </table>
           </div>
         </>
