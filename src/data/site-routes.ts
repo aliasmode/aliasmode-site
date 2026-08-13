@@ -224,9 +224,9 @@ export const siteRoutes: SiteRoute[] = [
     path: '/integrations/',
     label: 'Integrations',
     title: 'AliasMode Browser Automation Integrations',
-    description: 'Connect AliasMode browser profiles to an AdsPower-compatible local API subset and Playwright automation over CDP.',
+    description: 'Import profiles from other antidetect browsers, connect an AdsPower-compatible local API subset, and run Playwright automation over CDP.',
     kind: 'integration',
-    related: ['/integrations/adspower-api/', '/integrations/playwright/', '/docs/local-api/'],
+    related: ['/integrations/adspower-api/', '/integrations/playwright/', '/integrations/import/', '/docs/local-api/'],
   },
   {
     path: '/integrations/adspower-api/',
@@ -236,6 +236,15 @@ export const siteRoutes: SiteRoute[] = [
     kind: 'integration',
     parent: '/integrations/',
     related: ['/docs/local-api/', '/alternatives/adspower/', '/integrations/playwright/'],
+  },
+  {
+    path: '/integrations/import/',
+    label: 'Profile import',
+    title: 'Import Browser Profiles from AdsPower and Other Antidetect Browsers',
+    description: 'Export profiles from AdsPower, GoLogin, Multilogin, or Dolphin Anty to a text file and import them all into AliasMode in one step.',
+    kind: 'integration',
+    parent: '/integrations/',
+    related: ['/alternatives/', '/docs/browser-profiles/', '/download/'],
   },
   {
     path: '/integrations/playwright/',
