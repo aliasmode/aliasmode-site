@@ -18,7 +18,7 @@ export interface SeoPage {
   facts?: { value: string; label: string }[];
   sections: SeoSection[];
   children?: string[];
-  template?: 'standard' | 'calculator' | 'providers';
+  template?: 'standard' | 'calculator' | 'providers' | 'detection';
   lastTested?: string;
 }
 
@@ -331,8 +331,15 @@ export const seoPages: SeoPage[] = [
     headline: 'Install the CloakBrowser runtime.',
     lead: 'AliasMode manages profiles and launches them in CloakBrowser. The runtime installs separately from the Apache-2.0 AliasMode desktop client and retains its own license.',
     lastTested: '2026-08-10',
+    template: 'detection',
+    facts: [
+      { value: '0.9', label: 'reCAPTCHA v3 score — rated human' },
+      { value: 'Pass', label: 'Cloudflare Turnstile' },
+      { value: 'Chrome-identical', label: 'TLS fingerprint' },
+    ],
     sections: [
       { title: 'Install from AliasMode', paragraphs: ['Open AliasMode and follow the browser installation prompt. Let the app complete the runtime download and installation before creating the first browser session.'] },
+      { title: 'Why the runtime matters', paragraphs: ['Websites and protection vendors check whether a browser behaves like a normal human-driven Chrome install. Out-of-the-box automation tools such as Playwright or headless Chrome fail many of these checks. CloakBrowser is patched at the browser source level, so the signals detection scripts read — from the user agent down to the TLS fingerprint — match a genuine Chrome browser. See the full test results below.'] },
       { title: 'License boundary', paragraphs: ['The AliasMode desktop client is Apache-2.0 open source. That license does not apply to CloakBrowser. AliasMode Cloud is also a managed service with a separate source and service boundary.'], links: [{ href: '/product/', label: 'Review the product architecture' }] },
       { title: 'Verify the runtime', paragraphs: ['Create a test profile and open it. A successful setup starts CloakBrowser with the profile’s persistent data directory and selected settings. If installation or launch fails, check the troubleshooting page.'], links: [{ href: '/docs/getting-started/', label: 'Open a first profile' }, { href: '/docs/troubleshooting/', label: 'Fix browser launch problems' }] },
     ],

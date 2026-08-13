@@ -162,7 +162,7 @@ export const siteRoutes: SiteRoute[] = [
     path: '/docs/cloakbrowser/',
     label: 'CloakBrowser',
     title: 'Install CloakBrowser for AliasMode',
-    description: 'Install the separately licensed CloakBrowser runtime that AliasMode uses to open persistent browser profiles on Windows.',
+    description: 'Install the separately licensed CloakBrowser runtime that AliasMode uses to open persistent browser profiles on Windows, and review its third-party bot-detection test results.',
     kind: 'documentation',
     parent: '/docs/',
     related: ['/docs/getting-started/', '/download/', '/product/'],

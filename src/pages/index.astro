@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import DownloadPanel from '../components/DownloadPanel.astro';
 import GitHubButton from '../components/GitHubButton.astro';
 import PricingPlans from '../components/PricingPlans.astro';
+import { homepageDetectionStats } from '../data/detection-results';
 ---
 <BaseLayout
   title="Free Open-Source Antidetect Browser"
@@ -70,6 +71,25 @@ import PricingPlans from '../components/PricingPlans.astro';
       <p>Sync encrypted portable profiles, invite teammates, and work together through one shared workspace.</p>
     </article>
   </div>
+
+  <section class="detection-section" id="detection">
+    <div class="detection-copy">
+      <p class="eyebrow">Detection-tested runtime</p>
+      <h2>Passes the bot checks real platforms use.</h2>
+      <p>Every profile opens in CloakBrowser, a Chrome-based runtime patched at the source — so websites see a normal human-driven browser, not an automation tool. Standard automated browsers like out-of-the-box Playwright or headless Chrome fail these same checks.</p>
+      <a class="text-link" href="/docs/cloakbrowser/#detection-results">See the full third-party test results <span>→</span></a>
+    </div>
+    <div class="detection-stats">
+      {homepageDetectionStats.map((stat) => (
+        <div class="detection-stat">
+          <strong>{stat.value}</strong>
+          <span>{stat.label}</span>
+          <small>{stat.standard}</small>
+        </div>
+      ))}
+    </div>
+    <p class="detection-note">Independent public test services, point-in-time results. Detection vendors update their checks continuously.</p>
+  </section>
 
   <section class="workflow-section">
     <div class="workflow-copy">
@@ -210,6 +230,16 @@ import PricingPlans from '../components/PricingPlans.astro';
   .feature-card.featured p { color: #dfe8ff; }
   .feature-number { color: #7891b5; font: 700 .72rem/1 ui-monospace, monospace; }
   .feature-card.featured .feature-number { color: #a9bdff; }
+  .detection-section { margin-bottom: 7rem; scroll-margin-top: 2rem; }
+  .detection-section .detection-copy { margin-bottom: 2.5rem; }
+  .detection-copy h2 { font-size: clamp(2.2rem, 4vw, 3.7rem); max-width: 18ch; }
+  .detection-copy p:not(.eyebrow) { color: #526077; font-size: 1.05rem; max-width: 62ch; }
+  .detection-stats { display: grid; gap: 1rem; grid-template-columns: repeat(4, 1fr); }
+  .detection-stat { background: #fff; border: 1px solid #dbe3ee; display: flex; flex-direction: column; padding: 1.4rem; }
+  .detection-stat strong { color: #116b46; font-size: 1.7rem; }
+  .detection-stat span { color: #26344a; font-size: .85rem; font-weight: 700; margin-top: .4rem; }
+  .detection-stat small { color: #7a879a; font-size: .72rem; margin-top: .6rem; }
+  .detection-note { color: #7a879a; font-size: .78rem; margin-top: 1.1rem; }
   .workflow-section { align-items: center; background: #111827; color: white; display: grid; gap: 4rem; grid-template-columns: .85fr 1.15fr; margin: 0 calc(50% - 50vw) 7rem; padding: 5rem max(1.5rem, calc((100vw - 69rem) / 2)); }
   .workflow-copy h2, .open-section h2, .local-section h2 { font-size: clamp(2rem, 4vw, 3.4rem); }
   .workflow-copy p:not(.eyebrow) { color: #aebbd0; }
@@ -257,11 +287,13 @@ import PricingPlans from '../components/PricingPlans.astro';
   @media (max-width: 58rem) {
     .hero { grid-template-columns: 1fr; }.hero::before { left: 25%; }.workspace { margin-inline: auto; max-width: 40rem; transform: none; width: 100%; }
     .feature-grid { grid-template-columns: 1fr; }.feature-card { min-height: auto; }.feature-card h3 { margin-top: 2.5rem; }.feature-card.featured { transform: none; }
+    .detection-stats { grid-template-columns: 1fr 1fr; }
     .workflow-section, .api-section, .open-section, .local-section, .maker-section { grid-template-columns: 1fr; }.open-section .code-card { max-width: 36rem; width: 100%; }
   }
   @media (max-width: 42rem) {
     .hero { min-height: auto; padding-top: 0; }.hero h1 { font-size: clamp(2.5rem, 10.5vw, 3.25rem); max-width: 15ch; }.workspace-body { grid-template-columns: 1fr; }.workspace aside { display: none; }.profile-board { padding: .9rem; }
     .proof-row { grid-template-columns: 1fr 1fr; margin-bottom: 5rem; }.proof-row div:nth-child(3) { border-left: 0; border-top: 1px solid #dbe3ee; }.proof-row div:nth-child(4) { border-top: 1px solid #dbe3ee; }
+    .detection-stats { grid-template-columns: 1fr; }
     .workflow-section { gap: 2rem; padding-block: 3.5rem; }.open-section { margin-bottom: 5rem; }.local-section { gap: 1rem; padding: 1.5rem; }.pathways-grid { grid-template-columns: 1fr; }.maker-section { gap: 1rem; }
   }
   @media (prefers-reduced-motion: reduce) { .text-link span { transition: none; } }

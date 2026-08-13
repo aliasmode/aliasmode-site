@@ -1,0 +1,76 @@
+---
+import { browserInternalsResults, detectionBaseline, detectionLastTested, liveServiceResults } from '../data/detection-results';
+import type { DetectionResult } from '../data/detection-results';
+---
+
+<section class="detection-results" id="detection-results">
+  <p class="eyebrow">Detection test results</p>
+  <h2>Tested against the bot checks real platforms use.</h2>
+  <p class="detection-lead">
+    Every AliasMode profile opens in CloakBrowser, a Chrome-based runtime patched at the source so websites see a
+    normal browser — not an automation tool. The tables below compare CloakBrowser with a
+    <strong>{detectionBaseline.toLowerCase()}</strong> on public detection services. Results last verified
+    <strong>{detectionLastTested}</strong>.
+  </p>
+
+  <h3>Live detection services</h3>
+  <p class="group-note">Public test sites and the protection vendors used on production platforms.</p>
+  <div class="table-scroll detection-table">
+    <table>
+      <thead>
+        <tr><th>Check</th><th>Standard automated browser</th><th>CloakBrowser</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        {liveServiceResults.map((row: DetectionResult) => (
+          <tr>
+            <th scope="row">{row.check}</th>
+            <td class="result-standard">{row.standard}</td>
+            <td class="result-cloak">{row.cloak}</td>
+            <td>{row.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Browser internals</h3>
+  <p class="group-note">Low-level signals that detection scripts read directly from the browser.</p>
+  <div class="table-scroll detection-table">
+    <table>
+      <thead>
+        <tr><th>Signal</th><th>Standard automated browser</th><th>CloakBrowser</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        {browserInternalsResults.map((row: DetectionResult) => (
+          <tr>
+            <th scope="row"><code>{row.check}</code></th>
+            <td class="result-standard">{row.standard}</td>
+            <td class="result-cloak">{row.cloak}</td>
+            <td>{row.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="detection-disclaimer">
+    These are point-in-time results from independent public test services — you can reproduce them yourself against a
+    CloakBrowser profile. Detection vendors update their checks continuously, and no browser can guarantee a pass on
+    every service forever.
+  </p>
+</section>
+
+<style>
+  .detection-results { margin: 4.5rem 0; }
+  .detection-results h2 { font-size: clamp(1.9rem, 4vw, 3rem); max-width: 20ch; }
+  .detection-results h3 { font-size: 1.15rem; margin: 2.5rem 0 .35rem; }
+  .detection-lead { color: #526077; font-size: 1.05rem; max-width: 72ch; }
+  .group-note { color: #64748b; font-size: .85rem; margin: 0 0 .75rem; }
+  .detection-table { background: #fff; border: 1px solid #dbe3ee; }
+  .detection-table th[scope="row"] { background: #f7f9fc; color: #172033; font-size: .88rem; letter-spacing: 0; text-transform: none; }
+  .detection-table th[scope="row"] code { background: transparent; padding: 0; }
+  .detection-table td { min-width: 11rem; }
+  .result-standard { color: #8a4a12; }
+  .result-cloak { color: #116b46; font-weight: 700; }
+  .detection-disclaimer { color: #526077; font-size: .82rem; margin-top: 1.25rem; max-width: 75ch; }
+</style>
