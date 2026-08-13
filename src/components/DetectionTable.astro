@@ -37,8 +37,8 @@ const isTechnical = (check: string) => /^(navigator\.|window\.|UA string|CDP|TLS
         {detectionResults.map((row: DetectionResult) => (
           <tr>
             <th scope="row">{isTechnical(row.check) ? <code>{row.check}</code> : row.check}</th>
-            <td class="result-standard">{row.standard}</td>
-            <td class="result-cloak">{row.cloak}</td>
+            <td><span class="chip chip-fail">{row.standard}</span></td>
+            <td><span class="chip chip-pass">{row.cloak}</span></td>
             <td class="result-note">{row.note}</td>
           </tr>
         ))}
@@ -59,15 +59,23 @@ const isTechnical = (check: string) => /^(navigator\.|window\.|UA string|CDP|TLS
   .detection-results h2 { font-size: clamp(1.9rem, 4vw, 3rem); max-width: 22ch; }
   .detection-lead { color: #526077; font-size: 1.05rem; max-width: 72ch; }
   .detection-meta { color: #26344a; font-size: .85rem; margin: 1.25rem 0 1.5rem; }
-  .detection-table { background: #fff; border: 1px solid #dbe3ee; }
+  .detection-table { background: #fff; border: 1px solid #e2e8f2; border-radius: .8rem; box-shadow: 0 .4rem 1.2rem rgba(23, 45, 84, .06); overflow-x: auto; }
+  .detection-table table { min-width: 44rem; }
+  .detection-table tbody tr:last-child th, .detection-table tbody tr:last-child td { border-bottom: 0; }
+  .detection-table tbody tr { transition: background .12s ease; }
+  .detection-table tbody tr:hover { background: #f5f8fd; }
+  .detection-table tbody tr:hover th[scope="row"] { background: #eef3fb; }
   .detection-table th[scope="row"] { background: #f7f9fc; color: #172033; font-size: .88rem; font-weight: 700; letter-spacing: 0; text-transform: none; white-space: nowrap; }
   .detection-table th[scope="row"] code { background: transparent; padding: 0; }
   .detection-table td { min-width: 8rem; }
   .detection-table td.result-note { color: #64748b; font-size: .8rem; min-width: 10rem; }
   .col-standard { background: #fdf1ec; }
   .col-cloak { background: #ecf8f1; }
-  .result-standard { color: #b3382e; font-weight: 700; }
-  .result-cloak { color: #116b46; font-weight: 750; }
+  .chip { border-radius: 2rem; display: inline-block; font-size: .78rem; font-weight: 700; padding: .3rem .7rem; white-space: nowrap; }
+  .chip-fail { background: #fbe9e5; color: #b3382e; }
+  .chip-fail::before { content: '\2715\00a0'; font-size: .7em; }
+  .chip-pass { background: #dff3e9; color: #0e6b45; }
+  .chip-pass::before { content: '\2713\00a0'; }
   .detection-baseline { color: #526077; font-size: .85rem; margin-top: 1.1rem; max-width: 75ch; }
   .detection-disclaimer { color: #7a879a; font-size: .8rem; margin-top: .5rem; max-width: 75ch; }
 </style>
