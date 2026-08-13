@@ -1,8 +1,9 @@
 // Third-party bot-detection test results for the CloakBrowser runtime.
 // Point-in-time results from public test services; detection vendors update
-// their checks continuously, so keep `lastTested` current when re-running.
+// their checks continuously, so keep `detectionLastTested` current when re-running.
 
-export const detectionLastTested = '2026-08-10';
+export const detectionLastTested = 'Jul 2026';
+export const detectionBrowserVersion = 'Chromium 150';
 
 export interface DetectionResult {
   check: string;
@@ -11,118 +12,25 @@ export interface DetectionResult {
   note: string;
 }
 
-export const detectionBaseline =
-  'Standard automated browser (out-of-the-box Playwright or headless Chrome/Chromium)';
+// "Standard" means an out-of-the-box automated browser: stock Playwright or
+// headless Chrome/Chromium, the defaults most automation scripts use.
+export const detectionBaselineShort = 'Standard automated browser';
+export const detectionBaselineExplain =
+  'A standard automated browser is out-of-the-box Playwright or headless Chrome/Chromium — the default setup most automation scripts and bots use.';
 
-export const liveServiceResults: DetectionResult[] = [
-  {
-    check: 'Google reCAPTCHA v3 score',
-    standard: '0.1 — flagged as a bot',
-    cloak: '0.9 — rated human',
-    note: 'Score verified server-side by Google.',
-  },
-  {
-    check: 'Cloudflare Turnstile (non-interactive)',
-    standard: 'Fail',
-    cloak: 'Pass',
-    note: 'Resolves automatically, no checkbox.',
-  },
-  {
-    check: 'Cloudflare Turnstile (managed)',
-    standard: 'Fail',
-    cloak: 'Pass',
-    note: 'Resolves with a single click.',
-  },
-  {
-    check: 'ShieldSquare',
-    standard: 'Blocked',
-    cloak: 'Pass',
-    note: 'Tested on a production site protected by ShieldSquare.',
-  },
-  {
-    check: 'FingerprintJS bot detection',
-    standard: 'Detected',
-    cloak: 'Pass',
-    note: 'Tested on demo.fingerprint.com.',
-  },
-  {
-    check: 'BrowserScan bot detection',
-    standard: 'Detected',
-    cloak: 'Normal (4/4 checks)',
-    note: 'Tested on browserscan.net.',
-  },
-  {
-    check: 'bot.incolumitas.com',
-    standard: '13 failed checks',
-    cloak: 'Pass',
-    note: 'All bot checks passed.',
-  },
-  {
-    check: 'deviceandbrowserinfo.com',
-    standard: '6 bot flags raised',
-    cloak: '0 flags — isBot: false',
-    note: 'No automation flags reported.',
-  },
+export const detectionResults: DetectionResult[] = [
+  { check: 'reCAPTCHA v3', standard: '0.1 (bot)', cloak: '0.9 (human)', note: 'Server-side verified' },
+  { check: 'Cloudflare Turnstile (non-interactive)', standard: 'FAIL', cloak: 'PASS', note: 'Auto-resolve' },
+  { check: 'Cloudflare Turnstile (managed)', standard: 'FAIL', cloak: 'PASS', note: 'Single click' },
+  { check: 'ShieldSquare', standard: 'BLOCKED', cloak: 'PASS', note: 'Production site' },
+  { check: 'FingerprintJS bot detection', standard: 'DETECTED', cloak: 'PASS', note: 'demo.fingerprint.com' },
+  { check: 'BrowserScan bot detection', standard: 'DETECTED', cloak: 'NORMAL (4/4)', note: 'browserscan.net' },
+  { check: 'bot.incolumitas.com', standard: '13 fails', cloak: 'PASS', note: 'Bot checks passed' },
+  { check: 'deviceandbrowserinfo.com', standard: '6 true flags', cloak: '0 true flags', note: 'isBot: false' },
+  { check: 'navigator.webdriver', standard: 'true', cloak: 'false', note: 'Source-level patch' },
+  { check: 'navigator.plugins.length', standard: '0', cloak: '5', note: 'Real plugin list' },
+  { check: 'window.chrome', standard: 'undefined', cloak: 'object', note: 'Present like real Chrome' },
+  { check: 'UA string', standard: 'HeadlessChrome', cloak: 'Chrome/150.0.0.0', note: 'No headless leak' },
+  { check: 'CDP detection', standard: 'Detected', cloak: 'Not detected', note: 'isAutomatedWithCDP: false' },
+  { check: 'TLS fingerprint', standard: 'Mismatch', cloak: 'Identical to Chrome', note: 'ja3n/ja4/akamai match' },
 ];
-
-export const browserInternalsResults: DetectionResult[] = [
-  {
-    check: 'navigator.webdriver',
-    standard: 'true (reveals automation)',
-    cloak: 'false',
-    note: 'Patched at the browser source level, not by injected scripts.',
-  },
-  {
-    check: 'navigator.plugins.length',
-    standard: '0 (no plugins)',
-    cloak: '5',
-    note: 'Reports a real plugin list like a normal Chrome install.',
-  },
-  {
-    check: 'window.chrome',
-    standard: 'undefined',
-    cloak: 'Present',
-    note: 'Exists, as it does in real Chrome.',
-  },
-  {
-    check: 'User-Agent string',
-    standard: 'Contains “HeadlessChrome”',
-    cloak: 'Chrome/150.0.0.0',
-    note: 'No headless-mode leak.',
-  },
-  {
-    check: 'CDP automation detection',
-    standard: 'Detected',
-    cloak: 'Not detected',
-    note: 'isAutomatedWithCDP reports false.',
-  },
-  {
-    check: 'TLS fingerprint (JA3N / JA4 / Akamai)',
-    standard: 'Mismatch with real Chrome',
-    cloak: 'Identical to real Chrome',
-    note: 'The encrypted connection itself looks like a genuine Chrome browser.',
-  },
-];
-
-export const homepageDetectionStats = [
-  {
-    value: '0.9 / 1.0',
-    label: 'Google reCAPTCHA v3 score — rated human',
-    standard: 'A standard automated browser scores 0.1 and is flagged as a bot.',
-  },
-  {
-    value: 'Pass',
-    label: 'Cloudflare Turnstile, interactive and non-interactive',
-    standard: 'A standard automated browser fails both variants.',
-  },
-  {
-    value: '4 / 4',
-    label: 'BrowserScan bot checks reported normal',
-    standard: 'A standard automated browser is detected.',
-  },
-  {
-    value: 'Identical',
-    label: 'TLS fingerprint matches a real Chrome browser',
-    standard: 'A standard automated browser has a mismatched fingerprint.',
-  },
-] as const;
