@@ -414,10 +414,11 @@ export const seoPages: SeoPage[] = [
     eyebrow: 'Agency workflows',
     headline: 'Choose a repeatable multi-account workflow.',
     lead: 'Start from the account operations your team already performs, then define profile ownership, proxy assignment, handoff, and offboarding.',
-    children: ['/use-cases/social-media-agencies/', '/use-cases/outreach-agencies/'],
+    children: ['/use-cases/social-media-agencies/', '/use-cases/outreach-agencies/', '/use-cases/ai-agents/'],
     sections: [
       { title: 'Social media operations', paragraphs: ['Separate authorized client sessions and keep each brand’s profile, proxy, cookies, and working owner clear.'], links: [{ href: '/use-cases/social-media-agencies/', label: 'Open the social agency workflow' }] },
       { title: 'Outreach operations', paragraphs: ['Organize client outreach profiles and handoffs, then connect a separate outreach product only where that campaign workflow needs it.'], links: [{ href: '/use-cases/outreach-agencies/', label: 'Open the outreach agency workflow' }] },
+      { title: 'AI browser agents', paragraphs: ['Connect AI agents to profiles over Playwright CDP. CloakBrowser passes the bot checks that block stock automated browsers.'], links: [{ href: '/use-cases/ai-agents/', label: 'Run agents without bot walls' }] },
       { title: 'Shared agency foundation', paragraphs: ['Both workflows benefit from consistent names, one documented owner, a recorded proxy assignment, and a clear archive or deletion step when client access ends.'], links: [{ href: '/guides/organize-client-browser-profiles/', label: 'Create the operating standard' }] },
     ],
   },
@@ -445,6 +446,25 @@ export const seoPages: SeoPage[] = [
       { title: 'Create an account workspace', paragraphs: ['Map each approved sending or research account to an AliasMode profile. Add the client, channel, market, proxy, campaign owner, and current status to the name, group, or tags.'], links: [{ href: '/guides/organize-client-browser-profiles/', label: 'Build the naming system' }] },
       { title: 'Assign the network path', paragraphs: ['Use the proxy configuration selected for that account and verify the exit before work. Keep the assignment stable for a persistent profile unless the operating plan calls for a controlled change.'], links: [{ href: '/docs/proxies/', label: 'Configure and test proxies' }, { href: '/tools/agency-proxy-budget-calculator/', label: 'Estimate proxy cost' }] },
       { title: 'Connect campaign work deliberately', paragraphs: ['AliasMode manages browser profiles. Xreacher is a separate outreach product from the same team. Use it when the campaign needs an outreach workflow; it is not required to use AliasMode.'], links: [{ href: 'https://xreacher.com/', label: 'Visit Xreacher' }] },
+    ],
+  },
+  {
+    path: '/use-cases/ai-agents/',
+    eyebrow: 'AI agents',
+    headline: 'Run AI browser agents that pass bot detection.',
+    lead: 'Connect an AI agent to an AliasMode profile over Playwright CDP. Because every profile opens in CloakBrowser, the agent browses with the signals of a normal human-driven Chrome browser instead of getting stopped by bot checks.',
+    primary: { href: '/download/', label: 'Download AliasMode free' },
+    secondary: { href: '/docs/playwright/', label: 'Connect an agent over CDP' },
+    template: 'detection',
+    facts: [
+      { value: 'CDP', label: 'Standard agent connection' },
+      { value: '0.9', label: 'reCAPTCHA v3 score — rated human' },
+      { value: 'Local', label: 'No cloud browser vendor required' },
+    ],
+    sections: [
+      { title: 'Connect the agent', paragraphs: ['Start a profile through the Local API, then connect the agent framework to the returned Chrome DevTools Protocol endpoint. Any framework that speaks CDP — Playwright-based agents, browser-use, or custom loops — can drive the opened profile.'], links: [{ href: '/docs/playwright/', label: 'Follow the Playwright connection' }, { href: '/docs/local-api/', label: 'Read the Local API reference' }] },
+      { title: 'Why agents get blocked elsewhere', paragraphs: ['Most agents run on stock Playwright or headless Chrome, which detection services flag quickly: reCAPTCHA v3 scores them as bots, Turnstile fails, and the TLS fingerprint does not match a real browser. CloakBrowser is patched at the browser source level, so the checks below pass.'], links: [{ href: '/docs/cloakbrowser/', label: 'Read about the runtime' }] },
+      { title: 'Keep agent work authorized', paragraphs: ['Point agents only at sites and accounts you are authorized to access, respect each service’s terms, and keep one agent per active profile. The AliasMode acceptable use policy applies to automated sessions too.'], links: [{ href: '/acceptable-use/', label: 'Review acceptable use' }, { href: '/docs/browser-profiles/', label: 'Set up profiles' }] },
     ],
   },
   {

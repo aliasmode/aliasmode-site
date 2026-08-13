@@ -252,7 +252,7 @@ export const siteRoutes: SiteRoute[] = [
     title: 'AliasMode Agency Use Cases',
     description: 'Choose browser-profile workflows for social media agencies, outreach agencies, client handoffs, team access, and proxy planning.',
     kind: 'use-case',
-    related: ['/use-cases/social-media-agencies/', '/use-cases/outreach-agencies/', '/agencies/'],
+    related: ['/use-cases/social-media-agencies/', '/use-cases/outreach-agencies/', '/use-cases/ai-agents/', '/agencies/'],
   },
   {
     path: '/use-cases/social-media-agencies/',
@@ -271,6 +271,15 @@ export const siteRoutes: SiteRoute[] = [
     kind: 'use-case',
     parent: '/use-cases/',
     related: ['/agencies/', '/guides/organize-client-browser-profiles/', '/tools/agency-proxy-budget-calculator/'],
+  },
+  {
+    path: '/use-cases/ai-agents/',
+    label: 'AI agents',
+    title: 'Browser Runtime for AI Agents That Passes Bot Detection',
+    description: 'Connect AI browser agents to AliasMode profiles over Playwright CDP. CloakBrowser passes the bot checks that block stock automated browsers.',
+    kind: 'use-case',
+    parent: '/use-cases/',
+    related: ['/docs/playwright/', '/docs/cloakbrowser/', '/docs/local-api/'],
   },
   {
     path: '/guides/',
