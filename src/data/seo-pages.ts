@@ -292,7 +292,7 @@ export const seoPages: SeoPage[] = [
       {
         title: 'Find the route you need',
         paragraphs: ['AliasMode implements only the documented subset below. Do not assume that an unlisted AdsPower API route is available.'],
-        bullets: ['Status — API health and compatibility', 'Browser lifecycle — start, stop, and active state', 'Session data — cookies and browser cache', 'Groups — list and create', 'Profiles — list, create, update, and delete'],
+        bullets: ['Status: API health and compatibility', 'Browser lifecycle: start, stop, and active state', 'Session data: cookies and browser cache', 'Groups: list and create', 'Profiles: list, create, update, and delete'],
         code: localApiEndpoints.join('\n'),
       },
       {
@@ -333,13 +333,13 @@ export const seoPages: SeoPage[] = [
     lastTested: '2026-08-10',
     template: 'detection',
     facts: [
-      { value: '0.9', label: 'reCAPTCHA v3 score — rated human' },
+      { value: '0.9', label: 'reCAPTCHA v3 score (rated human)' },
       { value: 'Pass', label: 'Cloudflare Turnstile' },
       { value: 'Chrome-identical', label: 'TLS fingerprint' },
     ],
     sections: [
       { title: 'Install from AliasMode', paragraphs: ['Open AliasMode and follow the browser installation prompt. Let the app complete the runtime download and installation before creating the first browser session.'] },
-      { title: 'Why the runtime matters', paragraphs: ['Websites and protection vendors check whether a browser behaves like a normal human-driven Chrome install. Out-of-the-box automation tools such as Playwright or headless Chrome fail many of these checks. CloakBrowser is patched at the browser source level, so the signals detection scripts read — from the user agent down to the TLS fingerprint — match a genuine Chrome browser. See the full test results below.'] },
+      { title: 'Why the runtime matters', paragraphs: ['Websites and protection vendors check whether a browser behaves like a normal human-driven Chrome install. Out-of-the-box automation tools such as Playwright or headless Chrome fail many of these checks. CloakBrowser is patched at the browser source level, so the signals detection scripts read, from the user agent down to the TLS fingerprint, match a genuine Chrome browser. See the full test results below.'] },
       { title: 'License boundary', paragraphs: ['The AliasMode desktop client is Apache-2.0 open source. That license does not apply to CloakBrowser. AliasMode Cloud is also a managed service with a separate source and service boundary.'], links: [{ href: '/product/', label: 'Review the product architecture' }] },
       { title: 'Verify the runtime', paragraphs: ['Create a test profile and open it. A successful setup starts CloakBrowser with the profile’s persistent data directory and selected settings. If installation or launch fails, check the troubleshooting page.'], links: [{ href: '/docs/getting-started/', label: 'Open a first profile' }, { href: '/docs/troubleshooting/', label: 'Fix browser launch problems' }] },
     ],
@@ -458,11 +458,11 @@ export const seoPages: SeoPage[] = [
     template: 'detection',
     facts: [
       { value: 'CDP', label: 'Standard agent connection' },
-      { value: '0.9', label: 'reCAPTCHA v3 score — rated human' },
+      { value: '0.9', label: 'reCAPTCHA v3 score (rated human)' },
       { value: 'Local', label: 'No cloud browser vendor required' },
     ],
     sections: [
-      { title: 'Connect the agent', paragraphs: ['Start a profile through the Local API, then connect the agent framework to the returned Chrome DevTools Protocol endpoint. Any framework that speaks CDP — Playwright-based agents, browser-use, or custom loops — can drive the opened profile.'], links: [{ href: '/docs/playwright/', label: 'Follow the Playwright connection' }, { href: '/docs/local-api/', label: 'Read the Local API reference' }] },
+      { title: 'Connect the agent', paragraphs: ['Start a profile through the Local API, then connect the agent framework to the returned Chrome DevTools Protocol endpoint. Any framework that speaks CDP, including Playwright-based agents, browser-use, or custom loops, can drive the opened profile.'], links: [{ href: '/docs/playwright/', label: 'Follow the Playwright connection' }, { href: '/docs/local-api/', label: 'Read the Local API reference' }] },
       { title: 'Why agents get blocked elsewhere', paragraphs: ['Most agents run on stock Playwright or headless Chrome, which detection services flag quickly: reCAPTCHA v3 scores them as bots, Turnstile fails, and the TLS fingerprint does not match a real browser. CloakBrowser is patched at the browser source level, so the checks below pass.'], links: [{ href: '/docs/cloakbrowser/', label: 'Read about the runtime' }] },
       { title: 'Keep agent work authorized', paragraphs: ['Point agents only at sites and accounts you are authorized to access, respect each service’s terms, and keep one agent per active profile. The AliasMode acceptable use policy applies to automated sessions too.'], links: [{ href: '/acceptable-use/', label: 'Review acceptable use' }, { href: '/docs/browser-profiles/', label: 'Set up profiles' }] },
     ],
@@ -508,7 +508,7 @@ export const seoPages: SeoPage[] = [
     headline: 'Give every client profile a name, owner, and lifecycle.',
     lead: 'A consistent profile system reduces accidental crossover and makes handoffs easier to audit as an agency adds clients, channels, operators, and proxies.',
     sections: [
-      { title: 'Use one naming pattern', paragraphs: ['Choose fields operators can scan without opening the profile. Keep the sequence stable across teams and document the allowed status values.'], code: 'CLIENT — CHANNEL — MARKET — ACCOUNT — OWNER — STATUS', bullets: ['Acme — Social — US — Brand A — Dana — Active', 'Northstar — Outreach — UK — Research 02 — Lee — Review'] },
+      { title: 'Use one naming pattern', paragraphs: ['Choose fields operators can scan without opening the profile. Keep the sequence stable across teams and document the allowed status values.'], code: 'CLIENT · CHANNEL · MARKET · ACCOUNT · OWNER · STATUS', bullets: ['Acme · Social · US · Brand A · Dana · Active', 'Northstar · Outreach · UK · Research 02 · Lee · Review'] },
       { title: 'Group by client, tag by work', paragraphs: ['Use groups for durable client or portfolio boundaries. Use tags for workflow state, market, channel, proxy type, review date, or temporary assignments.'] },
       { title: 'Record ownership and handoff', paragraphs: ['One operator owns the active session. Close the browser, synchronize the current version, and record the next owner before another operator opens it.'], links: [{ href: '/cloud/', label: 'Use Cloud for team handoffs' }] },
       { title: 'Offboard completely', paragraphs: ['Remove workspace access, revoke devices when needed, export required client records through the approved process, then archive or delete the profile according to the engagement policy.'], links: [{ href: '/agencies/', label: 'Return to the agency workflow' }, { href: '/security/', label: 'Review device and profile controls' }] },

@@ -11,7 +11,7 @@ interface Props {
 const {
   eyebrow = 'Detection test results',
   heading = 'Tested against live bot-detection services.',
-  lead = 'Every AliasMode profile opens in CloakBrowser, a Chrome-based runtime patched at the source — so websites see a normal human-driven browser, not an automation tool. Here is how it compares on the public detection services that platforms use to screen visitors.',
+  lead = 'Every AliasMode profile opens in CloakBrowser, a Chrome-based runtime patched at the source, so websites see a normal human-driven browser, not an automation tool. Here is how it compares on the public detection services that platforms use to screen visitors.',
 } = Astro.props;
 
 const isTechnical = (check: string) => /^(navigator\.|window\.|UA string|CDP|TLS)/.test(check);
@@ -48,7 +48,7 @@ const isTechnical = (check: string) => /^(navigator\.|window\.|UA string|CDP|TLS
 
   <p class="detection-baseline">{detectionBaselineExplain}</p>
   <p class="detection-disclaimer">
-    Point-in-time results from independent public test services — you can reproduce them yourself against a
+    Point-in-time results from independent public test services; you can reproduce them yourself against a
     CloakBrowser profile. Detection vendors update their checks continuously, and no browser can guarantee a pass on
     every service forever.
   </p>

@@ -16,7 +16,7 @@ export interface DetectionResult {
 // headless Chrome/Chromium, the defaults most automation scripts use.
 export const detectionBaselineShort = 'Standard automated browser';
 export const detectionBaselineExplain =
-  'A standard automated browser is out-of-the-box Playwright or headless Chrome/Chromium — the default setup most automation scripts and bots use.';
+  'A standard automated browser is out-of-the-box Playwright or headless Chrome/Chromium, the default setup most automation scripts and bots use.';
 
 export const detectionResults: DetectionResult[] = [
   { check: 'reCAPTCHA v3', standard: '0.1 (bot)', cloak: '0.9 (human)', note: 'Server-side verified' },
