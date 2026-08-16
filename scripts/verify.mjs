@@ -179,7 +179,7 @@ const download = page('/download/');
 const unpublished = download.includes('Windows beta is not published yet');
 if (unpublished) {
   if (download.includes('/releases/download/') || download.includes('SHA-256: <code>')) fail('unpublished release must not expose release metadata or an asset link');
-} else if (!download.includes('Download for Windows') || !download.includes('Version ') || !/\/releases\/download\/[^"']+/.test(download) || !/\/releases\/tag\/[^"']+/.test(download) || !/SHA-256: <code>[a-f0-9]{64}<\/code>/.test(download)) {
+} else if (!download.includes('Download for Windows') || !download.includes('Version ') || !/\/releases\/download\/[^"']+/.test(download) || !/\/releases\/tag\/[^"']+/.test(download) || !/SHA-256: <code(?:\s[^>]*)?>[a-f0-9]{64}<\/code>/.test(download)) {
   fail('published release must show its version, asset, source, and SHA-256');
 }
 if (!download.includes('More info') || !download.includes('Run anyway') || !download.includes('Do not disable Windows protection')) fail('download safety guidance is incomplete');
