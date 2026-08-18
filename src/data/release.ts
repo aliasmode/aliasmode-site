@@ -7,7 +7,7 @@ export const release: Release = {
   version: '0.1.0-beta.33',
   tag: 'v0.1.0-beta.33',
   windowsFile: 'AliasMode_0.1.0-beta.33_x64-setup.exe',
-  sha256: '4c797a702be1a634aee191d8c6c1066cf62dff385ce9ff76fef762fe19cb734b',
+  sha256: '98c8d7d2169551f0a23c0e9019e8e86247159e5ef6ba253668ec24e50bf977c1',
 };
 
 const releases = 'https://github.com/aliasmode/aliasmode/releases';
