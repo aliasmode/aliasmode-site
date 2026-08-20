@@ -54,36 +54,37 @@ const donationHref = siteConfig.supportEmail
 
 <style>
   .plans { margin: 2rem 0 0; }
-  .pricing-message { align-items: center; background: #eaf0ff; border-left: .3rem solid #2457d6; display: flex; gap: .6rem 1.2rem; justify-content: center; margin-bottom: 1rem; padding: .9rem 1.2rem; text-align: center; }
-  .pricing-message strong { color: #173c9d; }
-  .pricing-message span { color: #526077; font-size: .85rem; }
-  .pricing-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .plan { background: white; border: 1px solid #dbe3ee; display: flex; flex-direction: column; min-width: 0; padding: clamp(1.4rem, 2.6vw, 2rem); }
-  .cloud-plan { background: #2457d6; border-color: #2457d6; box-shadow: 0 1.2rem 3rem rgba(36, 87, 214, .2); color: white; transform: translateY(-.5rem); }
+  .pricing-message { align-items: center; background: var(--violet-soft); border-radius: var(--r-md); display: flex; gap: .6rem 1.2rem; justify-content: center; margin-bottom: .8rem; padding: 1rem 1.3rem; text-align: center; }
+  .pricing-message strong { color: var(--violet-ink); }
+  .pricing-message span { color: var(--ink-2); font-size: .85rem; }
+  .pricing-grid { display: grid; gap: .8rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .plan { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-lg); display: flex; flex-direction: column; min-width: 0; padding: clamp(1.5rem, 2.6vw, 2rem); }
+  .cloud-plan { background: linear-gradient(162deg, #7c5cff, #5a35e6 68%, #4b2bd6); border-color: transparent; box-shadow: 0 1.2rem 2.8rem -1rem rgba(109, 74, 255, .5); color: #fff; transform: translateY(-.6rem); }
   .plan-top { align-items: flex-start; display: flex; gap: 1rem; justify-content: space-between; }
-  .plan-label { color: #63728a; font: 800 .65rem/1.2 ui-monospace, monospace; letter-spacing: .08em; margin: 0 0 .35rem; text-transform: uppercase; }
-  .cloud-plan .plan-label { color: #c6d2ff; }
-  .plan h3 { font-size: 1.65rem; margin: 0; }
-  .plan-badge { background: #eaf0ff; border-radius: 2rem; color: #173c9d; font-size: .67rem; font-weight: 800; padding: .3rem .6rem; text-transform: uppercase; }
-  .cloud-plan .plan-badge { background: white; }
+  .plan-label { color: var(--violet); font: 700 .64rem/1.2 var(--font-mono); letter-spacing: .12em; margin: 0 0 .4rem; text-transform: uppercase; }
+  .cloud-plan .plan-label { color: #d3c4ff; }
+  .plan h3 { font-size: 1.6rem; margin: 0; }
+  .plan-badge { background: var(--violet-soft); border-radius: var(--r-pill); color: var(--violet-ink); font-size: .66rem; font-weight: 800; letter-spacing: .05em; padding: .32rem .65rem; text-transform: uppercase; }
+  .cloud-plan .plan-badge { background: rgba(255, 255, 255, .2); color: #fff; }
   .price { align-items: baseline; display: flex; flex-wrap: wrap; gap: .25rem .65rem; margin: 2rem 0 1rem; }
-  .price strong { font-size: 3.6rem; letter-spacing: -.07em; line-height: .8; }
-  .price span, .donation-price span { color: #68778e; font-size: .72rem; }
-  .cloud-plan .price span { color: #dce5ff; }
+  .price strong { font-family: var(--font-display); font-size: 3.4rem; letter-spacing: -.06em; line-height: .85; }
+  .price span, .donation-price span { color: var(--ink-3); font-size: .72rem; }
+  .cloud-plan .price span { color: #d3c4ff; }
   .donation-price { display: flex; flex-direction: column; margin: 2rem 0 1rem; min-height: 3rem; }
-  .donation-price strong { font-size: 1.6rem; letter-spacing: -.04em; }
-  .plan > p { color: #526077; font-size: .85rem; min-height: 4.1rem; }
-  .cloud-plan > p { color: #dce5ff; }
-  .plan ul { flex: 1; list-style: none; margin: 1rem 0 1.6rem; padding: 0; }
-  .plan li { font-size: .78rem; padding-left: 1.25rem; position: relative; }
-  .plan li::before { color: #2457d6; content: '✓'; font-weight: 900; left: 0; position: absolute; }
-  .cloud-plan li { color: #edf2ff; }
-  .cloud-plan li::before { color: #78e1df; }
+  .donation-price strong { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: -.04em; }
+  .plan > p { color: var(--ink-2); font-size: .86rem; min-height: 4.1rem; }
+  .cloud-plan > p { color: #e0d6ff; }
+  .plan ul { flex: 1; list-style: none; margin: 1rem 0 1.7rem; padding: 0; }
+  .plan li { font-size: .8rem; padding-left: 1.3rem; position: relative; }
+  .plan li::before { color: var(--violet); content: '\2713'; font-weight: 900; left: 0; position: absolute; }
+  .cloud-plan li { color: #ece5ff; }
+  .cloud-plan li::before { color: #b9ffef; }
   .plan li + li { margin-top: .55rem; }
-  .plan-button { border: 1px solid #2457d6; border-radius: .46rem; display: block; font-size: .82rem; font-weight: 800; padding: .72rem .8rem; text-align: center; text-decoration: none; }
-  .plan-button.primary { background: white; border-color: white; color: #173c9d; }
-  .plan-button.secondary { background: #eaf0ff; color: #173c9d; }
-  .plan-button.dark { background: #111827; border-color: #111827; color: white; }
-  .plan-button:hover { filter: brightness(.96); }
+  .plan-button { border-radius: var(--r-pill); display: block; font-size: .85rem; font-weight: 700; padding: .8rem 1rem; text-align: center; text-decoration: none; transition: filter .18s ease, transform .18s ease; }
+  .plan-button.primary { background: #fff; color: var(--violet-ink); }
+  .plan-button.secondary { background: var(--violet-soft); box-shadow: inset 0 0 0 1px var(--violet-line); color: var(--violet-deep); }
+  .plan-button.dark { background: var(--night); color: #fff; }
+  .plan-button:hover { filter: brightness(.97); transform: translateY(-1px); }
   @media (max-width: 58rem) { .pricing-grid { grid-template-columns: 1fr; }.cloud-plan { transform: none; }.plan > p { min-height: auto; }.pricing-message { align-items: flex-start; flex-direction: column; text-align: left; } }
+  @media (prefers-reduced-motion: reduce) { .plan-button { transition: none; } }
 </style>

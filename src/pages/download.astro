@@ -39,19 +39,18 @@ import RelatedLinks from '../components/RelatedLinks.astro';
 </BaseLayout>
 
 <style>
-  .download-hero { align-items: end; display: grid; gap: 4rem; grid-template-columns: 1fr .8fr; margin-bottom: 3rem; }
-  .download-hero h1 { font-size: clamp(3rem, 7vw, 5.5rem); }
+  .download-hero { align-items: end; display: grid; gap: clamp(2rem, 5vw, 4rem); grid-template-columns: 1fr .8fr; margin-bottom: 3rem; }
+  .download-hero h1 { font-size: clamp(2.6rem, 5.6vw, 4.6rem); }
   .onboarding { list-style: none; margin: 0; max-width: none; padding: 0; }
-  .onboarding li { align-items: center; border-top: 1px solid #dbe3ee; display: grid; gap: 1rem; grid-template-columns: 2rem 1fr; padding: .9rem 0; }
-  .onboarding li:last-child { border-bottom: 1px solid #dbe3ee; }
-  .onboarding li > span { color: #2457d6; font: 800 .7rem/1 ui-monospace, monospace; }
+  .onboarding li { align-items: center; border-top: 1px solid var(--line); display: grid; gap: 1rem; grid-template-columns: 2rem 1fr; margin: 0; padding: .9rem 0; }
+  .onboarding li:last-child { border-bottom: 1px solid var(--line); }
+  .onboarding li > span { color: var(--violet); font: 700 .72rem/1 var(--font-mono); }
   .onboarding div { display: flex; flex-direction: column; }
-  .onboarding small { color: #64748b; }
+  .onboarding small { color: var(--ink-3); }
   .after-install { margin: 5rem 0; }
-  .after-install > h2, .install-notes h2 { font-size: clamp(2rem, 4vw, 3.3rem); }
-  .after-install .card { border-radius: 0; }
-  .after-install .card strong { color: #173c9d; }
-  .after-install .card p { color: #526077; font-size: .9rem; }
-  .install-notes { background: #edf3f7; border-left: .35rem solid #2457d6; padding: clamp(1.5rem, 4vw, 3rem); }
+  .after-install > h2, .install-notes h2 { font-size: clamp(1.9rem, 3.6vw, 3rem); }
+  .after-install .card strong { color: var(--violet-ink); }
+  .after-install .card p { color: var(--ink-2); font-size: .9rem; }
+  .install-notes { background: var(--violet-soft); border-left: .35rem solid var(--violet); border-radius: 0 var(--r-lg) var(--r-lg) 0; padding: clamp(1.5rem, 4vw, 3rem); }
   @media (max-width: 48rem) { .download-hero { gap: 2rem; grid-template-columns: 1fr; } }
 </style>

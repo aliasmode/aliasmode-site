@@ -27,14 +27,13 @@ import { siteConfig } from '../../site.config.mjs';
 </BaseLayout>
 
 <style>
-  .security-grid { grid-template-columns: repeat(3, 1fr); margin-top: 3rem; }
-  .security-grid .card { border-radius: 0; }
-  .security-grid p { color: #526077; font-size: .9rem; }
-  .architecture-note { align-items: start; background: #111827; color: white; display: grid; gap: 3rem; grid-template-columns: 1fr 1fr; margin-top: 4rem; padding: clamp(1.5rem, 4vw, 3rem); }
-  .architecture-note .eyebrow { color: #8da7ff; }
-  .architecture-note h2 { font-size: clamp(2rem, 4vw, 3rem); }
-  .architecture-note p:not(.eyebrow) { color: #b7c3d5; }
-  .report { border-left: .35rem solid #2457d6; margin-top: 4rem; padding: 1rem 0 1rem 1.5rem; }
+  .security-grid { gap: .8rem; grid-template-columns: repeat(3, 1fr); margin-top: 3rem; }
+  .security-grid p { color: var(--ink-2); font-size: .9rem; }
+  .architecture-note { align-items: start; background: linear-gradient(150deg, var(--night), #241d47); border-radius: var(--r-lg); color: #fff; display: grid; gap: clamp(1.5rem, 4vw, 3rem); grid-template-columns: 1fr 1fr; margin-top: 4rem; padding: clamp(1.8rem, 4vw, 3rem); }
+  .architecture-note .eyebrow { color: #b7a1ff; }
+  .architecture-note h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); }
+  .architecture-note p:not(.eyebrow) { color: var(--night-ink); }
+  .report { border-left: .35rem solid var(--violet); margin-top: 4rem; padding: 1rem 0 1rem 1.5rem; }
   @media (max-width: 54rem) { .security-grid { grid-template-columns: repeat(2, 1fr); }.architecture-note { grid-template-columns: 1fr; } }
   @media (max-width: 36rem) { .security-grid { grid-template-columns: 1fr; } }
 </style>

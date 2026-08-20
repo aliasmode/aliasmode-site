@@ -15,11 +15,11 @@ import { siteConfig } from '../../site.config.mjs';
 </BaseLayout>
 
 <style>
-  .contact-grid { display: grid; gap: 1rem; grid-template-columns: 1.1fr .9fr; margin-top: 3rem; }
-  .contact-grid .card { border-radius: 0; padding: clamp(1.5rem, 4vw, 2.6rem); }
-  .donation-card { background: #111827; border-color: #111827; color: white; }
-  .donation-card p:not(.contact-label) { color: #bac6d8; }
-  .contact-label { color: #536eae; font: 800 .68rem/1.2 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
-  .donation-card .contact-label { color: #8da7ff; }
+  .contact-grid { display: grid; gap: .8rem; grid-template-columns: 1.1fr .9fr; margin-top: 3rem; }
+  .contact-grid .card { padding: clamp(1.6rem, 4vw, 2.6rem); }
+  .donation-card { background: linear-gradient(150deg, var(--night), #241d47); border-color: transparent; color: #fff; }
+  .donation-card p:not(.contact-label) { color: var(--night-ink); }
+  .contact-label { color: var(--violet); font: 700 .66rem/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+  .donation-card .contact-label { color: #b7a1ff; }
   @media (max-width: 44rem) { .contact-grid { grid-template-columns: 1fr; } }
 </style>

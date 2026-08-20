@@ -23,13 +23,13 @@ import RelatedLinks from '../components/RelatedLinks.astro';
 </BaseLayout>
 
 <style>
-  .pricing-hero { margin: 2rem auto 3.5rem; text-align: center; }
-  .pricing-hero h1 { font-size: clamp(3rem, 6vw, 5.2rem); margin-inline: auto; max-width: 13ch; }
+  .pricing-hero { margin: 1rem auto 3.5rem; text-align: center; }
+  .pricing-hero h1 { font-size: clamp(2.6rem, 5.4vw, 4.4rem); margin-inline: auto; max-width: 14ch; }
   .pricing-hero .lead { margin-inline: auto; max-width: 52ch; }
-  .pricing-note { align-items: start; background: #111827; color: white; display: grid; gap: 3rem; grid-template-columns: 1fr 1fr; margin-top: 6rem; padding: clamp(1.5rem, 4vw, 3rem); }
-  .pricing-note .eyebrow { color: #8da7ff; }
-  .pricing-note h2 { font-size: clamp(2rem, 4vw, 3rem); }
-  .pricing-note p:not(.eyebrow) { color: #b7c3d5; }
+  .pricing-note { align-items: start; background: linear-gradient(150deg, var(--night), #241d47); border-radius: var(--r-lg); color: #fff; display: grid; gap: clamp(1.5rem, 4vw, 3rem); grid-template-columns: 1fr 1fr; margin-top: 6rem; padding: clamp(1.8rem, 4vw, 3rem); }
+  .pricing-note .eyebrow { color: #b7a1ff; }
+  .pricing-note h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); }
+  .pricing-note p:not(.eyebrow) { color: var(--night-ink); }
   .pricing-note .button { margin-top: 1rem; }
   @media (max-width: 46rem) { .pricing-hero { margin-top: 0; }.pricing-note { gap: 1rem; grid-template-columns: 1fr; } }
 </style>

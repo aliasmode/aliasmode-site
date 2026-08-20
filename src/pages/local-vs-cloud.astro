@@ -19,15 +19,15 @@ import RelatedLinks from '../components/RelatedLinks.astro';
 </BaseLayout>
 
 <style>
-  .mode-grid { grid-template-columns: 1.08fr .92fr; margin-top: 3.5rem; }
-  .mode-grid .card { border-radius: 0; padding: clamp(1.5rem, 4vw, 2.8rem); }
-  .cloud-card { background: #111827; border-color: #111827; color: white; }
-  .cloud-card li { color: #c1ccdc; }
-  .mode-label { color: #536eae; font: 800 .68rem/1.2 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
-  .cloud-card .mode-label { color: #7f9cff; }
-  .mode-link { color: #2457d6; display: inline-block; font-size: .88rem; font-weight: 750; margin-top: 1rem; }
-  .cloud-card .mode-link { color: #9fb4ff; }
-  .sync-section { background: #eaf0ff; border-left: .35rem solid #2457d6; margin-top: 4rem; padding: clamp(1.5rem, 4vw, 3rem); }
-  .sync-section h2 { font-size: clamp(2rem, 4vw, 3.2rem); }
+  .mode-grid { gap: .8rem; grid-template-columns: 1.08fr .92fr; margin-top: 3.5rem; }
+  .mode-grid .card { padding: clamp(1.6rem, 4vw, 2.8rem); }
+  .cloud-card { background: linear-gradient(150deg, var(--night), #241d47); border-color: transparent; color: #fff; }
+  .cloud-card li { color: var(--night-ink); }
+  .mode-label { color: var(--violet); font: 700 .66rem/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+  .cloud-card .mode-label { color: #b7a1ff; }
+  .mode-link { color: var(--violet-deep); display: inline-block; font-size: .88rem; font-weight: 700; margin-top: 1rem; }
+  .cloud-card .mode-link { color: #b7a1ff; }
+  .sync-section { background: var(--violet-soft); border-left: .35rem solid var(--violet); border-radius: 0 var(--r-lg) var(--r-lg) 0; margin-top: 4rem; padding: clamp(1.5rem, 4vw, 3rem); }
+  .sync-section h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); }
   @media (max-width: 44rem) { .mode-grid { grid-template-columns: 1fr; } }
 </style>

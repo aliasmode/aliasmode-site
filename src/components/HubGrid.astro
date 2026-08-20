@@ -18,12 +18,12 @@ const routes = paths.map(getSiteRoute).filter(Boolean);
 </div>
 
 <style>
-  .hub-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); margin: 3rem 0; }
-  .hub-grid a { background: #fff; border: 1px solid #dbe3ee; display: flex; flex-direction: column; min-height: 15rem; padding: 1.5rem; text-decoration: none; transition: border-color .18s ease, transform .18s ease; }
-  .hub-grid a:hover { border-color: #8ea6d7; transform: translateY(-2px); }
-  .hub-grid .kind { color: #536eae; font: 800 .67rem/1.2 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
-  .hub-grid strong { color: #172033; font-size: 1.25rem; margin-top: 1.2rem; }
-  .hub-grid p { color: #526077; font-size: .9rem; }
-  .hub-grid .open { color: #2457d6; font-size: .85rem; font-weight: 750; margin-top: auto; }
+  .hub-grid { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); margin: 3rem 0; }
+  .hub-grid a { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; flex-direction: column; min-height: 14rem; padding: 1.6rem; text-decoration: none; transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+  .hub-grid a:hover { border-color: var(--violet-line); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+  .hub-grid .kind { color: var(--violet); font: 700 .66rem/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+  .hub-grid strong { color: var(--ink); font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -.03em; line-height: 1.15; margin-top: 1.1rem; }
+  .hub-grid p { color: var(--ink-2); font-size: .89rem; }
+  .hub-grid .open { color: var(--violet-deep); font-size: .84rem; font-weight: 700; margin-top: auto; padding-top: 1.2rem; }
   @media (prefers-reduced-motion: reduce) { .hub-grid a { transition: none; } }
 </style>
