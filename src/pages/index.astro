@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DownloadPanel from '../components/DownloadPanel.astro';
 import GitHubButton from '../components/GitHubButton.astro';
+import TelegramButton from '../components/TelegramButton.astro';
+import { siteConfig } from '../../site.config.mjs';
 import PricingPlans from '../components/PricingPlans.astro';
 import DetectionTable from '../components/DetectionTable.astro';
 
@@ -30,6 +32,8 @@ const trash = [
 
 const surfaces = 'COOKIES · LOCAL STORAGE · INDEXEDDB · TIMEZONE · LANGUAGE · WEBGL RENDERER · SCREEN METRICS · CANVAS · FONTS · PROXY · '.repeat(3);
 const promise = 'UNLIMITED PROFILES · ZERO COST FOREVER · APACHE-2.0 · NO PROFILE FEES · '.repeat(3);
+
+const chatTopics = ['Release notes', 'Fingerprint questions', 'Proxy setup', 'Local API', 'Bug reports', 'Feature requests'];
 
 const pathways = [
   { kind: 'Agency operations', title: 'Separate client sessions and team handoffs.', href: '/agencies/', cta: 'AliasMode for agencies' },
@@ -286,6 +290,30 @@ const pathways = [
     <a class="text-link" href="/about/">Read the AliasMode story <span>→</span></a>
   </section>
 
+  <section class="surface surface-dark community" id="community">
+    <div class="community-copy">
+      <p class="eyebrow">Community</p>
+      <h2>Bring your questions to the group.</h2>
+      <p>Releases, fingerprint questions, proxy troubleshooting and feature requests all land in one open Telegram group, read by the people building AliasMode.</p>
+      <div class="actions">
+        <TelegramButton href={siteConfig.telegramCommunity} label="Join the Telegram group" />
+        <GitHubButton href={siteConfig.githubRepository} label="Report an issue" tone="light" />
+      </div>
+      <p class="community-note">Free to join, and open to read before you post.</p>
+    </div>
+
+    <div class="group-card" aria-hidden="true">
+      <div class="group-top">
+        <span class="group-avatar"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42Z"/></svg></span>
+        <span class="group-id"><strong>AliasMode</strong><small>t.me/aliasmode</small></span>
+      </div>
+      <p class="group-line">What people talk about here</p>
+      <ul class="group-chips">
+        {chatTopics.map((topic) => <li>{topic}</li>)}
+      </ul>
+    </div>
+  </section>
+
   <section class="surface surface-light" id="pricing">
     <div class="section-head">
       <p class="eyebrow">Simple pricing</p>
@@ -374,7 +402,7 @@ const pathways = [
     }
   }
 
-  .ground { background: radial-gradient(closest-side, rgba(76, 40, 190, .34), rgba(76, 40, 190, 0) 74%); height: calc(300px * var(--u)); left: 50%; position: absolute; top: 50%; transform: translate(-50%, -50%) translate3d(0, calc(215px * var(--u)), calc(-70px * var(--u))) rotateX(80deg); width: calc(520px * var(--u)); }
+  .ground { background: radial-gradient(closest-side, rgba(76, 40, 190, .34), rgba(76, 40, 190, 0) 74%); height: calc(300px * var(--u)); max-width: 100%; left: 50%; position: absolute; top: 50%; transform: translate(-50%, -50%) translate3d(0, calc(215px * var(--u)), calc(-70px * var(--u))) rotateX(80deg); width: calc(520px * var(--u)); }
 
   /* Nothing on this chain may use overflow: hidden — it flattens preserve-3d. */
   .app { left: 50%; position: absolute; top: 50%; transform: translate(-50%, -50%); transform-style: preserve-3d; transition: transform .6s cubic-bezier(.22, .7, .3, 1); width: calc(486px * var(--u)); }
@@ -538,6 +566,27 @@ const pathways = [
     .seal { display: none; }
   }
 
+  /* -------------------------------------------------------------- Community */
+  .community { align-items: center; display: grid; gap: clamp(2rem, 5vw, 4rem); grid-template-columns: 1.05fr .95fr; scroll-margin-top: 6rem; }
+  .community h2 { font-size: clamp(1.9rem, 3.2vw, 2.8rem); margin: .3rem 0 .9rem; }
+  .community p { color: var(--night-ink); max-width: 42ch; }
+  .community .eyebrow { color: #8fd8f6; }
+  .community .actions { margin-top: 1.6rem; }
+  .community-note { color: var(--night-ink-2); font-size: .82rem; margin-top: 1rem; }
+
+  .group-card { background: linear-gradient(158deg, rgba(56, 182, 238, .16), rgba(160, 132, 255, .1)); border: 1px solid rgba(160, 132, 255, .28); border-radius: var(--r-lg); box-shadow: 0 1.6rem 3rem -1.6rem rgba(0, 0, 0, .6); padding: clamp(1.4rem, 3vw, 2rem); }
+  .group-top { align-items: center; display: flex; gap: .85rem; }
+  .group-avatar { align-items: center; background: linear-gradient(175deg, #38b6ee, #229ed9); border-radius: 50%; color: #fff; display: flex; flex: 0 0 auto; height: 3rem; justify-content: center; width: 3rem; }
+  .group-avatar svg { height: 1.5rem; width: 1.5rem; }
+  .group-id { display: flex; flex-direction: column; }
+  .group-id strong { color: #fff; font-family: var(--font-display); font-size: 1.15rem; letter-spacing: -.02em; }
+  .group-id small { color: #8fd8f6; font: 500 .74rem/1.5 var(--font-mono); }
+  .group-line { color: var(--night-ink-2); font: 500 .68rem/1 var(--font-mono); letter-spacing: .12em; margin: 1.6rem 0 .9rem; text-transform: uppercase; }
+  .group-chips { align-items: flex-start; display: flex; flex-wrap: wrap; gap: .45rem; list-style: none; margin: 0; padding: 0; }
+  /* margin: 0 overrides the global `li + li` rule, which otherwise pushed every
+     chip but the first down 8px and stretched the first to match the line. */
+  .group-chips li { align-items: center; background: rgba(255, 255, 255, .07); display: inline-flex; list-style: none; margin: 0; border: 1px solid rgba(160, 132, 255, .24); border-radius: var(--r-pill); color: var(--night-ink); font-size: .78rem; font-weight: 600; padding: .42rem .85rem; }
+
   /* ------------------------------------------------------------ Responsive */
   @media (max-width: 68rem) {
     .stage { --u: .82; height: 22rem; }
@@ -546,7 +595,7 @@ const pathways = [
     .hero { grid-template-columns: 1fr; }
     .hero h1 { max-width: 18ch; }
     .stage { --u: .84; height: 21rem; margin-top: 1rem; }
-    .feature-grid, .split, .workflow, .api-section { grid-template-columns: 1fr; }
+    .feature-grid, .split, .workflow, .api-section, .community { grid-template-columns: 1fr; }
     .feature-card { min-height: auto; }
     .feature-card h3 { padding-top: 1.4rem; }
     .spec-rail { grid-template-columns: 1fr 1fr; }

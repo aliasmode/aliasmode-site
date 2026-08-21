@@ -52,4 +52,5 @@ export const siteConfig = {
   index: isProduction,
   githubRepository: 'https://github.com/aliasmode/aliasmode',
   githubReleases: 'https://github.com/aliasmode/aliasmode/releases',
+  telegramCommunity: 'https://t.me/aliasmode',
 };

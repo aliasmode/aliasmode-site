@@ -2,6 +2,7 @@
 import { siteConfig } from '../../site.config.mjs';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import GitHubButton from '../components/GitHubButton.astro';
+import TelegramButton from '../components/TelegramButton.astro';
 import { canonicalPath, getBreadcrumbs, getSiteRoute } from '../data/site-routes';
 
 interface Props { title?: string; description?: string; noIndex?: boolean; canonical?: boolean; layout?: 'panel' | 'sections' }
@@ -114,29 +115,68 @@ const structuredData = schemas.length
     {siteConfig.googleSiteVerification && !noIndex && <meta name="google-site-verification" content={siteConfig.googleSiteVerification} />}
     {siteConfig.bingSiteVerification && !noIndex && <meta name="msvalidate.01" content={siteConfig.bingSiteVerification} />}
     {structuredData && <script is:inline type="application/ld+json" set:html={structuredData} />}
+    <noscript><style>@media (max-width: 54rem) { .site-header { position: static; transform: none; } .site-header .nav-panel { background: none; border: 0; box-shadow: none; grid-column: 1 / -1; opacity: 1; padding: 0; pointer-events: auto; position: static; transform: none; visibility: visible; } .site-header .nav-toggle, .site-header .nav-scrim { display: none; } }</style></noscript>
     <title>{fullTitle}</title>
   </head>
   <body>
     <div class="shell">
-      <header class="site-header">
+      <header class="site-header" data-nav="closed">
         <a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 512 512" fill="none" aria-hidden="true"><path d="M152 96H320C380 96 416 136 416 196V316C416 376 376 416 316 416H196C136 416 96 376 96 316V288" stroke="currentColor" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 288C96 240 136 208 184 208H280" stroke="#6d4aff" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/></svg>AliasMode <span>by Xreacher</span></a>
-        <nav class="main-nav" aria-label="Main navigation"><a href="/product/">Product</a><a href="/agencies/">Agencies</a><a href="/docs/">Docs</a><a href="/alternatives/">Alternatives</a><a href="/pricing/">Pricing</a></nav>
-        <a class="header-cta" href="/download/">Download free</a>
+        <div class="nav-panel" id="site-nav">
+          <nav class="main-nav" aria-label="Main navigation"><a href="/product/">Product</a><a href="/agencies/">Agencies</a><a href="/docs/">Docs</a><a href="/alternatives/">Alternatives</a><a href="/pricing/">Pricing</a></nav>
+          <div class="nav-extra">
+            <a class="nav-extra-link" href={siteConfig.telegramCommunity} rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42Z"/></svg> Join the Telegram group</a>
+            <a class="nav-extra-link" href={siteConfig.githubRepository} rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.23c-3.23.7-3.91-1.37-3.91-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.39.97.1-.75.41-1.27.74-1.56-2.58-.29-5.29-1.29-5.29-5.69 0-1.26.45-2.29 1.2-3.1-.12-.3-.52-1.47.11-3.06 0 0 .98-.31 3.16 1.18a10.9 10.9 0 0 1 5.76 0c2.18-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.06.75.81 1.2 1.84 1.2 3.1 0 4.41-2.72 5.39-5.3 5.68.42.36.79 1.07.79 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg> View the source</a>
+          </div>
+        </div>
+        <div class="header-actions">
+          <span class="tg-desktop"><TelegramButton href={siteConfig.telegramCommunity} label="Join the AliasMode Telegram group" tone="outline" iconOnly /></span>
+          <a class="header-cta" href="/download/">Download free</a>
+          <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu">
+            <span class="nav-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+          </button>
+        </div>
       </header>
+      <div class="nav-scrim" aria-hidden="true"></div>
       <main class:list={[{ sectioned: layout === 'sections' }]}>
         {route && <Breadcrumbs route={route} />}
         <slot />
       </main>
       <footer>
         <div class="footer-cols">
-        <div class="footer-brand"><strong>AliasMode</strong><span>Free, open-source multi-account browsing.</span><GitHubButton href={siteConfig.githubRepository} label="GitHub" tone="light" compact /></div>
+        <div class="footer-brand"><strong>AliasMode</strong><span>Free, open-source multi-account browsing.</span><span class="footer-social"><GitHubButton href={siteConfig.githubRepository} label="GitHub" tone="light" compact /><TelegramButton href={siteConfig.telegramCommunity} label="Telegram" tone="light" compact /></span></div>
         <nav aria-label="Product navigation"><strong>Product</strong><a href="/download/">Download</a><a href="/local/">Local</a><a href="/cloud/">Cloud</a><a href="/security/">Security</a></nav>
         <nav aria-label="Resource navigation"><strong>Resources</strong><a href="/docs/">Documentation</a><a href="/integrations/">Integrations</a><a href="/guides/">Guides</a><a href="/tools/">Tools</a></nav>
-        <nav aria-label="Company and legal navigation"><strong>Company</strong><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/acceptable-use/">Acceptable Use</a></nav>
+        <nav aria-label="Company and legal navigation"><strong>Company</strong><a href="/about/">About</a><a href={siteConfig.telegramCommunity} rel="noopener">Telegram community</a><a href="/contact/">Contact</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/acceptable-use/">Acceptable Use</a></nav>
         </div>
         <p class="footer-mark" aria-hidden="true">AliasMode</p>
       </footer>
     </div>
+    <script is:inline>
+      (() => {
+        const header = document.querySelector('.site-header');
+        const toggle = header && header.querySelector('.nav-toggle');
+        if (!header || !toggle) return;
+        const scrim = document.querySelector('.nav-scrim');
+        const wide = matchMedia('(min-width: 54.0625rem)');
+        const set = (open) => {
+          header.dataset.nav = open ? 'open' : 'closed';
+          toggle.setAttribute('aria-expanded', String(open));
+          toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+          document.documentElement.classList.toggle('nav-locked', open);
+        };
+        toggle.addEventListener('click', () => set(header.dataset.nav !== 'open'));
+        if (scrim) scrim.addEventListener('click', () => set(false));
+        header.querySelectorAll('.nav-panel a').forEach((link) => link.addEventListener('click', () => set(false)));
+        document.addEventListener('keydown', (event) => {
+          if (event.key !== 'Escape' || header.dataset.nav !== 'open') return;
+          set(false);
+          toggle.focus();
+        });
+        // Resizing past the breakpoint must not leave the lock or the panel behind.
+        wide.addEventListener('change', (event) => { if (event.matches) set(false); });
+      })();
+    </script>
     {siteConfig.analyticsEndpoint && !noIndex && (
       <script is:inline define:vars={{ endpoint: siteConfig.analyticsEndpoint }}>
         document.addEventListener('click', (event) => {
@@ -253,11 +293,23 @@ const structuredData = schemas.length
   nav { display: flex; flex-wrap: wrap; gap: .25rem; font-size: .88rem; }
   nav a { border-radius: var(--r-pill); color: var(--ink-2); font-weight: 600; padding: .45rem .8rem; text-decoration: none; transition: background .15s ease, color .15s ease; }
   nav a:hover { background: var(--violet-soft); color: var(--violet-deep); }
-  .brand { align-items: center; color: var(--ink); display: inline-flex; font-family: var(--font-display); font-size: 1.12rem; font-weight: 700; gap: .5rem; letter-spacing: -.03em; text-decoration: none; white-space: nowrap; }
-  .brand-mark { height: 1.7rem; width: 1.7rem; }
-  .brand span { color: var(--ink-3); font-family: var(--font-body); font-size: .74rem; font-weight: 550; letter-spacing: 0; }
+  .site-header .brand { align-items: center; color: var(--ink); display: inline-flex; font-family: var(--font-display); font-size: 1.12rem; font-weight: 700; gap: .5rem; letter-spacing: -.03em; text-decoration: none; white-space: nowrap; }
+  .site-header .brand-mark { height: 1.7rem; width: 1.7rem; }
+  .site-header .brand span { color: var(--ink-3); font-family: var(--font-body); font-size: .74rem; font-weight: 550; letter-spacing: 0; }
   .header-cta { background: linear-gradient(175deg, #7c5cff, var(--violet)); border-radius: var(--r-pill); box-shadow: var(--shadow-violet); color: #fff; font-size: .84rem; font-weight: 700; padding: .68rem 1.2rem; text-decoration: none; transition: box-shadow .18s ease, transform .18s ease, filter .18s ease; white-space: nowrap; }
   .header-cta:hover { filter: brightness(1.07); box-shadow: 0 .9rem 2rem -.5rem rgba(109, 74, 255, .6); transform: translateY(-1px); }
+  .header-actions { align-items: center; display: flex; gap: .4rem; }
+  .nav-panel { display: flex; justify-content: center; }
+  .nav-extra, .nav-toggle, .nav-scrim { display: none; }
+  .nav-toggle { align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-pill); color: var(--ink); cursor: pointer; height: 2.4rem; justify-content: center; padding: 0; transition: background .18s ease; width: 2.4rem; }
+  .nav-toggle:hover { background: var(--violet-soft); }
+  .nav-toggle:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+  .nav-bars { display: grid; gap: 4px; }
+  .nav-bars i { background: currentColor; border-radius: 2px; display: block; height: 2px; transition: opacity .2s ease, transform .2s ease; width: 17px; }
+  [data-nav="open"] .nav-bars i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  [data-nav="open"] .nav-bars i:nth-child(2) { opacity: 0; }
+  [data-nav="open"] .nav-bars i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  html.nav-locked { overflow: hidden; }
 
   /* Content pages get a centred reading column; a landing page lays out its
      own full-width bands with layout="sections". */
@@ -285,6 +337,7 @@ const structuredData = schemas.length
   .footer-brand { align-items: flex-start; display: flex; flex-direction: column; gap: .5rem; }
   .footer-brand strong { color: #fff; font-family: var(--font-display); font-size: 1.1rem; letter-spacing: -.02em; }
   .footer-brand span { color: var(--night-ink-2); }
+  .footer-social { display: flex; flex-wrap: wrap; gap: .4rem; }
   /* Wordmark watermark, clipped by the bottom of the page. */
   .footer-mark { -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(180deg, rgba(183, 161, 255, .34), rgba(183, 161, 255, .03)); color: transparent; font-family: var(--font-display); font-size: clamp(3.4rem, 16vw, 14rem); font-weight: 800; letter-spacing: -.06em; line-height: .74; margin: clamp(1.75rem, 4vw, 3rem) 0 -.13em; max-width: none; text-align: center; user-select: none; white-space: nowrap; }
 
@@ -348,16 +401,45 @@ const structuredData = schemas.length
     .footer-brand { grid-column: 1 / -1; }
   }
   @media (max-width: 54rem) {
-    /* Below this width the pill would eat the viewport: use a plain sticky bar,
-       which sits in the flow and needs no clearance. */
-    :root { --header-h: 0rem; }
-    .site-header { border-radius: 0; border-left: 0; border-right: 0; border-top: 0; box-shadow: none; gap: .6rem; grid-template-columns: 1fr auto; left: auto; padding: .75rem var(--gutter); position: sticky; top: 0; transform: none; width: 100%; }
-    .main-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; order: 3; }
+    /* The pill stays, but the links move into a menu so it can never wrap to a
+       second row. No transform here: the scrim is a fixed child of the header. */
+    :root { --header-h: 4.4rem; }
+    .site-header { gap: .5rem; grid-template-columns: 1fr auto; inset: .5rem 0 auto; margin-inline: auto; padding: .45rem .45rem .45rem .95rem; transform: none; width: calc(100% - var(--gutter)); }
+    .nav-toggle { display: inline-flex; }
+    .tg-desktop { display: none; }
+    .header-cta { font-size: .78rem; padding: .62rem 1rem; }
+
+    .nav-panel { background: var(--panel); border: 1px solid var(--line); border-radius: 1.35rem; box-shadow: var(--shadow-lg); display: block; left: 0; max-height: calc(100dvh - var(--header-h) - 1.25rem); opacity: 0; overflow-y: auto; padding: .55rem; pointer-events: none; position: absolute; right: 0; top: calc(100% + .55rem); transform: translateY(-.45rem) scale(.985); transform-origin: top right; transition: opacity .2s ease, transform .2s ease, visibility .2s; visibility: hidden; }
+    [data-nav="open"] .nav-panel { opacity: 1; pointer-events: auto; transform: none; visibility: visible; }
+    .main-nav { flex-direction: column; flex-wrap: nowrap; font-size: 1rem; gap: .1rem; }
+    .main-nav a { padding: .82rem .9rem; }
+    .nav-extra { border-top: 1px solid var(--line); display: grid; gap: .1rem; margin-top: .45rem; padding-top: .45rem; }
+    .nav-extra-link { align-items: center; border-radius: var(--r-pill); color: var(--ink-2); display: flex; font-size: .92rem; font-weight: 600; gap: .65rem; padding: .78rem .9rem; text-decoration: none; transition: background .15s ease, color .15s ease; }
+    .nav-extra-link svg { flex: 0 0 auto; height: 1.15rem; width: 1.15rem; }
+    .nav-extra-link:hover { background: var(--violet-soft); color: var(--violet-deep); }
+
+    /* A sibling of the header, not a child: inside it the scrim would paint over
+       the pill's own background and grey the whole bar out. */
+    .nav-scrim { background: rgba(23, 20, 42, .5); display: block; inset: 0; opacity: 0; pointer-events: none; position: fixed; transition: opacity .2s ease; z-index: 40; }
+    .nav-locked .nav-scrim { opacity: 1; pointer-events: auto; }
+
     .content-section { grid-template-columns: 1fr; }
+  }
+  /* Narrow phones: the wordmark, the CTA and the toggle stop fitting one row. */
+  @media (max-width: 22.5rem) {
+    .site-header { gap: .35rem; padding-left: .75rem; }
+    .site-header .brand { font-size: 1rem; }
+    .site-header .brand-mark { height: 1.5rem; width: 1.5rem; }
+    .header-actions { gap: .3rem; }
+    .header-cta { font-size: .74rem; padding: .58rem .8rem; }
+    .nav-toggle { height: 2.2rem; width: 2.2rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-panel, .nav-scrim, .nav-bars i { transition: none; }
   }
   @media (max-width: 36rem) {
     :root { --r-panel: 1.35rem; }
-    .brand span { display: none; }
+    .site-header .brand span { display: none; }
     .footer-cols { grid-template-columns: 1fr; }
     .footer-brand { grid-column: auto; }
     table { min-width: 34rem; }
