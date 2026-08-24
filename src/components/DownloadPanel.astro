@@ -7,6 +7,10 @@ import GitHubButton from './GitHubButton.astro';
     <h2>Download for Windows</h2>
     <p>Version {published.version}</p>
     <div class="download-actions"><a class="button" href={published.downloadUrl}>Download {published.windowsFile}</a><GitHubButton href={published.pageUrl} label="Source code and release notes" tone="outline" compact /></div>
+    <aside class="notice signing-notice">
+      <strong>Windows beta notice</strong>
+      <p>AliasMode is not yet Authenticode-signed, so Microsoft SmartScreen may show “Windows protected your PC.” After verifying the official GitHub release and checksum, select <strong>More info</strong>, then <strong>Run anyway</strong> only if you are comfortable continuing. Do not disable Windows security.</p>
+    </aside>
     <p class="muted">SHA-256: <code>{published.sha256}</code></p>
     <p class="muted">Compare the file checksum before you run it. A checksum confirms the file you downloaded; it is not code signing.</p>
   </section>
@@ -20,4 +24,6 @@ import GitHubButton from './GitHubButton.astro';
 
 <style>
   .download-actions { align-items: center; display: flex; flex-wrap: wrap; gap: .7rem; margin: 1rem 0; }
+  .signing-notice { margin: 1rem 0; }
+  .signing-notice p { margin: .45rem 0 0; }
 </style>
