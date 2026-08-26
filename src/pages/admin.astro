@@ -1,0 +1,398 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Analytics admin" description="Private AliasMode analytics administration." noIndex canonical={false}>
+  <article class="admin" aria-labelledby="admin-title">
+    <header class="admin-head">
+      <p class="eyebrow">Private administration</p>
+      <h1 id="admin-title">Analytics</h1>
+      <p class="lead">Aggregate event counts for AliasMode website and product activity.</p>
+    </header>
+    <p id="dashboard-status" class="status" aria-live="polite"></p>
+
+    <section id="login-panel" class="card auth-card" aria-labelledby="login-title">
+      <h2 id="login-title">Sign in</h2>
+      <p class="muted">Use an authorized Cloud account.</p>
+      <form id="login-form">
+        <label for="admin-email">Email</label>
+        <input id="admin-email" name="email" type="email" autocomplete="username" required />
+        <label for="admin-password">Password</label>
+        <input id="admin-password" name="password" type="password" autocomplete="current-password" required />
+        <button class="button" type="submit">Sign in</button>
+      </form>
+    </section>
+
+    <section id="dashboard" hidden aria-labelledby="dashboard-title">
+      <div class="dashboard-bar">
+        <div>
+          <p class="eyebrow">Aggregate reporting</p>
+          <h2 id="dashboard-title" tabindex="-1">Event counts</h2>
+        </div>
+        <div class="dashboard-controls">
+          <label for="range">Range</label>
+          <select id="range" name="range">
+            <option value="30d">Last 30 days</option>
+            <option value="90d">Last 90 days</option>
+            <option value="12m">Last 12 months</option>
+          </select>
+          <button id="sign-out" class="button secondary" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <section aria-label="Key event counts">
+        <div class="kpi-grid">
+          <dl class="kpi"><dt>Cloud accounts created</dt><dd id="kpi-signups">—</dd></dl>
+          <dl class="kpi"><dt>Active Cloud accounts, 7 days</dt><dd id="kpi-active-7">—</dd></dl>
+          <dl class="kpi"><dt>Active Cloud accounts, 30 days</dt><dd id="kpi-active-30">—</dd></dl>
+          <dl class="kpi"><dt>Pageview events</dt><dd id="kpi-pageviews">—</dd></dl>
+          <dl class="kpi"><dt>CTA events</dt><dd id="kpi-ctas">—</dd></dl>
+          <dl class="kpi"><dt>Download events</dt><dd id="kpi-downloads">—</dd></dl>
+        </div>
+        <div class="table-scroll summary-table"><table><caption>Account and website event counts</caption><thead><tr><th scope="col">Metric</th><th scope="col">Count</th></tr></thead><tbody><tr><td>Cloud accounts created</td><td data-count="kpi-signups">—</td></tr><tr><td>Active Cloud accounts, 7 days</td><td data-count="kpi-active-7">—</td></tr><tr><td>Active Cloud accounts, 30 days</td><td data-count="kpi-active-30">—</td></tr><tr><td>Pageview events</td><td data-count="kpi-pageviews">—</td></tr><tr><td>CTA events</td><td data-count="kpi-ctas">—</td></tr><tr><td>Download events</td><td data-count="kpi-downloads">—</td></tr></tbody></table></div>
+      </section>
+
+      <section class="report-section" aria-labelledby="trend-title">
+        <div class="report-heading"><div><p class="eyebrow">Trend</p><h2 id="trend-title">Daily website events</h2></div><p class="muted">Pageview and CTA event counts.</p></div>
+        <figure class="trend-card">
+          <div class="trend-legend" aria-label="Trend legend"><span><i class="legend-pageviews"></i>Pageview events</span><span><i class="legend-ctas"></i>CTA events</span></div>
+          <svg id="trend-chart" viewBox="0 0 360 144" role="img" aria-labelledby="trend-chart-title"><title id="trend-chart-title">Daily pageview and CTA event counts</title></svg>
+        </figure>
+        <div class="table-scroll">
+          <table>
+            <caption>Daily pageview and CTA event counts</caption>
+            <thead><tr><th scope="col">Day</th><th scope="col">Pageview events</th><th scope="col">CTA events</th></tr></thead>
+            <tbody id="trend-rows"><tr><td colspan="3">No event counts loaded.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="report-grid" aria-label="Event count detail">
+        <section class="report-section" aria-labelledby="source-title">
+          <div class="report-heading"><div><p class="eyebrow">Acquisition</p><h2 id="source-title">Source categories</h2></div></div>
+          <div class="table-scroll"><table><caption>Source category event counts</caption><thead><tr><th scope="col">Source category</th><th scope="col">Event count</th></tr></thead><tbody id="source-rows"><tr><td colspan="2">No event counts loaded.</td></tr></tbody></table></div>
+        </section>
+        <section class="report-section" aria-labelledby="utm-title">
+          <div class="report-heading"><div><p class="eyebrow">Acquisition</p><h2 id="utm-title">UTM codes</h2></div></div>
+          <div class="table-scroll"><table><caption>UTM source, medium, and campaign event counts</caption><thead><tr><th scope="col">Source</th><th scope="col">Medium</th><th scope="col">Campaign</th><th scope="col">Event count</th></tr></thead><tbody id="utm-rows"><tr><td colspan="4">No event counts loaded.</td></tr></tbody></table></div>
+        </section>
+        <section class="report-section" aria-labelledby="page-group-title">
+          <div class="report-heading"><div><p class="eyebrow">Website</p><h2 id="page-group-title">Page groups</h2></div></div>
+          <div class="table-scroll"><table><caption>Page group event counts by event type</caption><thead><tr><th scope="col">Event type</th><th scope="col">Page group</th><th scope="col">Event count</th></tr></thead><tbody id="page-group-rows"><tr><td colspan="3">No event counts loaded.</td></tr></tbody></table></div>
+        </section>
+        <section class="report-section" aria-labelledby="cta-group-title">
+          <div class="report-heading"><div><p class="eyebrow">Website</p><h2 id="cta-group-title">CTA groups</h2></div></div>
+          <div class="table-scroll"><table><caption>CTA page group, type, destination, campaign, and event counts</caption><thead><tr><th scope="col">Page group</th><th scope="col">CTA type</th><th scope="col">Destination</th><th scope="col">Campaign</th><th scope="col">Event count</th></tr></thead><tbody id="cta-group-rows"><tr><td colspan="5">No event counts loaded.</td></tr></tbody></table></div>
+        </section>
+        <section class="report-section" aria-labelledby="product-event-title">
+          <div class="report-heading"><div><p class="eyebrow">Product</p><h2 id="product-event-title">Product events</h2></div></div>
+          <div class="table-scroll"><table><caption>Product event counts</caption><thead><tr><th scope="col">Product event</th><th scope="col">Event count</th></tr></thead><tbody id="product-event-rows"><tr><td colspan="2">No event counts loaded.</td></tr></tbody></table></div>
+        </section>
+        <section class="report-section" aria-labelledby="version-error-title">
+          <div class="report-heading"><div><p class="eyebrow">Product</p><h2 id="version-error-title">Versions and errors</h2></div></div>
+          <div class="table-scroll"><table><caption>Version and error event counts</caption><thead><tr><th scope="col">Version or error</th><th scope="col">Event count</th></tr></thead><tbody id="version-error-rows"><tr><td colspan="2">No event counts loaded.</td></tr></tbody></table></div>
+        </section>
+        <section class="report-section" aria-labelledby="download-title">
+          <div class="report-heading"><div><p class="eyebrow">Website</p><h2 id="download-title">Downloads by version</h2></div><p class="muted">Total download events appear above.</p></div>
+          <div class="table-scroll"><table><caption>Download event counts by version</caption><thead><tr><th scope="col">Version</th><th scope="col">Download events</th></tr></thead><tbody id="download-rows"><tr><td colspan="2">No event counts loaded.</td></tr></tbody></table></div>
+        </section>
+      </section>
+    </section>
+  </article>
+</BaseLayout>
+
+<script is:inline>
+  (() => {
+    const loginPanel = document.getElementById('login-panel');
+    const loginForm = document.getElementById('login-form');
+    const emailInput = document.getElementById('admin-email');
+    const passwordInput = document.getElementById('admin-password');
+    const dashboard = document.getElementById('dashboard');
+    const dashboardHeading = document.getElementById('dashboard-title');
+    const status = document.getElementById('dashboard-status');
+    const range = document.getElementById('range');
+    const signOutButton = document.getElementById('sign-out');
+    const number = new Intl.NumberFormat('en-US');
+    let accessToken = '';
+    let expiresAt = 0;
+    let expiryTimer = 0;
+    let analyticsRequest = 0;
+
+    const setStatus = (message) => { status.textContent = message; };
+    const count = (value) => Number.isFinite(Number(value)) ? Number(value) : 0;
+    const setValue = (id, value) => {
+      document.getElementById(id).textContent = value;
+      document.querySelectorAll(`[data-count="${id}"]`).forEach((element) => { element.textContent = value; });
+    };
+    const setCount = (id, value) => {
+      setValue(id, number.format(count(value)));
+    };
+    const rows = (data, names) => {
+      for (const name of names) {
+        const value = data?.[name];
+        if (Array.isArray(value)) return value;
+      }
+      return [];
+    };
+    const metric = (data, names) => names.find((name) => data?.[name] !== undefined) ? data[names.find((name) => data?.[name] !== undefined)] : 0;
+    const itemLabel = (item, names) => {
+      for (const name of names) if (typeof item?.[name] === 'string' && item[name]) return item[name];
+      return 'Other';
+    };
+    const itemCount = (item) => metric(item, ['count', 'events', 'eventCount', 'total']);
+    const clearRows = (id, columnCount) => {
+      const body = document.getElementById(id);
+      body.replaceChildren();
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.colSpan = columnCount;
+      cell.textContent = 'No event counts for this range.';
+      row.append(cell);
+      body.append(row);
+      return body;
+    };
+    const renderRows = (id, data, labelNames) => {
+      const body = clearRows(id, 2);
+      if (!data.length) return;
+      body.replaceChildren();
+      data.forEach((item) => {
+        const row = document.createElement('tr');
+        const label = document.createElement('td');
+        const value = document.createElement('td');
+        label.textContent = itemLabel(item, labelNames);
+        value.textContent = number.format(count(itemCount(item)));
+        row.append(label, value);
+        body.append(row);
+      });
+    };
+    const itemCode = (item, names) => {
+      for (const name of names) if (typeof item?.[name] === 'string' && item[name]) return item[name];
+      return '—';
+    };
+    const renderBreakdown = (id, data, columns) => {
+      const body = clearRows(id, columns.length + 1);
+      if (!data.length) return;
+      body.replaceChildren();
+      data.forEach((item) => {
+        const row = document.createElement('tr');
+        columns.forEach((names) => {
+          const cell = document.createElement('td');
+          cell.textContent = itemCode(item, names);
+          row.append(cell);
+        });
+        const value = document.createElement('td');
+        value.textContent = number.format(count(itemCount(item)));
+        row.append(value);
+        body.append(row);
+      });
+    };
+    const renderUnavailable = (id, columnCount) => {
+      const body = clearRows(id, columnCount);
+      const cell = body.querySelector('td');
+      cell.textContent = 'Unavailable';
+    };
+    const renderTrendRows = (data) => {
+      const body = document.getElementById('trend-rows');
+      body.replaceChildren();
+      if (!data.length) {
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.colSpan = 3;
+        cell.textContent = 'No event counts for this range.';
+        row.append(cell);
+        body.append(row);
+        return;
+      }
+      data.forEach((item) => {
+        const row = document.createElement('tr');
+        const day = document.createElement('td');
+        const pageviews = document.createElement('td');
+        const ctas = document.createElement('td');
+        day.textContent = itemLabel(item, ['day', 'date', 'period']);
+        pageviews.textContent = number.format(count(metric(item, ['pageviews', 'pageviewEvents'])));
+        ctas.textContent = number.format(count(metric(item, ['ctas', 'ctaEvents'])));
+        row.append(day, pageviews, ctas);
+        body.append(row);
+      });
+    };
+    const renderTrend = (data) => {
+      const chart = document.getElementById('trend-chart');
+      chart.querySelectorAll('[data-trend-line]').forEach((line) => line.remove());
+      if (!data.length) return;
+      const values = data.flatMap((item) => [count(metric(item, ['pageviews', 'pageviewEvents'])), count(metric(item, ['ctas', 'ctaEvents']))]);
+      const maximum = Math.max(1, ...values);
+      const width = 336;
+      const height = 112;
+      const left = 12;
+      const top = 12;
+      const point = (value, index) => `${left + (width * index) / Math.max(1, data.length - 1)},${top + height - (height * count(value)) / maximum}`;
+      const draw = (names, stroke) => {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        line.setAttribute('data-trend-line', '');
+        line.setAttribute('fill', 'none');
+        line.setAttribute('stroke', stroke);
+        line.setAttribute('stroke-linecap', 'round');
+        line.setAttribute('stroke-linejoin', 'round');
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('points', data.map((item, index) => point(metric(item, names), index)).join(' '));
+        chart.append(line);
+      };
+      draw(['pageviews', 'pageviewEvents'], '#6d4aff');
+      draw(['ctas', 'ctaEvents'], '#00a49d');
+    };
+    const clearSession = (message) => {
+      analyticsRequest += 1;
+      accessToken = '';
+      expiresAt = 0;
+      clearTimeout(expiryTimer);
+      expiryTimer = 0;
+      passwordInput.value = '';
+      dashboard.hidden = true;
+      loginPanel.hidden = false;
+      setStatus(message);
+      emailInput.focus();
+    };
+    const tokenExpiry = (token, response) => {
+      const seconds = Number(response.expires_in);
+      if (Number.isFinite(seconds) && seconds > 0) return Date.now() + seconds * 1000;
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+        return Number.isFinite(Number(payload.exp)) ? Number(payload.exp) * 1000 : 0;
+      } catch {
+        return 0;
+      }
+    };
+    const render = (data) => {
+      data = data || {};
+      const kpis = data.kpis || data.metrics || {};
+      const accounts = data.accounts || {};
+      const site = data.site || {};
+      const product = data.product || {};
+      const downloads = data.downloads && !Array.isArray(data.downloads) ? data.downloads : {};
+      setCount('kpi-signups', metric(kpis, ['signups', 'cloudAccountsCreated', 'cloud_accounts_created']) || metric(accounts, ['signups', 'created', 'cloudAccountsCreated']));
+      setCount('kpi-active-7', metric(kpis, ['active7d', 'activeAccounts7d', 'active_accounts_7d']) || metric(accounts, ['active7d', 'activeAccounts7d']));
+      setCount('kpi-active-30', metric(kpis, ['active30d', 'activeAccounts30d', 'active_accounts_30d']) || metric(accounts, ['active30d', 'activeAccounts30d']));
+      setCount('kpi-pageviews', metric(kpis, ['pageviews', 'pageviewEvents', 'pageview_events']) || metric(site, ['pageviews', 'pageviewEvents']));
+      setCount('kpi-ctas', metric(kpis, ['ctas', 'ctaEvents', 'cta_events']) || metric(site, ['ctas', 'ctaEvents']));
+      const trend = rows(data, ['trend', 'daily']).length ? rows(data, ['trend', 'daily']) : rows(site, ['trend', 'daily']);
+      renderTrend(trend);
+      renderTrendRows(trend);
+      renderRows('source-rows', rows(site, ['sources']).length ? rows(site, ['sources']) : rows(data, ['sources']), ['source', 'category', 'label', 'name']);
+      const utmGroups = rows(site, ['utmGroups', 'campaigns', 'utm']).length ? rows(site, ['utmGroups', 'campaigns', 'utm']) : rows(data, ['utmGroups', 'campaigns', 'utm']);
+      renderBreakdown('utm-rows', utmGroups, [['utmSource', 'source'], ['utmMedium', 'medium'], ['utmCampaign', 'campaign']]);
+      const pageGroups = Array.isArray(site.pageGroups) ? site.pageGroups : rows(data, ['pageGroups']);
+      renderBreakdown('page-group-rows', pageGroups, [['eventType', 'type'], ['pageGroup', 'label', 'name']]);
+      const ctaGroups = Array.isArray(site.ctaGroups) ? site.ctaGroups : rows(data, ['ctaGroups']);
+      renderBreakdown('cta-group-rows', ctaGroups, [['pageGroup'], ['ctaType', 'type'], ['destination'], ['campaign']]);
+      renderRows('product-event-rows', rows(data, ['productEvents', 'product_events']).length ? rows(data, ['productEvents', 'product_events']) : rows(product, ['events', 'productEvents']), ['eventType', 'event', 'label', 'name']);
+      renderRows('version-error-rows', [...rows(data, ['versions']), ...rows(data, ['errors']), ...rows(product, ['versions']), ...rows(product, ['errors'])], ['version', 'error', 'label', 'name']);
+      const downloadRows = rows(data, ['downloadsByVersion', 'download_versions']).length ? rows(data, ['downloadsByVersion', 'download_versions']) : rows(downloads, ['byVersion', 'versions']);
+      if (downloads.available === false) {
+        setValue('kpi-downloads', 'Unavailable');
+        renderUnavailable('download-rows', 2);
+      } else {
+        setCount('kpi-downloads', metric(kpis, ['downloads', 'downloadEvents', 'download_events']) || metric(downloads, ['total', 'downloads', 'downloadEvents']));
+        renderRows('download-rows', downloadRows, ['version', 'label', 'name']);
+      }
+    };
+    const loadAnalytics = async () => {
+      if (!accessToken || !expiresAt || Date.now() >= expiresAt) {
+        clearSession('Your session has expired.');
+        return;
+      }
+      const request = ++analyticsRequest;
+      setStatus('Loading event counts.');
+      try {
+        const response = await fetch(`/_am/admin/analytics?range=${range.value}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          credentials: 'omit',
+        });
+        if (request !== analyticsRequest) return;
+        if (response.status === 401 || response.status === 403) {
+          clearSession('Your session has expired.');
+          return;
+        }
+        if (!response.ok) throw new Error('analytics request failed');
+        const data = await response.json();
+        if (request !== analyticsRequest) return;
+        render(data);
+        setStatus('Event counts loaded.');
+      } catch {
+        if (request === analyticsRequest) setStatus('Analytics could not load. Try again.');
+      }
+    };
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      passwordInput.value = '';
+      setStatus('Signing in.');
+      try {
+        const response = await fetch('/_am/auth/token?grant_type=password', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+          credentials: 'omit',
+        });
+        const data = await response.json().catch(() => null);
+        if (!response.ok || !data?.access_token) throw new Error('sign-in failed');
+        const expiry = tokenExpiry(data.access_token, data);
+        if (!expiry || Date.now() >= expiry) throw new Error('expired token');
+        accessToken = data.access_token;
+        expiresAt = expiry;
+        expiryTimer = window.setTimeout(() => clearSession('Your session has expired.'), Math.max(0, expiry - Date.now()));
+        loginPanel.hidden = true;
+        dashboard.hidden = false;
+        dashboardHeading.focus();
+        await loadAnalytics();
+      } catch {
+        clearSession('Sign-in failed. Check your email and password.');
+      }
+    });
+    range.addEventListener('change', loadAnalytics);
+    signOutButton.addEventListener('click', () => clearSession('Signed out.'));
+  })();
+</script>
+
+<style>
+  .admin { padding-top: 1rem; }
+  .admin-head { margin-bottom: 2rem; }
+  .admin-head h1 { max-width: none; }
+  .auth-card { display: grid; gap: .8rem; max-width: 30rem; }
+  .auth-card h2, .auth-card p { margin: 0; }
+  .auth-card form { display: grid; gap: .55rem; }
+  .auth-card label { font-size: .86rem; font-weight: 700; }
+  .auth-card input, .dashboard-controls select { background: var(--panel); border: 1px solid var(--line-2); border-radius: var(--r-sm); color: var(--ink); font: inherit; min-height: 2.75rem; padding: .55rem .7rem; }
+  .auth-card .button { justify-self: start; margin-top: .5rem; }
+  .dashboard-bar, .dashboard-controls, .report-heading { align-items: center; display: flex; flex-wrap: wrap; gap: .75rem 1rem; justify-content: space-between; }
+  .dashboard-bar { border-bottom: 1px solid var(--line); padding-bottom: 1.25rem; }
+  .dashboard-bar h2, .dashboard-bar p, .report-heading h2, .report-heading p { margin: 0; }
+  .dashboard-controls { justify-content: flex-end; }
+  .dashboard-controls label { font-size: .82rem; font-weight: 700; }
+  .dashboard-controls select { min-height: 2.45rem; }
+  .dashboard-controls .button { box-shadow: none; font-size: .82rem; padding: .7rem 1rem; }
+  .status { color: var(--ink-2); font-size: .88rem; min-height: 1.6em; }
+  .kpi-grid { display: grid; gap: .8rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kpi { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-md); margin: 0; padding: 1rem 1.1rem; }
+  .kpi dt { color: var(--ink-2); font-size: .78rem; font-weight: 700; }
+  .kpi dd { font-family: var(--font-display); font-size: clamp(1.65rem, 3vw, 2.35rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; margin: .55rem 0 0; }
+  .summary-table { margin-top: .8rem; }
+  .report-section { margin-top: 2.5rem; }
+  .report-heading { margin-bottom: .9rem; }
+  .report-heading h2 { font-size: 1.35rem; }
+  .report-heading .muted { font-size: .8rem; }
+  .trend-card { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-md); margin: 0 0 .8rem; padding: 1rem; }
+  .trend-legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: .7rem; }
+  .trend-legend span { align-items: center; display: inline-flex; font-size: .78rem; font-weight: 700; gap: .35rem; }
+  .trend-legend i { border-radius: var(--r-pill); display: inline-block; height: .35rem; width: 1rem; }
+  .legend-pageviews { background: var(--violet); }
+  .legend-ctas { background: var(--signal); }
+  #trend-chart { border-bottom: 1px solid var(--line-2); display: block; height: auto; width: 100%; }
+  .report-grid { display: grid; gap: 0 1.25rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .report-grid .report-section { min-width: 0; }
+  .report-grid table { min-width: 100%; }
+  table caption { caption-side: bottom; color: var(--ink-3); font-size: .74rem; padding-top: .5rem; text-align: left; }
+  @media (max-width: 52rem) { .kpi-grid, .report-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 36rem) { .kpi-grid, .report-grid { grid-template-columns: 1fr; }.dashboard-bar { align-items: flex-start; flex-direction: column; }.dashboard-controls { justify-content: flex-start; } }
+  @media (prefers-reduced-motion: reduce) { #trend-chart { animation: none; } }
+</style>
