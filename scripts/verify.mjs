@@ -90,11 +90,29 @@ for (const forbidden of ['navigator.sendBeacon', 'document.cookie', 'localStorag
   if (layoutSource.includes(forbidden)) fail(`analytics source contains forbidden ${forbidden}`);
 }
 if (/\b(?:url|query|referrer|hostname)\s*:\s*(?:location\.(?:href|search|pathname)|document\.referrer)/.test(layoutSource)) fail('analytics source sends a raw URL, query, or referrer');
-for (const expected of ["credentials: 'omit'", 'textContent', 'Authorization', '/_am/auth/token?grant_type=password', '/_am/admin/analytics?range=', 'if (Array.isArray(value)) return value;', 'downloads.available === false', 'site.pageGroups', 'site.ctaGroups', 'utmSource', 'utmMedium', 'utmCampaign', 'dashboardHeading.focus()', 'emailInput.focus()']) {
+for (const expected of [
+  "credentials: 'omit'", "cache: 'no-store'", 'textContent', 'Authorization',
+  '/_am/auth/token?grant_type=password', '/_am/admin/analytics?range=',
+  'if (Array.isArray(value)) return value;', 'downloads.available === false',
+  'site.pageGroups', 'site.ctaGroups', 'utmSource', 'utmMedium', 'utmCampaign',
+  'account-user-rows', 'profileCount', 'platforms', "platforms.join(', ')",
+  'renderAccountUsers(accounts.users);', 'clearAccountRows();', 'overflow-wrap: anywhere;',
+  'dashboardHeading.focus()', 'emailInput.focus()',
+]) {
   if (!adminSource.includes(expected)) fail(`admin source is missing ${expected}`);
 }
 for (const forbidden of ['document.cookie', 'localStorage', 'sessionStorage', 'indexedDB', 'innerHTML']) {
   if (adminSource.includes(forbidden)) fail(`admin source contains forbidden ${forbidden}`);
+}
+const accountRenderer = adminSource.slice(adminSource.indexOf('const renderAccountUsers'), adminSource.indexOf('const renderUnavailable'));
+for (const expected of ["typeof item?.email === 'string'", 'if (!email) return;', 'Number.isFinite(item.profileCount)', 'Number.isInteger(item.profileCount)', 'item.profileCount >= 0', "typeof platform === 'string'", 'platform.trim()', "platforms.join(', ')", 'emailCell.textContent', 'profileCell.textContent', 'platformCell.textContent']) {
+  if (!accountRenderer.includes(expected)) fail(`account renderer is missing ${expected}`);
+}
+const sessionCleanup = adminSource.slice(adminSource.indexOf('const clearSession'), adminSource.indexOf('const tokenExpiry'));
+if (!sessionCleanup.includes('clearAccountRows();')) fail('session cleanup must remove account rows');
+const analyticsLoader = adminSource.slice(adminSource.indexOf('const loadAnalytics'), adminSource.indexOf("loginForm.addEventListener('submit'"));
+for (const expected of ["credentials: 'omit'", "cache: 'no-store'"]) {
+  if (!analyticsLoader.includes(expected)) fail(`analytics request is missing ${expected}`);
 }
 const conversionSources = [
   [join(root, 'src/pages/index.astro'), 'data-page-group="home-workflow"'],
@@ -118,6 +136,18 @@ if (production && process.env.PUBLIC_ANALYTICS_ENDPOINT) {
 const sitemap = readFileSync(join(dist, 'sitemap.xml'), 'utf8');
 const admin = page('/admin');
 if (!admin.includes('noindex,nofollow') || canonicalFrom(admin) || jsonLdFrom(admin).length) fail('admin must be private without canonical metadata or JSON-LD');
+for (const copy of ['Current Cloud accounts', 'Email', 'Profiles', 'Profile services', 'not affected by the selected reporting range']) {
+  if (!admin.includes(copy)) fail(`admin account table is missing ${copy}`);
+}
+const accountTable = admin.slice(admin.indexOf('id="account-user-title"'), admin.indexOf('id="trend-title"'));
+for (const [pattern, label] of [
+  [/<caption[^>]*>Current Cloud accounts, owned active-profile counts, and profile services<\/caption>/, 'caption'],
+  [/<th[^>]*scope="col"[^>]*>Email<\/th>/, 'Email header'],
+  [/<th[^>]*scope="col"[^>]*>Profiles<\/th>/, 'Profiles header'],
+  [/<th[^>]*scope="col"[^>]*>Profile services<\/th>/, 'Profile services header'],
+]) {
+  if (!pattern.test(accountTable)) fail(`admin account table is missing ${label}`);
+}
 if (sitemap.includes('/admin/')) fail('sitemap contains the admin page');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 const expectedSitemapUrls = siteRoutes

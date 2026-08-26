@@ -6,7 +6,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <header class="admin-head">
       <p class="eyebrow">Private administration</p>
       <h1 id="admin-title">Analytics</h1>
-      <p class="lead">Aggregate event counts for AliasMode website and product activity.</p>
+      <p class="lead">Event counts and current Cloud account state for AliasMode.</p>
     </header>
     <p id="dashboard-status" class="status" aria-live="polite"></p>
 
@@ -49,6 +49,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <dl class="kpi"><dt>Download events</dt><dd id="kpi-downloads">—</dd></dl>
         </div>
         <div class="table-scroll summary-table"><table><caption>Account and website event counts</caption><thead><tr><th scope="col">Metric</th><th scope="col">Count</th></tr></thead><tbody><tr><td>Cloud accounts created</td><td data-count="kpi-signups">—</td></tr><tr><td>Active Cloud accounts, 7 days</td><td data-count="kpi-active-7">—</td></tr><tr><td>Active Cloud accounts, 30 days</td><td data-count="kpi-active-30">—</td></tr><tr><td>Pageview events</td><td data-count="kpi-pageviews">—</td></tr><tr><td>CTA events</td><td data-count="kpi-ctas">—</td></tr><tr><td>Download events</td><td data-count="kpi-downloads">—</td></tr></tbody></table></div>
+      </section>
+
+      <section class="report-section account-section" aria-labelledby="account-user-title">
+        <div class="report-heading">
+          <div><p class="eyebrow">Cloud</p><h2 id="account-user-title">Current Cloud accounts</h2></div>
+          <p class="muted">Current Cloud state; not affected by the selected reporting range.</p>
+        </div>
+        <div class="table-scroll">
+          <table class="account-user-table">
+            <caption>Current Cloud accounts, owned active-profile counts, and profile services</caption>
+            <thead><tr><th scope="col">Email</th><th scope="col">Profiles</th><th scope="col">Profile services</th></tr></thead>
+            <tbody id="account-user-rows"><tr><td colspan="3">No Cloud accounts loaded.</td></tr></tbody>
+          </table>
+        </div>
       </section>
 
       <section class="report-section" aria-labelledby="trend-title">
@@ -185,6 +199,41 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         body.append(row);
       });
     };
+    const clearAccountRows = () => {
+      const body = document.getElementById('account-user-rows');
+      body.replaceChildren();
+      return body;
+    };
+    const renderAccountUsers = (data) => {
+      const body = clearAccountRows();
+      let rendered = 0;
+      (Array.isArray(data) ? data : []).forEach((item) => {
+        const email = typeof item?.email === 'string' ? item.email.trim() : '';
+        if (!email) return;
+        const profileCount = typeof item.profileCount === 'number' && Number.isFinite(item.profileCount)
+          && Number.isInteger(item.profileCount) && item.profileCount >= 0 ? item.profileCount : null;
+        const platforms = Array.isArray(item.platforms)
+          ? item.platforms.filter((platform) => typeof platform === 'string' && platform.trim())
+          : [];
+        const row = document.createElement('tr');
+        const emailCell = document.createElement('td');
+        const profileCell = document.createElement('td');
+        const platformCell = document.createElement('td');
+        emailCell.textContent = email;
+        profileCell.textContent = profileCount === null ? '—' : number.format(profileCount);
+        platformCell.textContent = platforms.length ? platforms.join(', ') : '—';
+        row.append(emailCell, profileCell, platformCell);
+        body.append(row);
+        rendered += 1;
+      });
+      if (rendered) return;
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.colSpan = 3;
+      cell.textContent = 'No Cloud accounts.';
+      row.append(cell);
+      body.append(row);
+    };
     const renderUnavailable = (id, columnCount) => {
       const body = clearRows(id, columnCount);
       const cell = body.querySelector('td');
@@ -246,6 +295,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       clearTimeout(expiryTimer);
       expiryTimer = 0;
       passwordInput.value = '';
+      clearAccountRows();
       dashboard.hidden = true;
       loginPanel.hidden = false;
       setStatus(message);
@@ -268,6 +318,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const site = data.site || {};
       const product = data.product || {};
       const downloads = data.downloads && !Array.isArray(data.downloads) ? data.downloads : {};
+      renderAccountUsers(accounts.users);
       setCount('kpi-signups', metric(kpis, ['signups', 'cloudAccountsCreated', 'cloud_accounts_created']) || metric(accounts, ['signups', 'created', 'cloudAccountsCreated']));
       setCount('kpi-active-7', metric(kpis, ['active7d', 'activeAccounts7d', 'active_accounts_7d']) || metric(accounts, ['active7d', 'activeAccounts7d']));
       setCount('kpi-active-30', metric(kpis, ['active30d', 'activeAccounts30d', 'active_accounts_30d']) || metric(accounts, ['active30d', 'activeAccounts30d']));
@@ -305,6 +356,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         const response = await fetch(`/_am/admin/analytics?range=${range.value}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
           credentials: 'omit',
+          cache: 'no-store',
         });
         if (request !== analyticsRequest) return;
         if (response.status === 401 || response.status === 403) {
@@ -391,6 +443,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .report-grid { display: grid; gap: 0 1.25rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .report-grid .report-section { min-width: 0; }
   .report-grid table { min-width: 100%; }
+  .account-user-table { table-layout: fixed; width: 100%; }
+  .account-user-table th:nth-child(2) { width: 7rem; }
+  .account-user-table td:first-child, .account-user-table td:last-child { overflow-wrap: anywhere; }
   table caption { caption-side: bottom; color: var(--ink-3); font-size: .74rem; padding-top: .5rem; text-align: left; }
   @media (max-width: 52rem) { .kpi-grid, .report-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 36rem) { .kpi-grid, .report-grid { grid-template-columns: 1fr; }.dashboard-bar { align-items: flex-start; flex-direction: column; }.dashboard-controls { justify-content: flex-start; } }
