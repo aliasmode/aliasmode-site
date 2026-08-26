@@ -49,7 +49,7 @@ for (const route of siteRoutes) {
   if (route.path !== '/' && !route.path.endsWith('/')) fail(`${route.path} is not a canonical trailing-slash route`);
   page(route.path);
 }
-for (const route of ['/auth/email-confirmation', '/auth/password-reset', '/404']) page(route);
+for (const route of ['/auth/email-confirmation', '/auth/password-reset', '/404', '/admin']) page(route);
 
 const titleSet = new Set();
 const descriptionSet = new Set();
@@ -80,13 +80,45 @@ const png = readFileSync(socialImage);
 if (png.readUInt32BE(16) !== 1200 || png.readUInt32BE(20) !== 630) fail('social sharing image must be 1200x630');
 if (production && process.env.PUBLIC_GOOGLE_SITE_VERIFICATION && meta(page('/'), 'name', 'google-site-verification') !== process.env.PUBLIC_GOOGLE_SITE_VERIFICATION) fail('Google site verification is missing');
 if (production && process.env.PUBLIC_BING_SITE_VERIFICATION && meta(page('/'), 'name', 'msvalidate.01') !== process.env.PUBLIC_BING_SITE_VERIFICATION) fail('Bing site verification is missing');
+
+const layoutSource = readFileSync(join(root, 'src/layouts/BaseLayout.astro'), 'utf8');
+const adminSource = readFileSync(join(root, 'src/pages/admin.astro'), 'utf8');
+for (const expected of ["eventType: 'pageview'", "eventType: 'cta'", "keepalive: true", "credentials: 'omit'", 'new URLSearchParams(location.search)', 'document.referrer', "'unattributed'"]) {
+  if (!layoutSource.includes(expected)) fail(`analytics source is missing ${expected}`);
+}
+for (const forbidden of ['navigator.sendBeacon', 'document.cookie', 'localStorage', 'sessionStorage', 'indexedDB', 'crypto.randomUUID', 'clientId', 'visitorId', 'sessionId', 'location.href', 'location.pathname']) {
+  if (layoutSource.includes(forbidden)) fail(`analytics source contains forbidden ${forbidden}`);
+}
+if (/\b(?:url|query|referrer|hostname)\s*:\s*(?:location\.(?:href|search|pathname)|document\.referrer)/.test(layoutSource)) fail('analytics source sends a raw URL, query, or referrer');
+for (const expected of ["credentials: 'omit'", 'textContent', 'Authorization', '/_am/auth/token?grant_type=password', '/_am/admin/analytics?range=', 'if (Array.isArray(value)) return value;', 'downloads.available === false', 'site.pageGroups', 'site.ctaGroups', 'utmSource', 'utmMedium', 'utmCampaign', 'dashboardHeading.focus()', 'emailInput.focus()']) {
+  if (!adminSource.includes(expected)) fail(`admin source is missing ${expected}`);
+}
+for (const forbidden of ['document.cookie', 'localStorage', 'sessionStorage', 'indexedDB', 'innerHTML']) {
+  if (adminSource.includes(forbidden)) fail(`admin source contains forbidden ${forbidden}`);
+}
+const conversionSources = [
+  [join(root, 'src/pages/index.astro'), 'data-page-group="home-workflow"'],
+  [join(root, 'src/pages/pricing.astro'), 'data-page-group="pricing-note"'],
+  [join(root, 'src/pages/local-vs-cloud.astro'), 'data-page-group="local-vs-cloud"'],
+];
+for (const [file, marker] of conversionSources) {
+  if (!readFileSync(file, 'utf8').includes(marker)) fail(`${relative(root, file)} is missing its conversion tracking marker`);
+}
+if (!readFileSync(join(root, 'src/pages/privacy.astro'), 'utf8').includes('Effective: August 26, 2026')) fail('current privacy effective date is incorrect');
 if (production && process.env.PUBLIC_ANALYTICS_ENDPOINT) {
   const product = page('/product/');
-  if (!product.includes('data-track-cta') || !product.includes('navigator.sendBeacon') || !product.includes(process.env.PUBLIC_ANALYTICS_ENDPOINT)) fail('configured aggregate CTA measurement is missing');
-  if (page('/auth/email-confirmation').includes(process.env.PUBLIC_ANALYTICS_ENDPOINT)) fail('auth callbacks must omit CTA measurement');
+  if (!product.includes('data-track-cta') || !product.includes("eventType: 'pageview'") || !product.includes("eventType: 'cta'") || !product.includes('keepalive: true') || !product.includes("credentials: 'omit'") || !product.includes(process.env.PUBLIC_ANALYTICS_ENDPOINT)) fail('configured aggregate pageview and CTA measurement is missing');
+  for (const route of ['/auth/email-confirmation', '/auth/password-reset', '/404', '/admin', '/privacy/v2/', '/privacy/v3/']) {
+    if (page(route).includes(process.env.PUBLIC_ANALYTICS_ENDPOINT)) fail(`${route} must omit website measurement`);
+  }
+} else if (page('/').includes('/_am/events')) {
+  fail('preview must omit website measurement');
 }
 
 const sitemap = readFileSync(join(dist, 'sitemap.xml'), 'utf8');
+const admin = page('/admin');
+if (!admin.includes('noindex,nofollow') || canonicalFrom(admin) || jsonLdFrom(admin).length) fail('admin must be private without canonical metadata or JSON-LD');
+if (sitemap.includes('/admin/')) fail('sitemap contains the admin page');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 const expectedSitemapUrls = siteRoutes
   .filter((route) => route.sitemap !== false)
@@ -97,6 +129,10 @@ if (sitemap.includes('/auth/') || sitemap.includes('/404')) fail('sitemap contai
 
 const home = page('/');
 const pricing = page('/pricing/');
+const localVsCloud = page('/local-vs-cloud/');
+for (const [route, text, marker] of [['/', home, 'data-page-group="home-workflow"'], ['/pricing/', pricing, 'data-page-group="pricing-note"'], ['/local-vs-cloud/', localVsCloud, 'data-page-group="local-vs-cloud"']]) {
+  if (!text.includes('data-track-cta') || !text.includes(marker)) fail(`${route} is missing its tracked conversion control`);
+}
 if (!home.includes('href="/download/"') || !pricing.includes('href="/download/"')) fail('home and pricing must link to the download flow');
 for (const [route, text] of [['/', home], ['/pricing/', pricing]]) {
   for (const copy of ['Cloud', 'Local', 'Donate', '$0', 'Optional', 'All AliasMode functionality is free.', 'AliasMode is a non-profit project supported by optional donations.', 'Email us about donating']) {
@@ -116,7 +152,7 @@ const frozenLegal = new Set(['acceptable-use/v2/index.html', 'privacy/v2/index.h
 for (const file of html) {
   const text = readFileSync(file, 'utf8');
   const builtPath = relative(dist, file);
-  const privatePage = builtPath === '404.html' || builtPath.startsWith('auth/');
+  const privatePage = builtPath === '404.html' || builtPath === 'admin/index.html' || builtPath.startsWith('auth/');
   const shouldIndex = production && !privatePage;
   if (shouldIndex && text.includes('noindex,nofollow')) fail(`${builtPath} must be indexable in production`);
   if (shouldIndex && !canonicalFrom(text)) fail(`${builtPath} must have a production canonical URL`);

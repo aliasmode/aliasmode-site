@@ -19,6 +19,8 @@ const resolvedTitle = route?.title ?? title;
 const resolvedDescription = route?.description ?? description;
 const fullTitle = `${resolvedTitle} · AliasMode`;
 const shouldIndex = siteConfig.index && !noIndex;
+const shouldMeasure = siteConfig.isProduction && shouldIndex && route?.sitemap !== false && Boolean(siteConfig.analyticsEndpoint);
+const analyticsPageGroup = route?.kind ?? 'site';
 const canonical = shouldIndex && includeCanonical ? new URL(routePath, siteConfig.origin).toString() : undefined;
 const metadataUrl = new URL(routePath, siteConfig.metadataOrigin).toString();
 const socialImage = new URL('/social/aliasmode-open-source-antidetect-browser.png', siteConfig.metadataOrigin).toString();
@@ -131,7 +133,7 @@ const structuredData = schemas.length
         </div>
         <div class="header-actions">
           <span class="tg-desktop"><TelegramButton href={siteConfig.telegramCommunity} label="Join the AliasMode Telegram group" tone="outline" iconOnly /></span>
-          <a class="header-cta" href="/download/">Download free</a>
+          <a class="header-cta" href="/download/" data-track-cta data-cta-type="download" data-page-group="header" data-destination="download">Download free</a>
           <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu">
             <span class="nav-bars" aria-hidden="true"><i></i><i></i><i></i></span>
           </button>
@@ -177,20 +179,69 @@ const structuredData = schemas.length
         wide.addEventListener('change', (event) => { if (event.matches) set(false); });
       })();
     </script>
-    {siteConfig.analyticsEndpoint && !noIndex && (
-      <script is:inline define:vars={{ endpoint: siteConfig.analyticsEndpoint }}>
-        document.addEventListener('click', (event) => {
-          if (!(event.target instanceof Element)) return;
-          const link = event.target.closest('[data-track-cta]');
-          if (!(link instanceof HTMLElement)) return;
-          const body = JSON.stringify({
-            pageGroup: link.dataset.pageGroup,
-            ctaType: link.dataset.ctaType,
-            destination: link.dataset.destination,
-            campaign: link.dataset.campaign || undefined,
+    {shouldMeasure && (
+      <script is:inline define:vars={{ endpoint: siteConfig.analyticsEndpoint, pageGroup: analyticsPageGroup }}>
+        (() => {
+          const normalizeCode = (value) => value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 128) || undefined;
+          const referrerCategory = (value) => {
+            if (!value) return 'unattributed';
+            try {
+              const referrer = new URL(value);
+              if (referrer.origin === location.origin) return 'internal';
+              const host = referrer.hostname.toLowerCase();
+              const is = (domain) => host === domain || host.endsWith(`.${domain}`);
+              if (is('google.com')) return 'google';
+              if (is('bing.com')) return 'bing';
+              if (is('duckduckgo.com')) return 'duckduckgo';
+              if (is('github.com')) return 'github';
+              if (is('x.com') || is('twitter.com')) return 'x';
+              if (is('reddit.com')) return 'reddit';
+              if (is('news.ycombinator.com')) return 'hacker-news';
+              if (is('linkedin.com')) return 'linkedin';
+            } catch {
+              return 'other';
+            }
+            return 'other';
+          };
+          const send = (event) => {
+            fetch(endpoint, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(event),
+              keepalive: true,
+              credentials: 'omit',
+            }).catch(() => {});
+          };
+          const query = new URLSearchParams(location.search);
+          const utmSource = normalizeCode(query.get('utm_source') || '');
+          const utmMedium = normalizeCode(query.get('utm_medium') || '');
+          const utmCampaign = normalizeCode(query.get('utm_campaign') || '');
+          const pageview = {
+            eventType: 'pageview',
+            pageGroup: normalizeCode(pageGroup) || 'site',
+            source: referrerCategory(document.referrer),
+            ...(utmSource ? { utmSource } : {}),
+            ...(utmMedium ? { utmMedium } : {}),
+            ...(utmCampaign ? { utmCampaign } : {}),
+          };
+          send(pageview);
+          document.addEventListener('click', (event) => {
+            if (!(event.target instanceof Element)) return;
+            const link = event.target.closest('[data-track-cta]');
+            if (!(link instanceof HTMLElement)) return;
+            const ctaType = normalizeCode(link.dataset.ctaType || '');
+            const destination = normalizeCode(link.dataset.destination || '');
+            const campaign = normalizeCode(link.dataset.campaign || '');
+            if (!ctaType) return;
+            send({
+              eventType: 'cta',
+              pageGroup: normalizeCode(link.dataset.pageGroup || '') || normalizeCode(pageGroup) || 'site',
+              ctaType,
+              ...(destination ? { destination } : {}),
+              ...(campaign ? { campaign } : {}),
+            });
           });
-          navigator.sendBeacon(endpoint, new Blob([body], { type: 'application/json' }));
-        });
+        })();
       </script>
     )}
   </body>

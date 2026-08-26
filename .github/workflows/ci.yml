@@ -26,6 +26,7 @@ jobs:
           PUBLIC_SITE_ORIGIN: https://aliasmode.com
           PUBLIC_SUPPORT_EMAIL: support@aliasmode.com
           PUBLIC_SECURITY_EMAIL: security@aliasmode.com
+          PUBLIC_ANALYTICS_ENDPOINT: https://aliasmode.com/_am/events
         run: npm run verify
       - name: Build preview container
         run: docker build --build-arg PUBLIC_SITE_ENV=preview --tag aliasmode-site:preview .
@@ -61,6 +62,7 @@ jobs:
             --build-arg PUBLIC_SITE_ORIGIN=https://aliasmode.com \
             --build-arg PUBLIC_SUPPORT_EMAIL=support@aliasmode.com \
             --build-arg PUBLIC_SECURITY_EMAIL=security@aliasmode.com \
+            --build-arg PUBLIC_ANALYTICS_ENDPOINT=https://aliasmode.com/_am/events \
             --tag aliasmode-site:production .
       - name: Smoke-test production container
         shell: bash
@@ -78,5 +80,6 @@ jobs:
           home="$(curl --fail --silent http://127.0.0.1:18081/)"
           grep -F '<link rel="canonical" href="https://aliasmode.com/">' <<<"$home" >/dev/null
           grep -F 'application/ld+json' <<<"$home" >/dev/null
+          grep -F 'https://aliasmode.com/_am/events' <<<"$home" >/dev/null
           curl --fail --silent http://127.0.0.1:18081/product | grep -F '<link rel="canonical" href="https://aliasmode.com/product/">' >/dev/null
           if grep -F 'noindex,nofollow' <<<"$home" >/dev/null; then exit 1; fi

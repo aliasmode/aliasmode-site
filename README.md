@@ -1,6 +1,6 @@
 # AliasMode Site
 
-Static public site for AliasMode by Xreacher. It uses no third-party assets, trackers, visitor IDs, or browsing analytics.
+Static public site for AliasMode by Xreacher. It uses no third-party assets, trackers, or visitor IDs. Production builds can send same-origin aggregate pageview and CTA events without cookies or persistent IDs, using an unattributed source category when browsers hide referrers.
 
 ## Setup
 
@@ -114,6 +114,6 @@ Production builds generate self-canonicals, Open Graph and Twitter metadata, JSO
 
 ## Policy notes
 
-Optional CTA measurement is same-origin and aggregate. It records only page group, CTA type, campaign code, and destination product. It uses no cookies, persistent IDs, page trails, referrer data, profile data, fingerprinting, ads, or session replay.
+Optional website measurement is same-origin and aggregate. It records pageview and CTA event counts by page group, CTA type, destination product, coarse source category, and explicit UTM or campaign codes. It uses no cookies, persistent IDs, page trails, raw URLs, raw referrers, profile data, fingerprinting, ads, or session replay.
 
 The `/terms`, `/privacy`, and `/acceptable-use` routes are the current legal pages. Versioned pages (such as `/v2`) are frozen snapshots. Create a new version route instead of editing a versioned page; `scripts/v1-manifest.mjs` makes unintended changes fail verification.

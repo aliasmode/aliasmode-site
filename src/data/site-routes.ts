@@ -375,6 +375,9 @@ export const siteRoutes: SiteRoute[] = [
     path: '/privacy/v2/', label: 'Privacy v2', title: 'Privacy Policy v2', description: 'Version 2 of the AliasMode Privacy Policy, effective August 12, 2026.', kind: 'legal', parent: '/privacy/', sitemap: false,
   },
   {
+    path: '/privacy/v3/', label: 'Privacy v3', title: 'Privacy Policy v3', description: 'Version 3 of the AliasMode Privacy Policy, effective August 26, 2026.', kind: 'legal', parent: '/privacy/', sitemap: false,
+  },
+  {
     path: '/acceptable-use/v2/', label: 'Acceptable Use v2', title: 'Acceptable Use Policy v2', description: 'Version 2 of the AliasMode Acceptable Use Policy, effective August 12, 2026.', kind: 'legal', parent: '/acceptable-use/', sitemap: false,
   },
 ].map((route) => ({ ...route, path: canonicalPath(route.path) }));
