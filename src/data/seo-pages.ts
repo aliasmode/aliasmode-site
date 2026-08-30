@@ -207,11 +207,62 @@ export const seoPages: SeoPage[] = [
     lead: 'Use these guides to move from installation to a working browser profile, then add proxy settings, Local API control, or Playwright automation.',
     primary: { href: '/docs/getting-started/', label: 'Start the setup guide' },
     secondary: { href: '/download/', label: 'Download AliasMode' },
-    children: ['/docs/getting-started/', '/docs/browser-profiles/', '/docs/proxies/', '/docs/local-api/', '/docs/playwright/', '/docs/cloakbrowser/', '/docs/troubleshooting/'],
+    children: ['/docs/getting-started/', '/docs/connectors/', '/docs/browser-profiles/', '/docs/proxies/', '/docs/local-api/', '/docs/playwright/', '/docs/cloakbrowser/', '/docs/troubleshooting/'],
     sections: [
       { title: 'Start with a working profile', paragraphs: ['Install the Windows desktop client and CloakBrowser. Choose Cloud or Local, create a profile, confirm its settings, and open the browser.'], links: [{ href: '/docs/getting-started/', label: 'Follow getting started' }] },
+      { title: 'Connect Claude or ChatGPT', paragraphs: ['Cloud mode gives one Windows installation a pinned remote MCP URL. Add that URL to Claude or ChatGPT, sign in to AliasMode, and use Playwright tools in the selected profile.'], links: [{ href: '/docs/connectors/', label: 'Connect an AI client' }] },
       { title: 'Configure the workflow', paragraphs: ['Learn what a profile stores, assign an HTTP, HTTPS, or SOCKS5 proxy, and organize repeatable profile groups.'], links: [{ href: '/docs/browser-profiles/', label: 'Understand browser profiles' }, { href: '/docs/proxies/', label: 'Set up proxies' }] },
       { title: 'Connect internal tools', paragraphs: ['Use the supported Local API subset for profile and browser control. Attach Playwright to a started browser over CDP.'], links: [{ href: '/docs/local-api/', label: 'Read the API reference' }, { href: '/docs/playwright/', label: 'Connect Playwright' }] },
+    ],
+  },
+  {
+    path: '/docs/connectors/',
+    eyebrow: 'Claude and ChatGPT connectors',
+    headline: 'Control your Windows browsers from an AI client.',
+    lead: 'Connect Claude or ChatGPT to one specific AliasMode Windows installation. Select a persistent profile, then navigate, click, type, scroll, inspect pages, and run other Playwright actions in that browser.',
+    primary: { href: '/download/', label: 'Download AliasMode for Windows' },
+    secondary: { href: '/privacy/', label: 'Read the privacy policy' },
+    lastTested: '2026-08-30',
+    facts: [
+      { value: 'Windows', label: 'Browser device' },
+      { value: 'OAuth', label: 'Web client sign-in' },
+      { value: 'Playwright', label: 'Page actions' },
+    ],
+    sections: [
+      {
+        title: 'Before you connect',
+        paragraphs: ['Install the current AliasMode Windows beta and CloakBrowser. Choose Cloud, sign in, create at least one profile, and keep AliasMode running while the AI client works. Remote connectors are not available in Local mode.'],
+        bullets: ['Windows x64 device with AliasMode open', 'AliasMode Cloud account', 'CloakBrowser installed', 'A profile available on this device'],
+        links: [{ href: '/docs/getting-started/', label: 'Set up AliasMode first' }],
+      },
+      {
+        title: '1. Copy the pinned server URL',
+        paragraphs: ['Open Account & Settings, find Remote MCP, and copy the server URL. The URL addresses this exact Windows installation. AliasMode does not redirect automation to another device when it is offline.'],
+        code: 'https://cloud.aliasmode.com/v1/mcp/devices/<device-id>',
+      },
+      {
+        title: '2. Add AliasMode to Claude or ChatGPT',
+        paragraphs: ['Create a custom remote MCP connection and paste the pinned URL. Choose required OAuth authentication and automatic client registration when the client asks. Do not add the Settings access key as a custom header.'],
+        bullets: ['Claude: add a custom connector and use automatic OAuth registration', 'ChatGPT: add a custom MCP connection in developer settings', 'Use the server URL exactly as AliasMode displays it'],
+      },
+      {
+        title: '3. Sign in and allow access',
+        paragraphs: ['The client opens the AliasMode consent page. Sign in with the same AliasMode account that owns the Windows device, then select Sign in and allow. The web client receives its own revocable OAuth access instead of the Windows device credential or Settings access key.'],
+      },
+      {
+        title: '4. Select a profile and use Playwright',
+        paragraphs: ['Ask the client to list profiles, open a profile or select one that is already open, and then perform page actions. Browser tools are visible as soon as the connector loads, but they return a clear selection error until one profile is selected.'],
+        code: 'List my AliasMode profiles.\nSelect the open profile named Research.\nTake a page snapshot, scroll down, and summarize what is visible.',
+        bullets: ['List and create profiles', 'Open headful or headless browsers', 'Select an already-open browser', 'Navigate, click, type, scroll, inspect, screenshot, and run Playwright code', 'Capture and close a browser safely'],
+      },
+      {
+        title: 'Access and troubleshooting',
+        paragraphs: ['An offline device returns an error and does not queue work. If approval fails, confirm that the consent page uses the account that owns the device. If lifecycle tools appear but Playwright actions do not, update AliasMode and reconnect the client so it reloads the current tool list.'],
+        links: [
+          { href: '/contact/', label: 'Contact AliasMode support' },
+          { href: '/security/', label: 'Review security boundaries' },
+        ],
+      },
     ],
   },
   {

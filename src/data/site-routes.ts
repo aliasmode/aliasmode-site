@@ -111,7 +111,7 @@ export const siteRoutes: SiteRoute[] = [
     title: 'AliasMode Documentation',
     description: 'Install AliasMode, create browser profiles, configure proxies, use the Local API, connect Playwright, and troubleshoot common issues.',
     kind: 'documentation',
-    related: ['/docs/getting-started/', '/docs/browser-profiles/', '/docs/local-api/'],
+    related: ['/docs/getting-started/', '/docs/connectors/', '/docs/local-api/'],
   },
   {
     path: '/docs/getting-started/',
@@ -121,6 +121,15 @@ export const siteRoutes: SiteRoute[] = [
     kind: 'documentation',
     parent: '/docs/',
     related: ['/download/', '/docs/cloakbrowser/', '/docs/browser-profiles/'],
+  },
+  {
+    path: '/docs/connectors/',
+    label: 'Claude and ChatGPT',
+    title: 'Connect Claude and ChatGPT to AliasMode',
+    description: 'Connect a pinned AliasMode Windows device through remote MCP and OAuth, select a persistent browser profile, and use Playwright page actions.',
+    kind: 'documentation',
+    parent: '/docs/',
+    related: ['/download/', '/docs/getting-started/', '/security/'],
   },
   {
     path: '/docs/browser-profiles/',
