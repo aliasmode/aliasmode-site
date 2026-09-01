@@ -1,4 +1,4 @@
-import type { RankingPage } from './types';
+import type { RankingPage } from '../types.ts';
 
 export const rankingPages: RankingPage[] = [
   {

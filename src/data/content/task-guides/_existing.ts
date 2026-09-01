@@ -1,4 +1,4 @@
-import type { TaskGuidePage } from './types';
+import type { TaskGuidePage } from '../types.ts';
 
 export const taskGuidePages: TaskGuidePage[] = [
   {

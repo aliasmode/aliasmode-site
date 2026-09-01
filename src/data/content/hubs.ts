@@ -1,5 +1,5 @@
-import { productFacts } from '../product';
-import type { HubPage } from './types';
+import { productFacts } from '../product.ts';
+import type { HubPage } from './types.ts';
 
 export const hubPages: HubPage[] = [
   // ---------------------------------------------------------------------
@@ -447,10 +447,10 @@ export const hubPages: HubPage[] = [
     related: ['/docs/getting-started/', '/docs/connectors/', '/docs/local-api/'],
     primaryCta: { href: '/docs/getting-started/', label: 'Start the setup guide', type: 'docs' },
     secondaryCta: { href: '/download/', label: 'Download AliasMode', type: 'download-installer' },
-    children: ['/docs/getting-started/', '/docs/connectors/', '/docs/browser-profiles/', '/docs/proxies/', '/docs/local-api/', '/docs/playwright/', '/docs/cloakbrowser/', '/docs/troubleshooting/'],
+    children: ['/docs/getting-started/', '/docs/connectors/', '/docs/mcp/', '/docs/browser-profiles/', '/docs/proxies/', '/docs/local-api/', '/docs/playwright/', '/docs/macos/', '/docs/linux-remote-mcp/', '/docs/cloakbrowser/', '/docs/troubleshooting/'],
     groups: [
-      { title: 'Setup', description: 'Install AliasMode and open your first profile.', paths: ['/docs/getting-started/', '/docs/cloakbrowser/'] },
-      { title: 'AI clients', description: 'Connect Claude or ChatGPT over remote MCP.', paths: ['/docs/connectors/'] },
+      { title: 'Setup', description: 'Install AliasMode and open your first profile.', paths: ['/docs/getting-started/', '/docs/cloakbrowser/', '/docs/macos/'] },
+      { title: 'AI clients and MCP', description: 'Local MCP tools, Remote MCP connectors, and agent clients.', paths: ['/docs/mcp/', '/docs/connectors/', '/docs/linux-remote-mcp/'] },
       { title: 'Configure the workflow', description: 'Understand profiles and proxies.', paths: ['/docs/browser-profiles/', '/docs/proxies/'] },
       { title: 'Automation and support', description: 'Control AliasMode from code and fix common issues.', paths: ['/docs/local-api/', '/docs/playwright/', '/docs/troubleshooting/'] },
     ],
@@ -498,7 +498,7 @@ export const hubPages: HubPage[] = [
     kind: 'comparison',
     label: 'Alternatives',
     title: 'Antidetect Browser Alternatives',
-    description: 'Compare AliasMode with AdsPower, GoLogin, Multilogin, and Dolphin Anty by price, source availability, Local use, teams, and automation.',
+    description: 'Compare AliasMode with thirty antidetect browsers and the wider ecosystem by price, source availability, Local use, teams, and automation.',
     h1: 'Compare browser profile managers by workflow.',
     eyebrow: 'Product comparisons',
     lead: 'Choose based on the operating model your team needs: open-source desktop code, account-free Local use, managed Cloud teamwork, established enterprise support, or a specific automation interface.',
@@ -506,9 +506,9 @@ export const hubPages: HubPage[] = [
     intent: 'navigational',
     intentKey: 'hub:alternatives',
     topicCluster: 'comparisons',
-    related: ['/alternatives/adspower/', '/alternatives/gologin/', '/alternatives/multilogin/'],
-    children: ['/alternatives/adspower/', '/alternatives/gologin/', '/alternatives/multilogin/', '/alternatives/dolphin-anty/'],
-    groups: [{ title: 'Compare by vendor', description: 'Choose the competitor closest to your current tool.', paths: ['/alternatives/adspower/', '/alternatives/gologin/', '/alternatives/multilogin/', '/alternatives/dolphin-anty/'] }],
+    related: ['/alternatives/adspower/', '/best-antidetect-browsers/', '/best-open-source-antidetect-browsers/'],
+    children: ['/alternatives/adspower/', '/alternatives/gologin/', '/alternatives/multilogin/', '/alternatives/dolphin-anty/', '/alternatives/octo-browser/', '/alternatives/morelogin/', '/alternatives/incogniton/', '/alternatives/kameleo/', '/alternatives/bitbrowser/', '/alternatives/vmlogin/', '/alternatives/geelark/', '/alternatives/nstbrowser/', '/alternatives/hidemyacc/', '/alternatives/undetectable/', '/alternatives/lalicat/', '/alternatives/linken-sphere/', '/alternatives/genlogin/', '/alternatives/clonbrowser/', '/alternatives/mulogin/', '/alternatives/hidemium/', '/alternatives/mostlogin/', '/alternatives/hubstudio/', '/alternatives/dicloak/', '/alternatives/indigo-x/', '/alternatives/ixbrowser/', '/alternatives/1browser/', '/alternatives/wade-x/', '/alternatives/maskfog/', '/alternatives/vision/', '/alternatives/antbrowser/', '/alternatives/open-source-browser-projects/', '/alternatives/session-management-tools/', '/alternatives/browser-agent-infrastructure/', '/alternatives/regional-antidetect-browser-landscape/'],
+    groups: [{ title: 'Major platforms', description: 'The most established commercial antidetect browsers.', paths: ['/alternatives/adspower/', '/alternatives/gologin/', '/alternatives/multilogin/', '/alternatives/dolphin-anty/', '/alternatives/kameleo/', '/alternatives/geelark/', '/alternatives/hubstudio/', '/alternatives/morelogin/'] },{ title: 'All vendor comparisons', description: 'Every vendor page uses the same evaluated criteria, so differences are easy to scan.', paths: ['/alternatives/adspower/', '/alternatives/gologin/', '/alternatives/multilogin/', '/alternatives/dolphin-anty/', '/alternatives/octo-browser/', '/alternatives/morelogin/', '/alternatives/incogniton/', '/alternatives/kameleo/', '/alternatives/bitbrowser/', '/alternatives/vmlogin/', '/alternatives/geelark/', '/alternatives/nstbrowser/', '/alternatives/hidemyacc/', '/alternatives/undetectable/', '/alternatives/lalicat/', '/alternatives/linken-sphere/', '/alternatives/genlogin/', '/alternatives/clonbrowser/', '/alternatives/mulogin/', '/alternatives/hidemium/', '/alternatives/mostlogin/', '/alternatives/hubstudio/', '/alternatives/dicloak/', '/alternatives/indigo-x/', '/alternatives/ixbrowser/', '/alternatives/1browser/', '/alternatives/wade-x/', '/alternatives/maskfog/', '/alternatives/vision/', '/alternatives/antbrowser/'] },{ title: 'Ecosystem landscapes', description: 'Broader project and infrastructure comparisons beyond point-vendor matchups.', paths: ['/alternatives/open-source-browser-projects/', '/alternatives/session-management-tools/', '/alternatives/browser-agent-infrastructure/', '/alternatives/regional-antidetect-browser-landscape/'] }],
     publishedOn: '2026-08-10',
     modifiedOn: '2026-09-01',
     sections: [
@@ -539,7 +539,7 @@ export const hubPages: HubPage[] = [
     kind: 'integration',
     label: 'Integrations',
     title: 'AliasMode Browser Automation Integrations',
-    description: 'Import profiles from other antidetect browsers, connect an AdsPower-compatible local API subset, and run Playwright automation over CDP.',
+    description: 'Import profiles from other antidetect browsers, automate with Playwright over CDP, and connect AI agent clients through Local and Remote MCP.',
     h1: 'Connect profile control and browser automation.',
     eyebrow: 'AliasMode integrations',
     lead: 'Use the Local API for supported AdsPower-shaped operations, then attach Playwright over CDP to automate the persistent browser session.',
@@ -548,9 +548,9 @@ export const hubPages: HubPage[] = [
     intentKey: 'hub:integrations',
     topicCluster: 'automation',
     related: ['/integrations/adspower-api/', '/integrations/playwright/', '/integrations/import/', '/docs/local-api/'],
-    children: ['/integrations/adspower-api/', '/integrations/playwright/', '/integrations/import/'],
+    children: ['/integrations/adspower-api/', '/integrations/playwright/', '/integrations/import/', '/integrations/claude-code/', '/integrations/codex/', '/integrations/openclaw/', '/integrations/hermes/', '/integrations/claude-ai/', '/integrations/chatgpt/'],
     groups: [
-      { title: 'Automation integrations', description: 'Local API and browser automation.', paths: ['/integrations/adspower-api/', '/integrations/playwright/'] },
+      { title: 'Automation integrations', description: 'Local API and browser automation.', paths: ['/integrations/adspower-api/', '/integrations/playwright/'] },{ title: 'AI agent clients', description: 'Give coding agents and assistants controlled access to real browser profiles.', paths: ['/integrations/claude-code/', '/integrations/codex/', '/integrations/openclaw/', '/integrations/hermes/', '/integrations/claude-ai/', '/integrations/chatgpt/'] },
       { title: 'Migration', description: 'Bring existing profiles into AliasMode.', paths: ['/integrations/import/'] },
     ],
     publishedOn: '2026-08-10',
@@ -652,7 +652,7 @@ export const hubPages: HubPage[] = [
     kind: 'guide',
     label: 'Guides',
     title: 'AliasMode Browser Profile Guides',
-    description: 'Plan proxy assignments, choose static or rotating sessions, and organize client browser profiles for repeatable agency work.',
+    description: 'Warm up and manage accounts on every major platform, organize client profiles, plan proxies, and run persistent profiles for AI agents.',
     h1: 'Run browser profiles with a clear operating system.',
     eyebrow: 'Workflow guides',
     lead: 'Use these guides to organize client profiles, choose proxy session behavior, and estimate the resources an agency workflow needs.',
@@ -661,10 +661,13 @@ export const hubPages: HubPage[] = [
     intentKey: 'hub:guides',
     topicCluster: 'agencies',
     related: ['/guides/one-proxy-per-browser-profile/', '/guides/static-vs-rotating-proxies/', '/guides/organize-client-browser-profiles/'],
-    children: ['/guides/one-proxy-per-browser-profile/', '/guides/static-vs-rotating-proxies/', '/guides/organize-client-browser-profiles/'],
+    children: ['/guides/warm-up-instagram-account/', '/guides/warm-up-x-twitter-account/', '/guides/warm-up-tiktok-account/', '/guides/warm-up-facebook-account/', '/guides/manage-multiple-instagram-accounts/', '/guides/manage-multiple-x-twitter-accounts/', '/guides/manage-multiple-tiktok-accounts/', '/guides/manage-multiple-facebook-accounts/', '/guides/manage-multiple-linkedin-accounts/', '/guides/manage-multiple-social-media-accounts-safely/', '/guides/share-social-media-accounts-without-passwords/', '/guides/manage-multiple-ecommerce-seller-accounts/', '/guides/manage-multiple-google-ads-meta-ads-client-accounts/', '/guides/browser-profiles-for-affiliate-marketing/', '/guides/persistent-browser-profiles-for-ai-agents/', '/guides/authenticated-browser-profiles-for-scraping/', '/guides/reuse-login-state-with-playwright/', '/guides/localization-geo-testing-with-browser-profiles/', '/guides/one-proxy-per-browser-profile/', '/guides/static-vs-rotating-proxies/', '/guides/organize-client-browser-profiles/'],
     groups: [
+      { title: 'Warm up new accounts', paths: ['/guides/warm-up-instagram-account/', '/guides/warm-up-x-twitter-account/', '/guides/warm-up-tiktok-account/', '/guides/warm-up-facebook-account/'] },
+      { title: 'Manage multiple accounts', paths: ['/guides/manage-multiple-instagram-accounts/', '/guides/manage-multiple-x-twitter-accounts/', '/guides/manage-multiple-tiktok-accounts/', '/guides/manage-multiple-facebook-accounts/', '/guides/manage-multiple-linkedin-accounts/', '/guides/manage-multiple-social-media-accounts-safely/', '/guides/share-social-media-accounts-without-passwords/'] },
+      { title: 'Agencies and commerce', paths: ['/guides/organize-client-browser-profiles/', '/guides/manage-multiple-ecommerce-seller-accounts/', '/guides/manage-multiple-google-ads-meta-ads-client-accounts/', '/guides/browser-profiles-for-affiliate-marketing/'] },
+      { title: 'Developers and AI agents', paths: ['/guides/persistent-browser-profiles-for-ai-agents/', '/guides/authenticated-browser-profiles-for-scraping/', '/guides/reuse-login-state-with-playwright/', '/guides/localization-geo-testing-with-browser-profiles/'] },
       { title: 'Proxy planning', paths: ['/guides/one-proxy-per-browser-profile/', '/guides/static-vs-rotating-proxies/'] },
-      { title: 'Profile organization', paths: ['/guides/organize-client-browser-profiles/'] },
     ],
     publishedOn: '2026-08-10',
     modifiedOn: '2026-09-01',

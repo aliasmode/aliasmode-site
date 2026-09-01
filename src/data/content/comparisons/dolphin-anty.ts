@@ -1,5 +1,5 @@
-import type { ComparisonPage } from '../types';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor';
+import type { ComparisonPage } from '../types.ts';
+import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const dolphinAntyComparison: ComparisonPage = {
   path: '/alternatives/dolphin-anty/',

@@ -1,5 +1,5 @@
-import { localApiEndpoints, playwrightExample, productFacts } from '../product';
-import type { DocsPage } from './types';
+import { localApiEndpoints, playwrightExample, productFacts } from '../../product.ts';
+import type { DocsPage } from '../types.ts';
 
 export const docsPages: DocsPage[] = [
   {

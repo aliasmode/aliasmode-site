@@ -1,5 +1,5 @@
-import localApiSpec from './generated/local-api.openapi.json';
-import mcpManifest from './generated/manifest.json';
+import localApiSpec from './generated/local-api.openapi.json' with { type: 'json' };
+import mcpManifest from './generated/manifest.json' with { type: 'json' };
 
 export const productFacts = {
   desktopLicense: 'Apache-2.0',
@@ -40,7 +40,7 @@ export const productFacts = {
 } as const;
 
 /** The 13 public Local API operations, derived from the product-generated OpenAPI contract. */
-const paths = (localApiSpec as { paths: Record<string, Record<string, { parameters?: { name: string; in: string; $ref?: string }[] }>> }).paths;
+const paths = (localApiSpec as unknown as { paths: Record<string, Record<string, { parameters?: { name: string; in: string; $ref?: string }[] }>> }).paths;
 const queryHint = (operation: { parameters?: { name?: string; in?: string; $ref?: string }[] }) => {
   const names = (operation.parameters ?? []).map((parameter) => parameter.$ref ? parameter.$ref.split('/').pop()!.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase() : parameter.in === 'query' ? parameter.name : '').filter(Boolean);
   return names.length ? `?${names.map((name) => `${name}=`).join('&')}` : '';

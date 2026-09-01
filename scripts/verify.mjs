@@ -1,7 +1,8 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { siteRoutes } from '../src/data/site-routes.ts';
+import { contentPages } from '../src/data/content-index.ts';
+import { indexableRoutes, siteRoutes } from '../src/data/site-routes.ts';
 import { legalSnapshots } from './v1-manifest.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
@@ -39,7 +40,7 @@ for (const command of ['npm ci', 'production|preview', 'PUBLIC_SITE_ENV must be 
 for (const pattern of ['node_modules', 'dist', '.env', '.env.*']) {
   if (!dockerignore.split('\n').includes(pattern)) fail(`.dockerignore is missing ${pattern}`);
 }
-for (const directive of ['gzip on;', 'absolute_redirect off;', 'try_files $uri/index.html $uri $uri/ =404;', 'location = /healthz', 'error_page 404 /404.html;', 'Content-Security-Policy', 'Referrer-Policy', 'X-Content-Type-Options', 'Permissions-Policy']) {
+for (const directive of ['gzip on;', 'absolute_redirect off;', 'try_files $uri/index.html =404;', 'location = /healthz', 'error_page 404 /404.html;', 'Content-Security-Policy', 'Referrer-Policy', 'X-Content-Type-Options', 'Permissions-Policy', 'return 308 $dir$is_args$args;', 'return 308 $uri/$is_args$args;']) {
   if (!nginx.includes(directive)) fail(`NGINX config is missing ${directive}`);
 }
 
@@ -53,7 +54,7 @@ for (const route of ['/auth/email-confirmation', '/auth/password-reset', '/404',
 
 const titleSet = new Set();
 const descriptionSet = new Set();
-for (const route of siteRoutes) {
+for (const route of indexableRoutes) {
   const text = page(route.path);
   const title = text.match(/<title>([^<]+)<\/title>/)?.[1];
   const description = meta(text, 'name', 'description');
@@ -115,9 +116,9 @@ for (const expected of ["credentials: 'omit'", "cache: 'no-store'"]) {
   if (!analyticsLoader.includes(expected)) fail(`analytics request is missing ${expected}`);
 }
 const conversionSources = [
-  [join(root, 'src/pages/index.astro'), 'data-page-group="home-workflow"'],
-  [join(root, 'src/pages/pricing.astro'), 'data-page-group="pricing-note"'],
-  [join(root, 'src/pages/local-vs-cloud.astro'), 'data-page-group="local-vs-cloud"'],
+  [join(root, 'src/pages/index.astro'), 'data-cta-type="download-installer"'],
+  [join(root, 'src/pages/pricing.astro'), 'data-track-cta'],
+  [join(root, 'src/pages/local-vs-cloud.astro'), 'data-track-cta'],
 ];
 for (const [file, marker] of conversionSources) {
   if (!readFileSync(file, 'utf8').includes(marker)) fail(`${relative(root, file)} is missing its conversion tracking marker`);
@@ -150,8 +151,7 @@ for (const [pattern, label] of [
 }
 if (sitemap.includes('/admin/')) fail('sitemap contains the admin page');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-const expectedSitemapUrls = siteRoutes
-  .filter((route) => route.sitemap !== false)
+const expectedSitemapUrls = indexableRoutes
   .map((route) => new URL(route.path, expectedOrigin).toString())
   .sort((a, b) => a.localeCompare(b));
 if (JSON.stringify(sitemapUrls) !== JSON.stringify(expectedSitemapUrls)) fail('sitemap does not match the sorted indexable route registry');
@@ -160,8 +160,8 @@ if (sitemap.includes('/auth/') || sitemap.includes('/404')) fail('sitemap contai
 const home = page('/');
 const pricing = page('/pricing/');
 const localVsCloud = page('/local-vs-cloud/');
-for (const [route, text, marker] of [['/', home, 'data-page-group="home-workflow"'], ['/pricing/', pricing, 'data-page-group="pricing-note"'], ['/local-vs-cloud/', localVsCloud, 'data-page-group="local-vs-cloud"']]) {
-  if (!text.includes('data-track-cta') || !text.includes(marker)) fail(`${route} is missing its tracked conversion control`);
+for (const [route, text] of [['/', home], ['/pricing/', pricing], ['/local-vs-cloud/', localVsCloud]]) {
+  if (!text.includes('data-track-cta') || !text.includes('data-cta-type')) fail(`${route} is missing its tracked conversion control`);
 }
 if (!home.includes('href="/download/"') || !pricing.includes('href="/download/"')) fail('home and pricing must link to the download flow');
 for (const [route, text] of [['/', home], ['/pricing/', pricing]]) {
@@ -182,17 +182,19 @@ const frozenLegal = new Set(['acceptable-use/v2/index.html', 'privacy/v2/index.h
 for (const file of html) {
   const text = readFileSync(file, 'utf8');
   const builtPath = relative(dist, file);
-  const privatePage = builtPath === '404.html' || builtPath === 'admin/index.html' || builtPath.startsWith('auth/');
-  const shouldIndex = production && !privatePage;
-  if (shouldIndex && text.includes('noindex,nofollow')) fail(`${builtPath} must be indexable in production`);
+  const routePath = builtPath === 'index.html' ? '/' : `/${builtPath.replace(/index\.html$/, '')}`;
+  const policy = siteRoutes.find((route) => route.path === routePath)?.indexPolicy ?? (builtPath === '404.html' || builtPath === 'admin/index.html' || builtPath.startsWith('auth/') ? 'private' : undefined);
+  if (!policy) fail(`${builtPath} has no route registry entry`);
+  const shouldIndex = production && policy === 'index';
+  if (shouldIndex && text.includes('noindex')) fail(`${builtPath} must be indexable in production`);
   if (shouldIndex && !canonicalFrom(text)) fail(`${builtPath} must have a production canonical URL`);
-  if (!shouldIndex && !text.includes('noindex,nofollow')) fail(`${builtPath} must be noindex`);
+  if (!shouldIndex && !text.includes('noindex')) fail(`${builtPath} must be noindex`);
   if (!shouldIndex && canonicalFrom(text)) fail(`${builtPath} must omit its canonical URL`);
   if (shouldIndex) {
-    const routePath = builtPath === 'index.html' ? '/' : `/${builtPath.replace(/index\.html$/, '')}`;
     const expectedCanonical = new URL(routePath, expectedOrigin).toString();
     if (canonicalFrom(text) !== expectedCanonical) fail(`${builtPath} canonical must be ${expectedCanonical}`);
   }
+  if (production && policy === 'archive' && !text.includes('noindex,follow')) fail(`${builtPath} archive policy must be noindex,follow`);
   for (const match of text.matchAll(/\bhref=(?:"([^"]*)"|'([^']*)')/g)) {
     const href = match[1] ?? match[2];
     if (!href.startsWith('/')) continue;
@@ -211,12 +213,48 @@ for (const route of siteRoutes.filter((entry) => ['documentation', 'comparison',
   if (internalLinks.size < 3) fail(`${route.path} needs parent and related internal links`);
 }
 
-for (const route of ['/alternatives/adspower/', '/alternatives/gologin/', '/alternatives/multilogin/', '/alternatives/dolphin-anty/']) {
+for (const entry of contentPages.filter((entry) => entry.family === 'comparison' && (entry.indexPolicy ?? 'index') === 'index')) {
+  const route = entry.path;
   const text = page(route);
-  for (const copy of ['Facts last verified', 'Who should choose each product?', 'Migration plan', 'Official product evidence', 'Choose AliasMode when']) {
+  const copyList = entry.variant === 'vendor'
+    ? ['Facts last verified', 'Official product evidence', 'Choose AliasMode when', 'Migration plan']
+    : ['Facts last verified', 'Official product evidence'];
+  for (const copy of copyList) {
     if (!text.includes(copy)) fail(`${route} is missing comparison evidence: ${copy}`);
   }
-  if ((text.match(/rel="noreferrer"/g) ?? []).length < 4) fail(`${route} needs dated official sources`);
+  if (!/20\d\d-\d\d-\d\d/.test(text)) fail(`${route} is missing checked dates`);
+}
+// Competitor evidence is text-only: no evidence record URL may ever render as a link or appear in HTML.
+const ownHosts = new Set(['aliasmode.com', 'www.aliasmode.com', 'cloud.aliasmode.com', 'xreacher.com', 'www.xreacher.com']);
+const evidenceUrls = new Set(contentPages
+  .flatMap((entry) => (entry.evidence ?? []).map((item) => item.url))
+  .filter((url) => {
+    try {
+      const parsed = new URL(url);
+      if (ownHosts.has(parsed.hostname)) return false;
+      if (parsed.hostname === 'github.com' && parsed.pathname.startsWith('/aliasmode/')) return false;
+      return true;
+    } catch { return true; }
+  }));
+for (const file of html) {
+  const text = readFileSync(file, 'utf8');
+  for (const url of evidenceUrls) {
+    if (text.includes(url)) fail(`${relative(dist, file)} rendered competitor evidence URL ${url}`);
+  }
+}
+// Vendor rankings always place AliasMode first (build-time registry also enforces this).
+for (const entry of contentPages.filter((entry) => entry.family === 'ranking' && entry.variant === 'ranking')) {
+  if (!entry.entries?.length || entry.entries[0].name !== 'AliasMode' || entry.entries[0].rank !== 1) fail(`${entry.path} must rank AliasMode first`);
+}
+// llms.txt mirrors the indexable registry; archive/private routes stay out.
+const llms = readFileSync(join(dist, 'llms.txt'), 'utf8');
+const expectedLlmsPaths = indexableRoutes.map((route) => route.path).sort((a, b) => a.localeCompare(b));
+const llmsPaths = [...llms.matchAll(/^- \[.*?\]\((.*?)\)/gm)].map((match) => new URL(match[1]).pathname).sort((a, b) => a.localeCompare(b));
+if (JSON.stringify(llmsPaths) !== JSON.stringify(expectedLlmsPaths)) fail('llms.txt does not match the sorted indexable route registry');
+const archiveRoutes = siteRoutes.filter((route) => route.indexPolicy !== 'index').map((route) => route.path);
+for (const route of archiveRoutes) {
+  if (llms.includes(route)) fail(`llms.txt contains non-index route ${route}`);
+  if (sitemap.includes(route)) fail(`sitemap contains non-index route ${route}`);
 }
 
 const localApi = page('/docs/local-api/');
@@ -250,8 +288,8 @@ if (unpublished) {
 }
 if (!download.includes('More info') || !download.includes('Run anyway') || !download.includes('Do not disable Windows protection')) fail('download safety guidance is incomplete');
 for (const route of ['/auth/email-confirmation', '/auth/password-reset']) {
-  const text = page(route);
-  for (const forbidden of ['localStorage', 'sessionStorage', 'document.cookie', 'analytics']) if (text.includes(forbidden)) fail(`${route} contains forbidden callback handling`);
+  const text = page(route).replace(/data-analytics-group="[^"]*"/g, '');
+  for (const forbidden of ['localStorage', 'sessionStorage', 'document.cookie', 'analytics', '/_am/events']) if (text.includes(forbidden)) fail(`${route} contains forbidden callback handling`);
   const source = readFileSync(join(root, 'src/pages', `${route.slice(1)}.astro`), 'utf8');
   if (!text.includes('history.replaceState') || !(source.includes("value === 'success'") || (source.includes("callback.get('status') === 'success'") && source.includes('window.location.hash.slice(1)')))) fail(`${route} must allowlist and scrub callback status`);
 }

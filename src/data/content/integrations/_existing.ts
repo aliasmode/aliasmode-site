@@ -1,5 +1,5 @@
-import { localApiEndpoints, playwrightExample } from '../product';
-import type { IntegrationPage } from './types';
+import { localApiEndpoints, playwrightExample } from '../../product.ts';
+import type { IntegrationPage } from '../types.ts';
 
 export const integrationPages: IntegrationPage[] = [
   {

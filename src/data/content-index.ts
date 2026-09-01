@@ -1,11 +1,11 @@
-import { comparisonPages } from './content/comparisons';
-import { docsPages } from './content/docs';
-import { hubPages } from './content/hubs';
-import { integrationPages } from './content/integrations';
-import { rankingPages } from './content/rankings';
-import { taskGuidePages } from './content/task-guides';
-import { canonicalPath } from './paths';
-import { familyKind, isoDate, type Block, type ContentPage, type PageFamily, type RouteKind } from './content/types';
+import { comparisonPages } from './content/comparisons/index.ts';
+import { docsPages } from './content/docs/index.ts';
+import { hubPages } from './content/hubs.ts';
+import { integrationPages } from './content/integrations/index.ts';
+import { rankingPages } from './content/rankings/index.ts';
+import { taskGuidePages } from './content/task-guides/index.ts';
+import { canonicalPath } from './paths.ts';
+import { familyKind, isoDate, type Block, type ContentPage, type PageFamily, type RouteKind } from './content/types.ts';
 
 const fail = (message: string): never => {
   throw new Error(`content: ${message}`);
@@ -62,14 +62,17 @@ for (const page of contentPages) {
     if (!isoDate.test(page.checkedOn)) fail(`${page.path} checkedOn must be an ISO date`);
     if (page.variant === 'vendor') {
       if (!page.vendor) fail(`${page.path} needs a vendor`);
-      if (!page.rows?.length || !page.aliasModeFits?.length || !page.competitorFits?.length || !page.migration?.length) fail(`${page.path} needs rows, fits, and migration steps`);
-      for (const row of page.rows) if (row.evidenceId && !page.evidence?.some((item) => item.id === row.evidenceId)) fail(`${page.path} row "${row.criterion}" cites unknown evidence ${row.evidenceId}`);
+      const rows = page.rows;
+      const fits = [page.aliasModeFits, page.competitorFits, page.migration];
+      if (!rows?.length || fits.some((list) => !list?.length)) fail(`${page.path} needs rows, fits, and migration steps`);
+      for (const row of rows!) if (row.evidenceId && !page.evidence?.some((item) => item.id === row.evidenceId)) fail(`${page.path} row "${row.criterion}" cites unknown evidence ${row.evidenceId}`);
     } else if (!page.products?.length) fail(`${page.path} ecosystem page needs products`);
   }
   if (page.family === 'ranking' && page.variant === 'ranking') {
-    if (!page.entries?.length || !page.methodology?.length) fail(`${page.path} needs ranked entries and a methodology`);
-    if (page.entries[0].name !== 'AliasMode' || page.entries[0].rank !== 1) fail(`${page.path} must rank AliasMode first`);
-    page.entries.forEach((entry, index) => { if (entry.rank !== index + 1) fail(`${page.path} entry ${entry.name} has rank ${entry.rank}, expected ${index + 1}`); });
+    const entries = page.entries;
+    if (!entries?.length || !page.methodology?.length) fail(`${page.path} needs ranked entries and a methodology`);
+    if (entries![0].name !== 'AliasMode' || entries![0].rank !== 1) fail(`${page.path} must rank AliasMode first`);
+    entries!.forEach((entry, index) => { if (entry.rank !== index + 1) fail(`${page.path} entry ${entry.name} has rank ${entry.rank}, expected ${index + 1}`); });
     if (!page.checkedOn) fail(`${page.path} ranking needs checkedOn`);
   }
   if (page.family === 'task-guide' && (!page.steps.length || !page.prerequisites.length || !page.verification.length || !page.aliasModeWorkflow.length)) fail(`${page.path} task guide needs prerequisites, steps, verification, and an AliasMode workflow`);

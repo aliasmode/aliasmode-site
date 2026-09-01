@@ -1,9 +1,9 @@
-import { contentKind, contentLinks, contentPages, getContentPage, sectionIds } from './content-index';
-import type { IndexPolicy, PageFamily, RouteKind, SocialFamily } from './content/types';
-import { analyticsGroupFor, canonicalPath } from './paths';
+import { contentKind, contentLinks, contentPages, getContentPage, sectionIds } from './content-index.ts';
+import type { IndexPolicy, PageFamily, RouteKind, SocialFamily } from './content/types.ts';
+import { analyticsGroupFor, canonicalPath } from './paths.ts';
 
-export type { RouteKind } from './content/types';
-export { canonicalPath } from './paths';
+export type { RouteKind } from './content/types.ts';
+export { canonicalPath } from './paths.ts';
 
 export interface SiteRoute {
   path: string;

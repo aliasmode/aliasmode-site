@@ -36,11 +36,12 @@ const promise = 'UNLIMITED PROFILES · ZERO COST FOREVER · APACHE-2.0 · NO PRO
 const chatTopics = ['Release notes', 'Fingerprint questions', 'Proxy setup', 'Local API', 'Bug reports', 'Feature requests'];
 
 const pathways = [
-  { kind: 'Agency operations', title: 'Separate client sessions and team handoffs.', href: '/agencies/', cta: 'AliasMode for agencies' },
   { kind: 'Product evaluation', title: 'Compare price, source, Local, Cloud, and APIs.', href: '/alternatives/', cta: 'Browse alternatives' },
-  { kind: 'AI agents', title: 'Browse without bot walls over CDP.', href: '/use-cases/ai-agents/', cta: 'Run AI agents on AliasMode' },
-  { kind: 'Proxy setup', title: 'Configure HTTP, HTTPS, and SOCKS5 per profile.', href: '/docs/proxies/', cta: 'Read proxy documentation' },
-  { kind: 'Documentation', title: 'Install, create profiles, troubleshoot, and automate.', href: '/docs/', cta: 'Open the docs' },
+  { kind: 'Rankings', title: 'See why AliasMode leads every category we compete in.', href: '/best-antidetect-browsers/', cta: 'Best antidetect browsers' },
+  { kind: 'Agency operations', title: 'Separate client sessions and team handoffs.', href: '/agencies/', cta: 'AliasMode for agencies' },
+  { kind: 'AI agents', title: 'Persistent profiles over MCP and CDP.', href: '/use-cases/ai-agents/', cta: 'Run AI agents on AliasMode' },
+  { kind: 'Task guides', title: 'Warm up, manage, and share accounts safely.', href: '/guides/', cta: 'Browse the guides' },
+  { kind: 'Documentation', title: 'Install, automate, and integrate step by step.', href: '/docs/', cta: 'Open the docs' },
 ];
 ---
 <BaseLayout
@@ -227,14 +228,15 @@ const pathways = [
     <div class="api-copy">
       <p class="eyebrow">Browser automation API</p>
       <h2>Automate profiles with the tools you already use.</h2>
-      <p>Open profiles through an AdsPower-compatible local API, then automate them over Playwright CDP. Your AI agents connect to the same endpoint.</p>
+      <p>Open profiles through an AdsPower-compatible local API, attach the Playwright CDP endpoint, or hand the whole browser to an agent through the built-in MCP server — local stdio or Remote MCP with OAuth.</p>
       <ul>
         <li>Start and stop browser profiles through HTTP.</li>
         <li>Check profile and service status programmatically.</li>
         <li>Connect Playwright directly to the running browser over CDP.</li>
+        <li>Expose profiles to Claude, ChatGPT, Codex, or any MCP client.</li>
         <li>Run AI browser agents on profiles that pass the bot checks blocking stock automated browsers.</li>
       </ul>
-      <div class="actions"><a class="button" href="/docs/local-api/">Read the Local API</a><a class="button secondary" href="/integrations/playwright/">Use Playwright</a></div>
+      <div class="actions"><a class="button" href="/docs/local-api/">Read the Local API</a><a class="button secondary" href="/docs/mcp/">Browse the MCP tools</a><a class="button secondary" href="/integrations/playwright/">Use Playwright</a></div>
     </div>
     <div class="terminal" aria-label="Starting a profile and attaching Playwright">
       <div class="terminal-bar"><span></span><span></span><span></span><b>automation.js</b></div>

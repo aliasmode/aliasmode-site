@@ -1,0 +1,65 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Blocks from '../components/Blocks.astro';
+import Callout from '../components/Callout.astro';
+import Checklist from '../components/Checklist.astro';
+import DirectAnswer from '../components/DirectAnswer.astro';
+import PageHero from '../components/PageHero.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+import { siteConfig } from '../../site.config.mjs';
+import type { DocsPage } from '../data/content/types';
+
+interface Props { page: DocsPage }
+const { page } = Astro.props;
+const url = new URL(page.path, siteConfig.metadataOrigin).toString();
+
+const schema: Record<string, unknown>[] = [
+  {
+    '@type': 'TechArticle',
+    headline: page.title,
+    description: page.description,
+    articleSection: 'AliasMode documentation',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    dependencies: page.requirements?.join(', '),
+  },
+];
+---
+<BaseLayout layout="sections" schema={schema}>
+  <article data-page-family="docs">
+    <PageHero
+      eyebrow={page.eyebrow}
+      title={page.h1}
+      lead={page.lead}
+      primary={page.primaryCta}
+      secondary={page.secondaryCta}
+      meta={[page.versionNote, page.testedOn && `Tested ${page.testedOn}`].filter(Boolean).join(' · ') || undefined}
+    />
+    {page.directAnswer && <DirectAnswer text={page.directAnswer} />}
+    {page.facts && <div class="fact-strip">{page.facts.map((fact) => <div><strong>{fact.value}</strong><span>{fact.label}</span></div>)}</div>}
+
+    {page.requirements?.length && (
+      <section class="family-section" aria-labelledby="requirements-title">
+        <h2 id="requirements-title">Requirements</h2>
+        <Checklist items={page.requirements} tone="box" />
+      </section>
+    )}
+
+    {page.requirements?.length === 0 || !page.requirements ? null : null}
+
+    <Blocks sections={page.sections} evidence={page.evidence} />
+
+    {page.evidence?.length && (
+      <section class="family-section" aria-labelledby="doc-sources-title">
+        <h2 id="doc-sources-title">Sources</h2>
+        <Callout tone="note" body="Official documentation checked on the dates shown. Sources are listed for verification and are not endorsements." />
+      </section>
+    )}
+
+    <RelatedLinks paths={page.related} />
+  </article>
+</BaseLayout>
+
+<style>
+  .family-section { margin-top: 4.5rem; }
+  .family-section h2 { font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+</style>

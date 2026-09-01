@@ -1,0 +1,94 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Blocks from '../components/Blocks.astro';
+import DirectAnswer from '../components/DirectAnswer.astro';
+import HubGrid from '../components/HubGrid.astro';
+import PageHero from '../components/PageHero.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+import { siteConfig } from '../../site.config.mjs';
+import { getContentPage } from '../data/content-index';
+import { getSiteRoute } from '../data/site-routes';
+import type { HubPage } from '../data/content/types';
+
+interface Props { page: HubPage }
+const { page } = Astro.props;
+const url = new URL(page.path, siteConfig.metadataOrigin).toString();
+
+const childPaths = [...new Set([...(page.children ?? []), ...(page.groups ?? []).flatMap((group) => group.paths)])];
+const listItems = childPaths
+  .map((path, index) => {
+    const route = getSiteRoute(path);
+    const name = getContentPage(path)?.label ?? route?.label ?? path;
+    return { position: index + 1, name, url: new URL(path, siteConfig.metadataOrigin).toString() };
+  })
+  .filter((item) => item.name !== undefined);
+
+const schema: Record<string, unknown>[] = [
+  {
+    '@type': 'CollectionPage',
+    name: page.title,
+    description: page.description,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+  },
+];
+if (listItems.length) {
+  schema.push({ '@type': 'ItemList', itemListElement: listItems });
+}
+---
+<BaseLayout layout="sections" schema={schema}>
+  <article data-page-family="hub">
+    <PageHero
+      eyebrow={page.eyebrow}
+      title={page.h1}
+      lead={page.lead}
+      primary={page.primaryCta}
+      secondary={page.secondaryCta}
+    />
+    {page.directAnswer && <DirectAnswer text={page.directAnswer} />}
+    {page.facts && <div class="fact-strip">{page.facts.map((fact) => <div><strong>{fact.value}</strong><span>{fact.label}</span></div>)}</div>}
+
+    {page.audiencePaths?.length && (
+      <section class="family-section" aria-labelledby="audiences-title">
+        <h2 id="audiences-title">Start with your goal</h2>
+        <div class="audience-grid">
+          {page.audiencePaths.map((item) => (
+            <a class="audience-card" href={item.href}>
+              <strong>{item.audience}</strong>
+              <span>{item.description}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {page.groups?.map((group) => (
+      <section class="family-section" aria-labelledby={`group-${group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+        <h2 id={`group-${group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>{group.title}</h2>
+        {group.description && <p class="group-intro">{group.description}</p>}
+        <HubGrid paths={group.paths} />
+      </section>
+    ))}
+
+    {page.children?.length && !page.groups?.length && (
+      <section class="family-section" aria-labelledby="children-title">
+        <h2 id="children-title">Browse this section</h2>
+        <HubGrid paths={page.children} />
+      </section>
+    )}
+
+    <Blocks sections={page.sections} evidence={page.evidence} />
+    <RelatedLinks paths={page.related} />
+  </article>
+</BaseLayout>
+
+<style>
+  .family-section { margin-top: 4.5rem; }
+  .family-section h2 { font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+  .group-intro { color: var(--ink-2); margin-top: .6rem; }
+  .audience-grid { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); margin-top: 1.6rem; }
+  .audience-card { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-md); color: inherit; display: grid; gap: .4rem; padding: clamp(1.2rem, 3vw, 1.8rem); text-decoration: none; transition: border-color .16s ease; }
+  .audience-card:hover { border-color: var(--violet-line); }
+  .audience-card strong { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: -.01em; }
+  .audience-card span { color: var(--ink-2); font-size: .88rem; }
+  @media (prefers-reduced-motion: reduce) { .audience-card { transition: none; } }
+</style>
