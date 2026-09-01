@@ -1,23 +1,24 @@
 ---
+import type { CtaType } from '../data/content/types';
+
 interface Props {
   href: string;
   label: string;
   tone?: 'dark' | 'outline' | 'light';
   compact?: boolean;
   track?: boolean;
-  pageGroup?: string;
-  ctaType?: string;
+  ctaType?: CtaType;
   destination?: string;
   campaign?: string;
 }
 
-const { href, label, tone = 'dark', compact = false, track = false, pageGroup, ctaType = 'github', destination = 'github', campaign } = Astro.props;
+const { href, label, tone = 'dark', compact = false, track = false, ctaType = 'open-source-repository', destination = 'github', campaign } = Astro.props;
 ---
 <a
   class:list={['github-button', tone, { compact }]}
   href={href}
+  rel="noopener"
   data-track-cta={track ? '' : undefined}
-  data-page-group={track ? pageGroup : undefined}
   data-cta-type={track ? ctaType : undefined}
   data-destination={track ? destination : undefined}
   data-campaign={track ? campaign : undefined}

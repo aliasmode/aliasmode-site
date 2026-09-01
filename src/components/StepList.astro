@@ -1,0 +1,35 @@
+---
+import type { Step } from '../data/content/types';
+import CodeCard from './CodeCard.astro';
+
+/** Numbered step cards. Each step may carry a code sample. */
+interface Props { steps: Step[]; compact?: boolean }
+const { steps, compact = false } = Astro.props;
+---
+<ol class:list={['step-list', { compact }]}>
+  {steps.map((step, index) => (
+    <li>
+      <span class="step-num" aria-hidden="true">{index + 1}</span>
+      <div class="step-body">
+        <h3>{step.title}</h3>
+        <p>{step.body}</p>
+        {step.code && <CodeCard code={step.code} title={`Step ${index + 1}`} />}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .step-list { counter-reset: step; display: grid; gap: .75rem; list-style: none; margin: 1.4rem 0 0; max-width: none; padding: 0; }
+  .step-list li { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-md); display: grid; gap: 1.1rem; grid-template-columns: 2.4rem minmax(0, 1fr); margin: 0; padding: 1.3rem 1.4rem; position: relative; }
+  .step-list.compact li { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 1rem 0; }
+  .step-num { align-items: center; background: linear-gradient(150deg, #8b6bff, var(--violet)); border-radius: .7rem; box-shadow: 0 .5rem 1rem -.5rem rgba(109, 74, 255, .7); color: #fff; display: flex; font: 800 .8rem/1 var(--font-mono); height: 2.4rem; justify-content: center; width: 2.4rem; }
+  .step-body { min-width: 0; }
+  .step-body h3 { font-size: 1.1rem; margin: .35rem 0 .3rem; }
+  .step-body p { color: var(--ink-2); font-size: .94rem; margin: 0; }
+  .step-body :global(.code-card) { margin-bottom: 0; }
+  @media (max-width: 36rem) {
+    .step-list li { gap: .8rem; grid-template-columns: 2rem minmax(0, 1fr); padding: 1.1rem 1rem; }
+    .step-num { font-size: .72rem; height: 2rem; width: 2rem; }
+  }
+</style>

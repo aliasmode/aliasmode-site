@@ -1,19 +1,24 @@
 ---
-import type { ComparisonRow } from '../data/comparisons';
+import type { ComparisonRow, Evidence } from '../data/content/types';
+import { citation, findEvidence } from './format';
 
-interface Props { rows: ComparisonRow[]; competitor: string }
-const { rows, competitor } = Astro.props;
+interface Props { rows: ComparisonRow[]; competitor: string; evidence?: Evidence[] }
+const { rows, competitor, evidence = [] } = Astro.props;
+const cite = (id?: string) => {
+  const item = findEvidence(evidence, id);
+  return item ? citation(item) : 'AliasMode product record';
+};
 ---
 <div class="table-scroll comparison-table">
   <table>
-    <thead><tr><th>Criterion</th><th>AliasMode</th><th>{competitor}</th><th>Evidence</th></tr></thead>
+    <thead><tr><th scope="col">Criterion</th><th scope="col" class="col-alias">AliasMode</th><th scope="col">{competitor}</th><th scope="col">Evidence</th></tr></thead>
     <tbody>
-      {rows.map((row: ComparisonRow) => (
+      {rows.map((row) => (
         <tr>
           <th scope="row">{row.criterion}</th>
-          <td>{row.aliasMode}</td>
+          <td class="col-alias">{row.aliasMode}</td>
           <td>{row.competitor}</td>
-          <td>{row.source ? <a href={row.source} rel="noreferrer">Official source</a> : 'AliasMode product record'}</td>
+          <td class="evidence">{cite(row.evidenceId)}</td>
         </tr>
       ))}
     </tbody>
@@ -21,8 +26,12 @@ const { rows, competitor } = Astro.props;
 </div>
 
 <style>
-  .comparison-table { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); margin: 2rem 0; }
-  .comparison-table th[scope="row"] { background: var(--panel-2); color: var(--ink); font-family: var(--font-body); font-size: .88rem; font-weight: 700; letter-spacing: 0; text-transform: none; }
-  .comparison-table td { min-width: 14rem; }
-  .comparison-table a { color: var(--violet-deep); font-weight: 700; }
+  .comparison-table { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); margin: 1.6rem 0 0; }
+  .comparison-table table { min-width: 46rem; }
+  .comparison-table th[scope="row"] { background: var(--panel-2); color: var(--ink); font-family: var(--font-body); font-size: .88rem; font-weight: 700; letter-spacing: 0; text-transform: none; min-width: 11rem; }
+  .comparison-table td { font-size: .92rem; min-width: 13rem; }
+  .comparison-table th.col-alias { background: var(--violet); color: #fff; }
+  .comparison-table td.col-alias { background: var(--violet-soft); }
+  .comparison-table td.evidence { color: var(--ink-3); font-size: .78rem; min-width: 10rem; }
+  .comparison-table tbody tr:last-child th, .comparison-table tbody tr:last-child td { border-bottom: 0; }
 </style>

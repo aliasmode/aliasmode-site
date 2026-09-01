@@ -1,0 +1,69 @@
+---
+import type { Evidence, RankingEntry } from '../data/content/types';
+import { citation, findEvidence, slugify } from './format';
+
+/** Ranked product cards. Internal `path` links only; evidence is plain text. */
+interface Props { entries: RankingEntry[]; evidence?: Evidence[] }
+const { entries, evidence = [] } = Astro.props;
+const cards = entries.map((entry) => {
+  const item = findEvidence(evidence, entry.evidenceId);
+  return { entry, featured: entry.name === 'AliasMode', cite: item ? citation(item) : undefined, id: `rank-${slugify(entry.name)}` };
+});
+---
+<ol class="ranking">
+  {cards.map(({ entry, featured, cite, id }) => (
+    <li class:list={['rank-card', { featured }]} id={id}>
+      <div class="rank-head">
+        <span class="rank-badge"><span class="visually-hidden">Rank </span>{entry.rank}</span>
+        <div class="rank-title">
+          <h3>{entry.path ? <a href={entry.path}>{entry.name}</a> : entry.name}</h3>
+          <p class="summary">{entry.summary}</p>
+        </div>
+      </div>
+      <dl class="rank-meta">
+        <div><dt>Best for</dt><dd>{entry.bestFor}</dd></div>
+        <div><dt>Pricing</dt><dd>{entry.pricing}</dd></div>
+      </dl>
+      <div class="rank-cols">
+        <div><h4>Strengths</h4><ul>{entry.strengths.map((item) => <li>{item}</li>)}</ul></div>
+        <div><h4>Limits</h4><ul>{entry.limits.map((item) => <li>{item}</li>)}</ul></div>
+      </div>
+      {cite && <p class="rank-evidence">{cite}</p>}
+    </li>
+  ))}
+</ol>
+
+<style>
+  .ranking { display: grid; gap: 1rem; list-style: none; margin: 1.6rem 0 0; max-width: none; padding: 0; }
+  .rank-card { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-lg); margin: 0; padding: clamp(1.3rem, 3vw, 1.9rem); }
+  .rank-card.featured { background: linear-gradient(158deg, #7c5cff, #5a35e6 70%, #4b2bd6); border-color: transparent; box-shadow: 0 1.2rem 2.6rem -.8rem rgba(109, 74, 255, .5); color: #fff; }
+  .rank-head { align-items: flex-start; display: flex; gap: 1rem; }
+  .rank-badge { align-items: center; background: var(--night); border-radius: .75rem; color: #fff; display: flex; flex: 0 0 auto; font: 800 .95rem/1 var(--font-mono); height: 2.6rem; justify-content: center; width: 2.6rem; }
+  .featured .rank-badge { background: #fff; color: var(--violet-ink); }
+  .rank-title { min-width: 0; }
+  .rank-title h3 { font-size: clamp(1.25rem, 2.2vw, 1.55rem); letter-spacing: -.03em; margin: .1rem 0 .3rem; }
+  .rank-title a { color: inherit; text-decoration-color: var(--violet-line); text-decoration-thickness: 2px; }
+  .rank-title a:hover { text-decoration-color: currentColor; }
+  .summary { color: var(--ink-2); font-size: .96rem; margin: 0; }
+  .featured .summary { color: #e4dbff; }
+  .rank-meta { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); margin: 1.2rem 0 0; }
+  .rank-meta div { background: rgba(255, 255, 255, .7); border: 1px solid var(--line); border-radius: var(--r-md); padding: .75rem .95rem; }
+  .featured .rank-meta div { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .18); }
+  .rank-meta dt { color: var(--violet); font: 700 .64rem/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+  .featured .rank-meta dt { color: #d3c4ff; }
+  .rank-meta dd { font-size: .9rem; margin: .3rem 0 0; }
+  .rank-cols { display: grid; gap: 1rem 2rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); margin-top: 1.2rem; }
+  .rank-cols h4 { font: 700 .66rem/1.2 var(--font-mono); letter-spacing: .12em; margin: 0 0 .5rem; text-transform: uppercase; }
+  .rank-cols ul { font-size: .9rem; list-style: none; margin: 0; padding: 0; }
+  .rank-cols li { padding-left: 1.2rem; position: relative; }
+  .rank-cols li + li { margin-top: .35rem; }
+  .rank-cols li::before { font-weight: 900; left: 0; position: absolute; }
+  .rank-cols div:first-child li::before { color: var(--pass); content: '+'; }
+  .rank-cols div:last-child li::before { color: var(--fail); content: '\2212'; }
+  .featured .rank-cols div:first-child li::before { color: #b9ffef; }
+  .featured .rank-cols div:last-child li::before { color: #ffc4b0; }
+  .featured .rank-cols h4 { color: #d3c4ff; }
+  .rank-evidence { color: var(--ink-3); font: 600 .72rem/1.5 var(--font-mono); margin: 1.2rem 0 0; }
+  .featured .rank-evidence { color: #d3c4ff; }
+  .visually-hidden { clip: rect(0 0 0 0); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+</style>

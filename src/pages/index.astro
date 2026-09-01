@@ -55,8 +55,8 @@ const pathways = [
         <h1>The free, open-source <span>antidetect browser</span> for managing multiple accounts.</h1>
         <p class="lead">Create unlimited isolated browser profiles, sync them across your devices, and collaborate with your team or your AI agents from one workspace.</p>
         <div class="actions">
-          <a class="button" href="/download/" data-track-cta data-cta-type="cloud-signup" data-page-group="home" data-destination="download">Download &amp; sign up free</a>
-          <GitHubButton href="https://github.com/aliasmode/aliasmode" label="View on GitHub" tone="outline" track pageGroup="home" />
+          <a class="button" href="/download/" data-track-cta data-cta-type="download-installer" data-destination="cloud">Download &amp; sign up free</a>
+          <GitHubButton href="https://github.com/aliasmode/aliasmode" label="View on GitHub" tone="outline" track />
         </div>
         <p class="hero-note"><a href="/local/">Prefer no account? Use Local mode.</a></p>
       </div>
@@ -213,7 +213,7 @@ const pathways = [
       <p class="eyebrow">Start in minutes</p>
       <h2>Download. Create. Sync. Share.</h2>
       <p>Install AliasMode on Windows and create your free Cloud account inside the app. Your profiles are ready when your work moves to another device or teammate.</p>
-      <a class="text-link" href="/download/" data-track-cta data-cta-type="download" data-page-group="home-workflow" data-destination="download">Get AliasMode free <span>→</span></a>
+      <a class="text-link" href="/download/" data-track-cta data-cta-type="download-installer" data-destination="download">Get AliasMode free <span>→</span></a>
     </div>
     <ol class="workflow-steps">
       <li><span>1</span><div><strong>Download AliasMode</strong><small>Install the Windows beta.</small></div></li>
@@ -254,7 +254,7 @@ const pathways = [
         <p class="eyebrow">Open by default</p>
         <h2>Built in the open.</h2>
         <p>The AliasMode desktop client is Apache-2.0 open source. Read the code, follow releases, report issues, and contribute directly. CloakBrowser installs separately under its own license, and AliasMode Cloud is a managed service.</p>
-        <GitHubButton href="https://github.com/aliasmode/aliasmode" label="aliasmode/aliasmode" track pageGroup="home" />
+        <GitHubButton href="https://github.com/aliasmode/aliasmode" label="aliasmode/aliasmode" track />
       </div>
       <div class="split-card split-warm">
         <p class="eyebrow">Local mode</p>
@@ -297,7 +297,7 @@ const pathways = [
       <p>Releases, fingerprint questions, proxy troubleshooting and feature requests all land in one open Telegram group, read by the people building AliasMode.</p>
       <div class="actions">
         <TelegramButton href={siteConfig.telegramCommunity} label="Join the Telegram group" />
-        <GitHubButton href={siteConfig.githubRepository} label="Report an issue" tone="light" track pageGroup="home" ctaType="github-issue" />
+        <GitHubButton href={siteConfig.githubRepository} label="Report an issue" tone="light" track destination="github-issues" />
       </div>
       <p class="community-note">Free to join, and open to read before you post.</p>
     </div>

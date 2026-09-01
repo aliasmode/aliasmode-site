@@ -1,6 +1,17 @@
+import localApiSpec from './generated/local-api.openapi.json';
+import mcpManifest from './generated/manifest.json';
+
 export const productFacts = {
   desktopLicense: 'Apache-2.0',
   supportedOperatingSystem: 'Windows',
+  sourceVersion: mcpManifest.productVersion,
+  platforms: {
+    windows: 'Native installer, local dashboard, local stdio MCP, and Remote MCP host',
+    macos: 'Local dashboard from source with a supported, hash-pinned CloakBrowser binary',
+    linux: 'No native app or local dashboard; drive a running Windows AliasMode through Remote MCP',
+  },
+  mcpClients: ['Claude Code', 'Codex', 'OpenClaw', 'Hermes'],
+  remoteMcpClients: ['Claude.ai', 'ChatGPT', 'Claude Code and other bearer-capable clients'],
   localApiOrigin: 'http://127.0.0.1:50400',
   repository: 'https://github.com/aliasmode/aliasmode',
   profiles: [
@@ -28,21 +39,16 @@ export const productFacts = {
   proxies: ['HTTP', 'HTTPS', 'SOCKS5'],
 } as const;
 
-export const localApiEndpoints = [
-  'GET /status',
-  'GET /api/v1/status',
-  'GET /api/v1/browser/start?user_id=&launch_args=',
-  'GET /api/v1/browser/stop?user_id=',
-  'GET /api/v1/browser/active?user_id=',
-  'POST /api/v2/browser-profile/delete-cache',
-  'GET /api/v1/browser/cookies?user_id=&urls=',
-  'GET /api/v1/group/list',
-  'POST /api/v1/group/create',
-  'GET /api/v1/user/list',
-  'POST /api/v1/user/create',
-  'POST /api/v1/user/delete',
-  'POST /api/v1/user/update',
-] as const;
+/** The 13 public Local API operations, derived from the product-generated OpenAPI contract. */
+const paths = (localApiSpec as { paths: Record<string, Record<string, { parameters?: { name: string; in: string; $ref?: string }[] }>> }).paths;
+const queryHint = (operation: { parameters?: { name?: string; in?: string; $ref?: string }[] }) => {
+  const names = (operation.parameters ?? []).map((parameter) => parameter.$ref ? parameter.$ref.split('/').pop()!.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase() : parameter.in === 'query' ? parameter.name : '').filter(Boolean);
+  return names.length ? `?${names.map((name) => `${name}=`).join('&')}` : '';
+};
+export const localApiEndpoints = Object.entries(paths).flatMap(([path, methods]) =>
+  Object.entries(methods).map(([method, operation]) => `${method.toUpperCase()} ${path}${method === 'get' ? queryHint(operation) : ''}`),
+);
+export const localApiOperationCount = localApiEndpoints.length;
 
 export const playwrightExample = `import { chromium } from 'playwright';
 

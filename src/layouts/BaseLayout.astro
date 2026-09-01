@@ -3,32 +3,46 @@ import { siteConfig } from '../../site.config.mjs';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import GitHubButton from '../components/GitHubButton.astro';
 import TelegramButton from '../components/TelegramButton.astro';
-import { canonicalPath, getBreadcrumbs, getSiteRoute } from '../data/site-routes';
+import { analyticsGroupFor, canonicalPath } from '../data/paths';
+import { getBreadcrumbs, getSiteRoute } from '../data/site-routes';
 
-interface Props { title?: string; description?: string; noIndex?: boolean; canonical?: boolean; layout?: 'panel' | 'sections' }
+interface Props {
+  title?: string;
+  description?: string;
+  noIndex?: boolean;
+  canonical?: boolean;
+  layout?: 'panel' | 'sections';
+  /** Extra schema.org objects (no `@context`) merged into the page graph by family layouts. */
+  schema?: Record<string, unknown>[];
+}
 const {
   title = 'Free Open-Source Antidetect Browser',
   description = 'AliasMode is a free, open-source antidetect browser for managing multiple accounts.',
   noIndex = false,
   canonical: includeCanonical = true,
   layout = 'panel',
+  schema = [],
 } = Astro.props;
 const route = getSiteRoute(Astro.url.pathname);
 const routePath = route?.path ?? canonicalPath(Astro.url.pathname);
 const resolvedTitle = route?.title ?? title;
 const resolvedDescription = route?.description ?? description;
 const fullTitle = `${resolvedTitle} · AliasMode`;
-const shouldIndex = siteConfig.index && !noIndex;
-const shouldMeasure = siteConfig.isProduction && shouldIndex && route?.sitemap !== false && Boolean(siteConfig.analyticsEndpoint);
-const analyticsPageGroup = route?.kind ?? 'site';
+const policy = noIndex ? 'private' : route?.indexPolicy ?? 'private';
+const shouldIndex = siteConfig.index && policy === 'index';
+const robots = !siteConfig.index || policy === 'private' ? 'noindex,nofollow' : policy === 'archive' ? 'noindex,follow' : '';
+const shouldMeasure = siteConfig.isProduction && shouldIndex && Boolean(siteConfig.analyticsEndpoint);
+const analyticsGroup = route?.analyticsGroup ?? analyticsGroupFor(routePath);
 const canonical = shouldIndex && includeCanonical ? new URL(routePath, siteConfig.origin).toString() : undefined;
 const metadataUrl = new URL(routePath, siteConfig.metadataOrigin).toString();
-const socialImage = new URL('/social/aliasmode-open-source-antidetect-browser.png', siteConfig.metadataOrigin).toString();
+const socialFamily = route?.socialFamily ?? 'home';
+const socialImage = new URL(`/social/${socialFamily === 'home' ? 'aliasmode-open-source-antidetect-browser' : socialFamily}.png`, siteConfig.metadataOrigin).toString();
+const socialAlt = socialFamily === 'home' ? 'AliasMode: free, open-source antidetect browser' : `AliasMode ${socialFamily.replace('-', ' ')} page`;
 const breadcrumbs = route ? getBreadcrumbs(route) : [];
 const organizationId = `${siteConfig.metadataOrigin}/#organization`;
 const schemas: Record<string, unknown>[] = [];
 
-if (route) {
+if (route && policy === 'index') {
   schemas.push({
     '@type': 'Organization',
     '@id': organizationId,
@@ -36,58 +50,72 @@ if (route) {
     url: 'https://xreacher.com/',
     brand: { '@type': 'Brand', name: 'AliasMode', url: siteConfig.metadataOrigin },
   });
-}
-if (route?.kind === 'home') {
-  schemas.push({
-    '@type': 'WebSite',
-    '@id': `${siteConfig.metadataOrigin}/#website`,
-    url: siteConfig.metadataOrigin,
-    name: 'AliasMode',
-    description: resolvedDescription,
-    publisher: { '@id': organizationId },
-  });
-}
-if (route && (route.kind === 'product' || route.kind === 'home')) {
-  schemas.push({
-    '@type': 'SoftwareApplication',
-    name: 'AliasMode',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Windows',
-    url: metadataUrl,
-    description: resolvedDescription,
-    isAccessibleForFree: true,
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    publisher: { '@id': organizationId },
-  });
-}
-if (route && ['documentation', 'comparison', 'integration', 'use-case', 'guide', 'article'].includes(route.kind)) {
-  schemas.push({
-    '@type': route.kind === 'documentation' ? 'TechArticle' : 'Article',
-    headline: resolvedTitle,
-    description: resolvedDescription,
-    url: metadataUrl,
-    dateModified: '2026-08-10',
-    author: { '@id': organizationId },
-    publisher: { '@id': organizationId },
-  });
-}
-if (breadcrumbs.length > 1) {
-  schemas.push({
-    '@type': 'BreadcrumbList',
-    itemListElement: breadcrumbs.map((crumb, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: crumb.label,
-      item: new URL(crumb.path, siteConfig.metadataOrigin).toString(),
-    })),
-  });
+  if (route.kind === 'home') {
+    schemas.push({
+      '@type': 'WebSite',
+      '@id': `${siteConfig.metadataOrigin}/#website`,
+      url: siteConfig.metadataOrigin,
+      name: 'AliasMode',
+      description: resolvedDescription,
+      publisher: { '@id': organizationId },
+    });
+  }
+  if (route.kind === 'product' || route.kind === 'home') {
+    schemas.push({
+      '@type': 'SoftwareApplication',
+      name: 'AliasMode',
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Windows',
+      url: metadataUrl,
+      description: resolvedDescription,
+      isAccessibleForFree: true,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      publisher: { '@id': organizationId },
+    });
+  }
+  for (const item of schema) {
+    schemas.push({
+      url: metadataUrl,
+      datePublished: route.publishedOn,
+      dateModified: route.modifiedOn,
+      author: { '@id': organizationId },
+      publisher: { '@id': organizationId },
+      ...item,
+    });
+  }
+  if (breadcrumbs.length > 1) {
+    schemas.push({
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((crumb, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: crumb.label,
+        item: new URL(crumb.path, siteConfig.metadataOrigin).toString(),
+      })),
+    });
+  }
 }
 const structuredData = schemas.length
   ? JSON.stringify({ '@context': 'https://schema.org', '@graph': schemas }).replace(/</g, '\\u003c')
   : '';
+const navigation = [
+  { href: '/product/', label: 'Product' },
+  { href: '/use-cases/', label: 'Use cases' },
+  { href: '/alternatives/', label: 'Compare' },
+  { href: '/guides/', label: 'Guides' },
+  { href: '/docs/', label: 'Developers' },
+  { href: '/pricing/', label: 'Pricing' },
+];
+const footerGroups = [
+  { label: 'Product', links: [['/download/', 'Download'], ['/product/', 'Product'], ['/local/', 'Local'], ['/cloud/', 'Cloud'], ['/pricing/', 'Pricing'], ['/security/', 'Security']] },
+  { label: 'Compare', links: [['/best-antidetect-browsers/', 'Best antidetect browsers'], ['/best-free-antidetect-browsers/', 'Best free antidetect browsers'], ['/best-open-source-antidetect-browsers/', 'Open-source antidetect browsers'], ['/alternatives/', 'All alternatives'], ['/what-is-an-antidetect-browser/', 'What is an antidetect browser?']] },
+  { label: 'Guides and use cases', links: [['/guides/', 'Guides'], ['/use-cases/', 'Use cases'], ['/agencies/', 'Agencies'], ['/use-cases/ai-agents/', 'AI agents'], ['/tools/', 'Tools']] },
+  { label: 'Developers', links: [['/docs/', 'Documentation'], ['/docs/local-api/', 'Local API'], ['/docs/mcp/', 'MCP server'], ['/docs/connectors/', 'Remote MCP'], ['/integrations/', 'Integrations'], [siteConfig.githubRepository, 'GitHub']] },
+  { label: 'Company', links: [['/about/', 'About'], [siteConfig.telegramCommunity, 'Telegram community'], ['/contact/', 'Contact'], ['/sitemap/', 'Site directory'], ['/terms/', 'Terms'], ['/privacy/', 'Privacy'], ['/acceptable-use/', 'Acceptable Use']] },
+];
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-analytics-group={analyticsGroup}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -95,24 +123,25 @@ const structuredData = schemas.length
     <meta name="description" content={resolvedDescription} />
     <meta name="theme-color" content="#6d4aff" />
     <meta property="og:site_name" content="AliasMode" />
-    <meta property="og:type" content={route?.kind === 'article' ? 'article' : 'website'} />
+    <meta property="og:type" content={route && route.kind !== 'home' && route.kind !== 'product' && route.kind !== 'legal' ? 'article' : 'website'} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={resolvedDescription} />
     <meta property="og:url" content={metadataUrl} />
     <meta property="og:image" content={socialImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="AliasMode: free, open-source antidetect browser" />
+    <meta property="og:image:alt" content={socialAlt} />
+    {route && policy === 'index' && route.kind !== 'home' && <meta property="article:published_time" content={route.publishedOn} />}
+    {route && policy === 'index' && route.kind !== 'home' && <meta property="article:modified_time" content={route.modifiedOn} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={resolvedDescription} />
     <meta name="twitter:image" content={socialImage} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Inter:opsz,wght@14..32,400..900&family=JetBrains+Mono:wght@500;700&display=swap" />
+    <link rel="preload" href="/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    {!shouldIndex && <meta name="robots" content="noindex,nofollow" />}
+    {robots && <meta name="robots" content={robots} />}
     {canonical && <link rel="canonical" href={canonical} />}
     {siteConfig.googleSiteVerification && !noIndex && <meta name="google-site-verification" content={siteConfig.googleSiteVerification} />}
     {siteConfig.bingSiteVerification && !noIndex && <meta name="msvalidate.01" content={siteConfig.bingSiteVerification} />}
@@ -125,15 +154,15 @@ const structuredData = schemas.length
       <header class="site-header" data-nav="closed">
         <a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 512 512" fill="none" aria-hidden="true"><path d="M152 96H320C380 96 416 136 416 196V316C416 376 376 416 316 416H196C136 416 96 376 96 316V288" stroke="currentColor" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 288C96 240 136 208 184 208H280" stroke="#6d4aff" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/></svg>AliasMode <span>by Xreacher</span></a>
         <div class="nav-panel" id="site-nav">
-          <nav class="main-nav" aria-label="Main navigation"><a href="/product/">Product</a><a href="/agencies/">Agencies</a><a href="/docs/">Docs</a><a href="/alternatives/">Alternatives</a><a href="/pricing/">Pricing</a></nav>
+          <nav class="main-nav" aria-label="Main navigation">{navigation.map((item) => <a href={item.href}>{item.label}</a>)}</nav>
           <div class="nav-extra">
             <a class="nav-extra-link" href={siteConfig.telegramCommunity} rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42Z"/></svg> Join the Telegram group</a>
-            <a class="nav-extra-link" href={siteConfig.githubRepository} rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.23c-3.23.7-3.91-1.37-3.91-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.39.97.1-.75.41-1.27.74-1.56-2.58-.29-5.29-1.29-5.29-5.69 0-1.26.45-2.29 1.2-3.1-.12-.3-.52-1.47.11-3.06 0 0 .98-.31 3.16 1.18a10.9 10.9 0 0 1 5.76 0c2.18-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.06.75.81 1.2 1.84 1.2 3.1 0 4.41-2.72 5.39-5.3 5.68.42.36.79 1.07.79 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg> View the source</a>
+            <a class="nav-extra-link" href={siteConfig.githubRepository} rel="noopener" data-track-cta data-cta-type="open-source-repository" data-destination="github"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.23c-3.23.7-3.91-1.37-3.91-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.39.97.1-.75.41-1.27.74-1.56-2.58-.29-5.29-1.29-5.29-5.69 0-1.26.45-2.29 1.2-3.1-.12-.3-.52-1.47.11-3.06 0 0 .98-.31 3.16 1.18a10.9 10.9 0 0 1 5.76 0c2.18-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.06.75.81 1.2 1.84 1.2 3.1 0 4.41-2.72 5.39-5.3 5.68.42.36.79 1.07.79 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg> View the source</a>
           </div>
         </div>
         <div class="header-actions">
           <span class="tg-desktop"><TelegramButton href={siteConfig.telegramCommunity} label="Join the AliasMode Telegram group" tone="outline" iconOnly /></span>
-          <a class="header-cta" href="/download/" data-track-cta data-cta-type="download" data-page-group="header" data-destination="download">Download free</a>
+          <a class="header-cta" href="/download/" data-track-cta data-cta-type="download-installer" data-destination="download">Download free</a>
           <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu">
             <span class="nav-bars" aria-hidden="true"><i></i><i></i><i></i></span>
           </button>
@@ -146,10 +175,10 @@ const structuredData = schemas.length
       </main>
       <footer>
         <div class="footer-cols">
-        <div class="footer-brand"><strong>AliasMode</strong><span>Free, open-source multi-account browsing.</span><span class="footer-social"><GitHubButton href={siteConfig.githubRepository} label="GitHub" tone="light" compact /><TelegramButton href={siteConfig.telegramCommunity} label="Telegram" tone="light" compact /></span></div>
-        <nav aria-label="Product navigation"><strong>Product</strong><a href="/download/">Download</a><a href="/local/">Local</a><a href="/cloud/">Cloud</a><a href="/security/">Security</a></nav>
-        <nav aria-label="Resource navigation"><strong>Resources</strong><a href="/docs/">Documentation</a><a href="/integrations/">Integrations</a><a href="/guides/">Guides</a><a href="/tools/">Tools</a></nav>
-        <nav aria-label="Company and legal navigation"><strong>Company</strong><a href="/about/">About</a><a href={siteConfig.telegramCommunity} rel="noopener">Telegram community</a><a href="/contact/">Contact</a><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a><a href="/acceptable-use/">Acceptable Use</a></nav>
+          <div class="footer-brand"><strong>AliasMode</strong><span>Free, open-source antidetect browser for people, teams, and AI agents.</span><span class="footer-social"><GitHubButton href={siteConfig.githubRepository} label="GitHub" tone="light" compact track ctaType="open-source-repository" /><TelegramButton href={siteConfig.telegramCommunity} label="Telegram" tone="light" compact /></span></div>
+          {footerGroups.map((group) => (
+            <nav aria-label={`${group.label} navigation`}><strong>{group.label}</strong>{group.links.map(([href, label]) => <a href={href} rel={href.startsWith('http') ? 'noopener' : undefined}>{label}</a>)}</nav>
+          ))}
         </div>
         <p class="footer-mark" aria-hidden="true">AliasMode</p>
       </footer>
@@ -180,7 +209,7 @@ const structuredData = schemas.length
       })();
     </script>
     {shouldMeasure && (
-      <script is:inline define:vars={{ endpoint: siteConfig.analyticsEndpoint, pageGroup: analyticsPageGroup }}>
+      <script is:inline define:vars={{ endpoint: siteConfig.analyticsEndpoint, pageGroup: analyticsGroup }}>
         (() => {
           const normalizeCode = (value) => value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 128) || undefined;
           const referrerCategory = (value) => {
@@ -198,6 +227,10 @@ const structuredData = schemas.length
               if (is('reddit.com')) return 'reddit';
               if (is('news.ycombinator.com')) return 'hacker-news';
               if (is('linkedin.com')) return 'linkedin';
+              if (is('chatgpt.com') || is('openai.com')) return 'chatgpt';
+              if (is('claude.ai') || is('anthropic.com')) return 'claude';
+              if (is('perplexity.ai')) return 'perplexity';
+              if (is('gemini.google.com')) return 'gemini';
             } catch {
               return 'other';
             }
@@ -212,13 +245,15 @@ const structuredData = schemas.length
               credentials: 'omit',
             }).catch(() => {});
           };
+          // One normalized page identity is shared by the pageview and every CTA on it.
+          const group = normalizeCode(pageGroup) || 'site';
           const query = new URLSearchParams(location.search);
           const utmSource = normalizeCode(query.get('utm_source') || '');
           const utmMedium = normalizeCode(query.get('utm_medium') || '');
           const utmCampaign = normalizeCode(query.get('utm_campaign') || '');
           const pageview = {
             eventType: 'pageview',
-            pageGroup: normalizeCode(pageGroup) || 'site',
+            pageGroup: group,
             source: referrerCategory(document.referrer),
             ...(utmSource ? { utmSource } : {}),
             ...(utmMedium ? { utmMedium } : {}),
@@ -235,7 +270,7 @@ const structuredData = schemas.length
             if (!ctaType) return;
             send({
               eventType: 'cta',
-              pageGroup: normalizeCode(link.dataset.pageGroup || '') || normalizeCode(pageGroup) || 'site',
+              pageGroup: group,
               ctaType,
               ...(destination ? { destination } : {}),
               ...(campaign ? { campaign } : {}),
@@ -247,6 +282,14 @@ const structuredData = schemas.length
   </body>
 </html>
 <style is:global>
+  /* Self-hosted fonts (SIL OFL; licenses in /fonts). Latin and Latin Extended subsets only. */
+  @font-face { font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 400 800; font-stretch: 75% 100%; font-display: swap; src: url(/fonts/bricolage-grotesque-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 400 800; font-stretch: 75% 100%; font-display: swap; src: url(/fonts/bricolage-grotesque-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+  @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap; src: url(/fonts/inter-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 900; font-display: swap; src: url(/fonts/inter-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+  @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 100 800; font-display: swap; src: url(/fonts/jetbrains-mono-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 100 800; font-display: swap; src: url(/fonts/jetbrains-mono-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
   :root {
     /* Brand */
     --violet: #6d4aff;
@@ -316,7 +359,7 @@ const structuredData = schemas.length
   ::selection { background: rgba(109, 74, 255, .2); }
   [id] { scroll-margin-top: 6rem; }
   a { color: inherit; text-underline-offset: .18em; }
-  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { border-radius: .3rem; outline: 3px solid var(--violet); outline-offset: 3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { border-radius: .3rem; outline: 3px solid var(--violet); outline-offset: 3px; }
 
   /* A normal, continuous landing page: full-width bands, content in a centred
      column. No floating panel, no gaps between sections. */
@@ -380,7 +423,7 @@ const structuredData = schemas.length
   .surface + .surface-light + .surface-light { border-top: 1px solid var(--line); }
 
   .shell > footer { background: linear-gradient(155deg, var(--night), #241d47); color: var(--night-ink); overflow: hidden; padding: clamp(2.75rem, 5vw, 3.5rem) var(--gutter) 0; }
-  .footer-cols { align-items: flex-start; display: grid; font-size: .82rem; gap: 2rem; grid-template-columns: 1.5fr repeat(3, 1fr); }
+  .footer-cols { align-items: flex-start; display: grid; font-size: .82rem; gap: 2rem; grid-template-columns: 1.4fr repeat(5, 1fr); }
   .shell > footer nav { align-items: flex-start; flex-direction: column; gap: .15rem; }
   .shell > footer nav a { color: var(--night-ink); padding-inline: 0; }
   .shell > footer nav a:hover { background: none; color: #fff; text-decoration: underline; }
@@ -491,8 +534,8 @@ const structuredData = schemas.length
   @media (max-width: 36rem) {
     :root { --r-panel: 1.35rem; }
     .site-header .brand span { display: none; }
-    .footer-cols { grid-template-columns: 1fr; }
-    .footer-brand { grid-column: auto; }
+    .footer-cols { grid-template-columns: 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; }
     table { min-width: 34rem; }
   }
   @media (prefers-reduced-motion: reduce) {

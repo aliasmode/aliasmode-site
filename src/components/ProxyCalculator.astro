@@ -1,0 +1,49 @@
+---
+/** Proxy cost calculator: profiles, profiles per proxy, monthly cost. Progressive enhancement only. */
+---
+<div class="calculator" data-proxy-calculator>
+  <div class="calculator-inputs">
+    <label>Browser profiles<input name="profiles" type="number" min="1" step="1" value="100" inputmode="numeric" /></label>
+    <label>Profiles per proxy<input name="profilesPerProxy" type="number" min="1" step="1" value="1" inputmode="numeric" /></label>
+    <label>Monthly cost per proxy (USD)<input name="cost" type="number" min="0" step="0.01" value="3.50" inputmode="decimal" /></label>
+  </div>
+  <div class="calculator-results" aria-live="polite">
+    <div><span>Required proxies</span><strong data-proxy-count>100</strong></div>
+    <div><span>Estimated monthly cost</span><strong data-proxy-cost>$350.00</strong></div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-proxy-calculator]').forEach((calculator) => {
+    const profiles = calculator.querySelector('[name="profiles"]');
+    const profilesPerProxy = calculator.querySelector('[name="profilesPerProxy"]');
+    const cost = calculator.querySelector('[name="cost"]');
+    const proxyCount = calculator.querySelector('[data-proxy-count]');
+    const proxyCost = calculator.querySelector('[data-proxy-cost]');
+    const update = () => {
+      if (!(profiles instanceof HTMLInputElement) || !(profilesPerProxy instanceof HTMLInputElement) || !(cost instanceof HTMLInputElement)) return;
+      const count = Math.ceil(Math.max(1, Number(profiles.value) || 1) / Math.max(1, Number(profilesPerProxy.value) || 1));
+      const monthly = count * Math.max(0, Number(cost.value) || 0);
+      if (proxyCount) proxyCount.textContent = String(count);
+      if (proxyCost) proxyCost.textContent = `$${monthly.toFixed(2)}`;
+    };
+    calculator.addEventListener('input', update);
+    update();
+  });
+</script>
+
+<style>
+  .calculator { background: linear-gradient(150deg, var(--night), #241d47); border-radius: var(--r-lg); color: #fff; display: grid; gap: 1.6rem; grid-template-columns: 1.2fr .8fr; margin: 1.6rem 0; padding: clamp(1.4rem, 3.5vw, 2.4rem); }
+  .calculator-inputs { display: grid; gap: 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .calculator label { color: var(--night-ink); display: flex; flex-direction: column; font-size: .76rem; font-weight: 700; gap: .45rem; }
+  .calculator input { background: #fff; border: 2px solid transparent; border-radius: var(--r-sm); color: var(--ink); font: 750 1.15rem/1.2 var(--font-body); min-width: 0; padding: .75rem; width: 100%; }
+  .calculator input:focus-visible { border-color: #b7a1ff; outline: 3px solid var(--violet); outline-offset: 2px; }
+  .calculator-results { display: grid; gap: .6rem; }
+  .calculator-results div { background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .08); border-radius: var(--r-sm); padding: 1rem; }
+  .calculator-results span { color: var(--night-ink-2); display: block; font-size: .74rem; }
+  .calculator-results strong { display: block; font-family: var(--font-display); font-size: 1.8rem; letter-spacing: -.03em; margin-top: .2rem; }
+  @media (max-width: 54rem) {
+    .calculator { grid-template-columns: 1fr; }
+    .calculator-inputs { grid-template-columns: 1fr; }
+  }
+</style>

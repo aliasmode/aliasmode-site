@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { indexableRoutes } from '../data/site-routes';
+import type { RouteKind, SiteRoute } from '../data/site-routes';
+
+const groups: { kinds: RouteKind[]; title: string; description: string }[] = [
+  { kinds: ['home', 'product', 'company'], title: 'Product', description: 'Download, modes, pricing, security, and the AliasMode story.' },
+  { kinds: ['documentation'], title: 'Documentation and references', description: 'Setup, Local API, MCP server, Remote MCP, CloakBrowser, and troubleshooting.' },
+  { kinds: ['integration'], title: 'Integrations', description: 'Claude Code, Codex, OpenClaw, Hermes, Claude.ai, ChatGPT, Playwright, and AdsPower-compatible clients.' },
+  { kinds: ['comparison'], title: 'Comparisons and alternatives', description: 'AliasMode against every major antidetect browser, plus ecosystem guides.' },
+  { kinds: ['ranking'], title: 'Rankings and foundations', description: 'Best antidetect browsers by use case, and the concepts behind them.' },
+  { kinds: ['guide'], title: 'Task guides', description: 'Step-by-step workflows for accounts, warm-ups, teams, agents, and testing.' },
+  { kinds: ['use-case'], title: 'Use cases', description: 'Agencies, social media teams, outreach teams, and AI agents.' },
+  { kinds: ['tool', 'article'], title: 'Tools and research', description: 'Calculators and maintained research.' },
+  { kinds: ['legal'], title: 'Legal', description: 'Current terms, privacy, and acceptable use.' },
+];
+const sortRoutes = (routes: SiteRoute[]) => [...routes].sort((a, b) => a.path.localeCompare(b.path));
+---
+<BaseLayout>
+  <article class="directory" data-page-family="hub">
+    <header class="page-hero">
+      <p class="eyebrow">Site directory</p>
+      <h1>Every AliasMode page, grouped by what you want to do.</h1>
+      <p class="lead">{indexableRoutes.length} public pages. Use this directory when you know the topic but not the URL.</p>
+    </header>
+    {groups.map((group) => {
+      const routes = sortRoutes(indexableRoutes.filter((route) => group.kinds.includes(route.kind)));
+      return routes.length > 0 && (
+        <section class="directory-group" aria-labelledby={`directory-${group.kinds[0]}`}>
+          <div>
+            <h2 id={`directory-${group.kinds[0]}`}>{group.title}</h2>
+            <p class="muted">{group.description}</p>
+          </div>
+          <ul>
+            {routes.map((route) => <li><a href={route.path}>{route.title}</a><span>{route.description}</span></li>)}
+          </ul>
+        </section>
+      );
+    })}
+  </article>
+</BaseLayout>
+
+<style>
+  .page-hero { border-bottom: 1px solid var(--line); padding: 1rem 0 clamp(2rem, 5vw, 3rem); }
+  .page-hero h1 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); max-width: 18ch; }
+  .directory-group { border-bottom: 1px solid var(--line); display: grid; gap: 1rem 2rem; grid-template-columns: minmax(12rem, .5fr) minmax(0, 1.5fr); padding: clamp(2rem, 4vw, 3rem) 0; }
+  .directory-group h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); position: sticky; top: 5.5rem; }
+  .directory-group ul { list-style: none; margin: 0; max-width: none; padding: 0; }
+  .directory-group li { border-top: 1px solid var(--line); display: grid; gap: .15rem; margin: 0; padding: .8rem 0; }
+  .directory-group li:first-child { border-top: 0; padding-top: 0; }
+  .directory-group a { color: var(--ink); font-weight: 700; text-decoration: none; }
+  .directory-group a:hover { color: var(--violet-deep); text-decoration: underline; }
+  .directory-group span { color: var(--ink-2); font-size: .86rem; }
+  @media (max-width: 54rem) { .directory-group { grid-template-columns: 1fr; } .directory-group h2 { position: static; } }
+</style>
