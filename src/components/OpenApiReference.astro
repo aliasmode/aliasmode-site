@@ -109,7 +109,7 @@ const server = api.servers?.[0]?.url;
               {op.description && <p>{op.description}</p>}
 
               {op.parameters.length > 0 && (
-                <div class="table-scroll op-table">
+                <div class="table-scroll op-table" tabindex="0" role="region">
                   <table>
                     <caption>Parameters</caption>
                     <thead><tr><th scope="col">Name</th><th scope="col">In</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead>
@@ -123,7 +123,7 @@ const server = api.servers?.[0]?.url;
                   <p class="op-label">Request body{op.body.required ? ' · required' : ''}</p>
                   {op.body.description && <p class="muted">{op.body.description}</p>}
                   {op.body.fields.length > 0 ? (
-                    <div class="table-scroll op-table">
+                    <div class="table-scroll op-table" tabindex="0" role="region">
                       <table>
                         <caption>Request body fields</caption>
                         <thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead>
@@ -139,7 +139,7 @@ const server = api.servers?.[0]?.url;
                 <div class="op-part">
                   <p class="op-label">Response <span class="status">{response.status}</span>{response.description && <span class="muted"> · {response.description}</span>}</p>
                   {response.fields.length > 0 && (
-                    <div class="table-scroll op-table">
+                    <div class="table-scroll op-table" tabindex="0" role="region">
                       <table>
                         <caption>Response envelope</caption>
                         <thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead>

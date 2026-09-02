@@ -6,7 +6,7 @@ import { proxyCriteria, proxyProviders } from '../data/proxy-providers';
   <h3>Evaluation criteria</h3>
   <p class="muted">The same questions, in the same order, for every provider.</p>
   <ol class="criteria">{proxyCriteria.map((criterion) => <li>{criterion}</li>)}</ol>
-  <div class="table-scroll provider-table">
+  <div class="table-scroll provider-table" tabindex="0" role="region">
     <table>
       <caption>Static residential and ISP proxy providers, from public product pages</caption>
       <thead><tr><th scope="col">Provider</th><th scope="col">Best fit</th><th scope="col">Public offer</th><th scope="col">Targeting and protocols</th><th scope="col">Commercial model</th><th scope="col">Source</th></tr></thead>

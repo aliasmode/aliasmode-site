@@ -19,6 +19,13 @@ for (const item of pages) {
     test('renders one H1, no horizontal overflow, no console errors, no broken local resources', async ({ page }) => {
       const errors: string[] = [];
       const failures: string[] = [];
+      // The aggregate beacon is the site's own first-party collector. Fulfill it
+      // locally so production builds stay CORS-clean and never hit the network.
+      await page.route('**/_am/events', async (route) => {
+        const headers = { 'Access-Control-Allow-Origin': '*' };
+        if (route.request().method() === 'OPTIONS') return route.fulfill({ status: 204, headers });
+        return route.fulfill({ status: 204, headers });
+      });
       page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
       page.on('response', (response) => {
         const url = new URL(response.url());
@@ -26,7 +33,7 @@ for (const item of pages) {
       });
       page.on('request', (request) => {
         const url = new URL(request.url());
-        if (url.origin !== 'http://127.0.0.1:4321') failures.push(`external request ${url.href}`);
+        if (url.origin !== 'http://127.0.0.1:4321' && !url.pathname.startsWith('/_am/')) failures.push(`external request ${url.href}`);
       });
       await page.goto(item.path, { waitUntil: 'networkidle' });
       await expect(page.locator('h1')).toHaveCount(1);
@@ -35,8 +42,9 @@ for (const item of pages) {
       expect(overflow, 'page must not scroll horizontally').toBeLessThanOrEqual(1);
       expect(errors, 'console errors').toEqual([]);
       expect(failures, 'failed or external requests').toEqual([]);
-      const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
-      const robots = await page.locator('meta[name="robots"]').getAttribute('content').catch(() => null);
+      // Indexable pages have no robots meta; preview pages have no canonical. Bound the waits.
+      const canonical = await page.locator('link[rel="canonical"]').getAttribute('href', { timeout: 500 }).catch(() => null);
+      const robots = await page.locator('meta[name="robots"]').getAttribute('content', { timeout: 500 }).catch(() => null);
       expect(canonical === null || canonical.endsWith(item.path)).toBeTruthy();
       expect(robots === null || robots.includes('noindex')).toBeTruthy();
       const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
@@ -83,16 +91,22 @@ for (const item of pages) {
 test('analytics events share one page group and contain only allowlisted fields', async ({ page }) => {
   const events: Record<string, unknown>[] = [];
   await page.route('**/_am/events', async (route) => {
+    // Answer the CORS preflight, then capture only the real event POSTs.
+    const headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'content-type' };
+    if (route.request().method() === 'OPTIONS') return route.fulfill({ status: 204, headers });
     events.push(JSON.parse(route.request().postData() ?? '{}'));
-    await route.fulfill({ status: 204, body: '' });
+    await route.fulfill({ status: 204, headers });
   });
   await page.goto('/docs/local-api/?utm_source=Test%20Source&utm_medium=email');
   test.skip(!(await page.evaluate(() => Boolean(document.querySelector('script[data-astro-exec], script:not([src])')))), 'analytics only exists in production builds');
   const measured = await page.evaluate(() => document.documentElement.outerHTML.includes('/_am/events'));
   test.skip(!measured, 'analytics only exists in production builds');
   await page.waitForTimeout(500);
-  const cta = page.locator('[data-track-cta]').first();
-  await cta.click({ noWaitAfter: true, trial: false }).catch(() => {});
+  // Any visible tracked CTA works: the click only adds a cta event on top of the pageview.
+  // Prevent the default navigation so the destination page's pageview cannot join the capture.
+  await page.evaluate(() => document.addEventListener('click', (event) => event.preventDefault(), { capture: true, once: true }));
+  const cta = page.locator('[data-track-cta]:visible').first();
+  await cta.click({ noWaitAfter: true, timeout: 4_000 }).catch(() => {});
   await page.waitForTimeout(500);
   expect(events.length).toBeGreaterThanOrEqual(1);
   const allowed = new Set(['eventType', 'pageGroup', 'source', 'utmSource', 'utmMedium', 'utmCampaign', 'ctaType', 'destination', 'campaign']);
@@ -108,7 +122,7 @@ test('analytics events share one page group and contain only allowlisted fields'
 
 test('preview keeps every page noindex and production home is indexable', async ({ page }) => {
   await page.goto('/');
-  const robots = await page.locator('meta[name="robots"]').getAttribute('content').catch(() => null);
+  const robots = await page.locator('meta[name="robots"]').getAttribute('content', { timeout: 500 }).catch(() => null);
   const canonical = await page.locator('link[rel="canonical"]').count();
   if (process.env.PUBLIC_SITE_ENV === 'production') {
     expect(robots).toBeNull();

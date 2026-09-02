@@ -74,7 +74,7 @@ const filtered = Array.isArray(catalog.filteredPlaywrightTools) ? catalog.filter
               {schemaOf(tool) && (
                 <details>
                   <summary>Input schema</summary>
-                  <pre><code>{schemaOf(tool)}</code></pre>
+                  <pre tabindex="0" role="region" aria-label="Input schema, scrollable horizontally"><code>{schemaOf(tool)}</code></pre>
                 </details>
               )}
             </article>

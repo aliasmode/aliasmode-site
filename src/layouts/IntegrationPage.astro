@@ -60,7 +60,7 @@ const schema: Record<string, unknown>[] = [
     {page.troubleshooting.length && (
       <section class="family-section" aria-labelledby="troubleshooting-title">
         <h2 id="troubleshooting-title">Troubleshooting</h2>
-        <div class="table-scroll family-table">
+        <div class="table-scroll family-table" tabindex="0" role="region">
           <table>
             <thead><tr><th scope="col">Symptom</th><th scope="col">Fix</th></tr></thead>
             <tbody>{page.troubleshooting.map((item) => <tr><th scope="row">{item.symptom}</th><td>{item.fix}</td></tr>)}</tbody>

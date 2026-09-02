@@ -56,7 +56,7 @@ if (page.variant === 'ranking' && page.entries?.length) {
     {page.matrix && (
       <section class="family-section" aria-labelledby="matrix-title">
         <h2 id="matrix-title">Side-by-side summary</h2>
-        <div class="table-scroll family-table">
+        <div class="table-scroll family-table" tabindex="0" role="region">
           <table>
             <thead><tr>{page.matrix.columns.map((column) => <th scope="col">{column}</th>)}</tr></thead>
             <tbody>{page.matrix.rows.map((row) => <tr>{row.map((cell, index) => index === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>)}</tr>)}</tbody>
