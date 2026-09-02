@@ -84,7 +84,7 @@ if (production && process.env.PUBLIC_BING_SITE_VERIFICATION && meta(page('/'), '
 
 const layoutSource = readFileSync(join(root, 'src/layouts/BaseLayout.astro'), 'utf8');
 const adminSource = readFileSync(join(root, 'src/pages/admin.astro'), 'utf8');
-for (const expected of ["eventType: 'pageview'", "eventType: 'cta'", "keepalive: true", "credentials: 'omit'", 'new URLSearchParams(location.search)', 'document.referrer', "'unattributed'"]) {
+for (const expected of ["eventType: 'pageview'", "eventType: 'cta'", "keepalive: true", "credentials: 'omit'", 'new URLSearchParams(location.search)', 'document.referrer', "'unattributed'", "'internal'", 'referrerHost', 'content="same-origin"']) {
   if (!layoutSource.includes(expected)) fail(`analytics source is missing ${expected}`);
 }
 for (const forbidden of ['navigator.sendBeacon', 'document.cookie', 'localStorage', 'sessionStorage', 'indexedDB', 'crypto.randomUUID', 'clientId', 'visitorId', 'sessionId', 'location.href', 'location.pathname']) {
