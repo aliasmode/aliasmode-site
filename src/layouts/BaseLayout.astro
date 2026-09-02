@@ -118,7 +118,7 @@ const footerGroups = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="referrer" content="no-referrer" />
+    <meta name="referrer" content="same-origin" />
     <meta name="description" content={resolvedDescription} />
     <meta name="theme-color" content="#6d4aff" />
     <meta property="og:site_name" content="AliasMode" />
@@ -211,29 +211,34 @@ const footerGroups = [
       <script is:inline define:vars={{ endpoint: siteConfig.analyticsEndpoint, pageGroup: analyticsGroup }}>
         (() => {
           const normalizeCode = (value) => value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 128) || undefined;
-          const referrerCategory = (value) => {
-            if (!value) return 'unattributed';
-            try {
-              const referrer = new URL(value);
-              if (referrer.origin === location.origin) return 'internal';
-              const host = referrer.hostname.toLowerCase();
-              const is = (domain) => host === domain || host.endsWith(`.${domain}`);
-              if (is('google.com')) return 'google';
-              if (is('bing.com')) return 'bing';
-              if (is('duckduckgo.com')) return 'duckduckgo';
-              if (is('github.com')) return 'github';
-              if (is('x.com') || is('twitter.com')) return 'x';
-              if (is('reddit.com')) return 'reddit';
-              if (is('news.ycombinator.com')) return 'hacker-news';
-              if (is('linkedin.com')) return 'linkedin';
-              if (is('chatgpt.com') || is('openai.com')) return 'chatgpt';
-              if (is('claude.ai') || is('anthropic.com')) return 'claude';
-              if (is('perplexity.ai')) return 'perplexity';
-              if (is('gemini.google.com')) return 'gemini';
-            } catch {
-              return 'other';
-            }
+          const sourceCategory = (is, host) => {
+            if (is('gemini.google.com')) return 'gemini';
+            if (is('google.com')) return 'google';
+            if (is('bing.com')) return 'bing';
+            if (is('duckduckgo.com')) return 'duckduckgo';
+            if (is('github.com')) return 'github';
+            if (is('x.com') || is('twitter.com') || host === 't.co') return 'x';
+            if (is('reddit.com')) return 'reddit';
+            if (is('news.ycombinator.com')) return 'hacker-news';
+            if (is('linkedin.com')) return 'linkedin';
+            if (is('chatgpt.com') || is('openai.com')) return 'chatgpt';
+            if (is('claude.ai') || is('anthropic.com')) return 'claude';
+            if (is('perplexity.ai')) return 'perplexity';
             return 'other';
+          };
+          // Source category plus the referring site's hostname only: never the referrer URL, path, or query.
+          const referrer = (value) => {
+            if (!value) return { source: 'unattributed' };
+            try {
+              const parsed = new URL(value);
+              if (parsed.origin === location.origin) return { source: 'internal' };
+              const host = parsed.hostname.toLowerCase();
+              const is = (domain) => host === domain || host.endsWith(`.${domain}`);
+              const referrerHost = host.replace(/^www\./, '').replace(/[^a-z0-9.-]/g, '').slice(0, 253);
+              return referrerHost ? { source: sourceCategory(is, host), referrerHost } : { source: 'other' };
+            } catch {
+              return { source: 'other' };
+            }
           };
           const send = (event) => {
             fetch(endpoint, {
@@ -250,10 +255,11 @@ const footerGroups = [
           const utmSource = normalizeCode(query.get('utm_source') || '');
           const utmMedium = normalizeCode(query.get('utm_medium') || '');
           const utmCampaign = normalizeCode(query.get('utm_campaign') || '');
+          const attribution = referrer(document.referrer);
           const pageview = {
             eventType: 'pageview',
             pageGroup: group,
-            source: referrerCategory(document.referrer),
+            ...attribution,
             ...(utmSource ? { utmSource } : {}),
             ...(utmMedium ? { utmMedium } : {}),
             ...(utmCampaign ? { utmCampaign } : {}),
@@ -271,6 +277,7 @@ const footerGroups = [
               eventType: 'cta',
               pageGroup: group,
               ctaType,
+              ...attribution,
               ...(destination ? { destination } : {}),
               ...(campaign ? { campaign } : {}),
             });
