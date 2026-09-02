@@ -16,6 +16,8 @@ export const manageMultipleEcommerceSellerAccountsTaskGuide: TaskGuidePage = {
   topicCluster: "ecommerce",
   parent: "/guides/",
   related: ["/best-antidetect-browsers-for-ecommerce/", "/best-antidetect-browsers-for-amazon/", "/guides/one-proxy-per-browser-profile/", "/docs/proxies/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',

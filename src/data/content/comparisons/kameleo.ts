@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const kameleoComparison: ComparisonPage = {
   path: '/alternatives/kameleo/',
@@ -18,6 +18,8 @@ export const kameleoComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/integrations/playwright/', '/docs/local-api/', '/best-antidetect-browsers/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/integrations/playwright/', label: 'Automate AliasMode with Playwright', type: 'docs' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const kameleoComparison: ComparisonPage = {
     { id: 'kameleo-api', source: 'Kameleo', title: 'Kameleo API portal', url: 'https://api.kameleo.io/', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents paid subscription tiers only at the verification date, positioned as a premium enterprise product with trial access.', evidenceId: 'kameleo-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Kameleo is closed-source commercial software; reviewed official material links no open-source desktop license.', evidenceId: 'kameleo-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Paid subscription tiers only at the check date, positioned as a premium enterprise product with trial access.', evidenceId: 'kameleo-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'No open-source license for Kameleo at the check date (2026-09-01).', evidenceId: 'kameleo-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'The desktop client runs locally on the workstation and drives Chromium, Firefox, and mobile-emulated browsers under a Kameleo account.', evidenceId: 'kameleo-homepage' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Enterprise plans document team management and shared workspaces with vendor support contracts.', evidenceId: 'kameleo-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'Kameleo publishes a documented API with official Python, JavaScript, and C# SDKs plus Selenium, Puppeteer, and Playwright guidance.', evidenceId: 'kameleo-api' },

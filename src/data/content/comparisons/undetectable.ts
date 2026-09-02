@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const undetectableComparison: ComparisonPage = {
   path: '/alternatives/undetectable/',
@@ -18,6 +18,8 @@ export const undetectableComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers-for-windows/', '/docs/browser-profiles/', '/guides/one-proxy-per-browser-profile/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers/', label: 'See the 2026 ranking', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const undetectableComparison: ComparisonPage = {
     { id: 'undetectable-cookie-robot', source: 'Undetectable', title: 'Undetectable cookie robot documentation', url: 'https://docs.undetectable.io/cookie-robot', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official material documents a free tier with a small profile allowance at the verification date, with paid subscriptions adding profiles and automation capacity.', evidenceId: 'undetectable-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Undetectable is closed-source; reviewed official material links no open-source desktop license.', evidenceId: 'undetectable-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A free tier with a small profile allowance at the check date, with paid subscriptions adding profiles and automation capacity.', evidenceId: 'undetectable-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'No open-source license for Undetectable at the check date (2026-09-01).', evidenceId: 'undetectable-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Undetectable emphasizes local profile storage on the operator machine, with account-linked synchronization as an option.', evidenceId: 'undetectable-docs' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Team functionality covers shared access on paid plans, with lighter collaboration controls than full agency platforms.', evidenceId: 'undetectable-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'Undetectable documents a Local API with browser management endpoints plus bulk profile creation.', evidenceId: 'undetectable-docs' },

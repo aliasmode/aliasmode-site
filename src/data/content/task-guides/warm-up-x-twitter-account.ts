@@ -16,6 +16,8 @@ export const warmUpXTwitterAccountTaskGuide: TaskGuidePage = {
   topicCluster: "social-accounts",
   parent: "/guides/",
   related: ["/guides/manage-multiple-x-twitter-accounts/", "/guides/one-proxy-per-browser-profile/", "/best-antidetect-browsers-for-x-twitter/", "/docs/browser-profiles/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -65,6 +67,6 @@ export const warmUpXTwitterAccountTaskGuide: TaskGuidePage = {
   evidence: [
     { id: "x-rules", source: "X Help Center", title: "Platform manipulation and spam policy", url: "https://help.x.com/en/rules-and-policies/platform-manipulation", checkedOn: "2026-09-01" },
     { id: "x-automation", source: "X Help Center", title: "Automation rules", url: "https://help.x.com/en/rules-and-policies/x-automation", checkedOn: "2026-09-01" },
-    { id: "x-help", source: "X Help Center", title: "Account settings and profile help", url: "https://help.x.com/", checkedOn: "2026-09-01" },
+    { id: "x-help", source: "X Help Center", title: "Account settings and profile help", url: "https://help.x.com/en/managing-your-account", checkedOn: "2026-09-01" },
   ],
 };

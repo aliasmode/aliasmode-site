@@ -70,7 +70,7 @@ export const bestAntidetectBrowsersForSocialMediaRanking: RankingPage = {
       path: '/alternatives/adspower/',
       summary: 'Widely used commercial platform with the de facto standard Local API and built-in RPA automation.',
       bestFor: 'Teams that want drag-and-drop RPA scripts for posting and follow routines.',
-      pricing: 'Free plan with a few profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a few profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'AdsPower Local API is the automation shape most tools copy, including AliasMode',
         'Built-in no-code RPA flows for repetitive platform work',
@@ -89,7 +89,7 @@ export const bestAntidetectBrowsersForSocialMediaRanking: RankingPage = {
       path: '/alternatives/gologin/',
       summary: 'Popular freemium antidetect browser with a broad template and automation surface.',
       bestFor: 'Solo social managers who want per-platform quick-start templates.',
-      pricing: 'Free plan with about three profiles; paid tiers from roughly $24/mo.',
+      pricing: 'Free plan with about three profiles; paid tiers from $24/mo, checked 2026-09-01.',
       strengths: [
         'Free plan is enough to evaluate the product properly',
         'Windows, macOS, and Linux support plus a web version',
@@ -108,7 +108,7 @@ export const bestAntidetectBrowsersForSocialMediaRanking: RankingPage = {
       path: '/alternatives/dolphin-anty/',
       summary: 'Team-friendly antidetect browser popular with media buyers and affiliate teams.',
       bestFor: 'Media buyers coordinating many client ad and social accounts.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $89/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $89/mo, checked 2026-09-01.',
       strengths: [
         'Comfortable free tier for small setups',
         'Automation scenarios aimed at ad platforms',
@@ -127,7 +127,7 @@ export const bestAntidetectBrowsersForSocialMediaRanking: RankingPage = {
       path: '/alternatives/morelogin/',
       summary: 'Freemium platform marketed around shared fingerprint environments and a built-in proxy pool.',
       bestFor: 'Budget operators who want a proxy marketplace inside the app.',
-      pricing: 'Free plan with a couple of profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a couple of profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'Cheap entry tier for small teams',
         'Aggregated proxy marketplace inside the app',
@@ -161,7 +161,7 @@ export const bestAntidetectBrowsersForSocialMediaRanking: RankingPage = {
       path: '/alternatives/incogniton/',
       summary: 'Lightweight freemium option with bulk profile management and synchronized profile data.',
       bestFor: 'Small agencies that need bulk profile creation and simple sharing.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $20/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $20/mo, checked 2026-09-01.',
       strengths: [
         'Free tier covers small teams',
         'Bulk profile creation and CSV import',

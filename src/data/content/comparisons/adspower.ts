@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const adspowerComparison: ComparisonPage = {
   path: '/alternatives/adspower/',
@@ -18,6 +18,8 @@ export const adspowerComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/integrations/adspower-api/', '/docs/local-api/', '/pricing/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/pricing/', label: 'Check what is free', type: 'compare' },
   publishedOn: '2026-08-10',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-08-10',
@@ -32,11 +34,11 @@ export const adspowerComparison: ComparisonPage = {
     { id: 'adspower-transfer-profiles', source: 'AdsPower', title: 'AdsPower profile transfer guide', url: 'https://help.adspower.com/docs/transfer_profiles_to_adspower_from_another_antidetect', checkedOn: '2026-08-10' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: commonAliasMode.price, competitor: 'Official pricing documented two free profiles at the verification date, followed by paid plans.', evidenceId: 'adspower-pricing' },
-    { criterion: 'Source availability', aliasMode: commonAliasMode.source, competitor: 'No open-source license for the core desktop product was linked from the reviewed official product material.', evidenceId: 'adspower-homepage' },
-    { criterion: 'Local workflow', aliasMode: commonAliasMode.local, competitor: 'AdsPower describes profile data as local by default and offers optional synchronization. Product use follows its account and commercial platform model.', evidenceId: 'adspower-account-security' },
-    { criterion: 'Cloud and teams', aliasMode: commonAliasMode.team, competitor: 'Official material documents synchronization, profile sharing, permissions, and team features across commercial plans.', evidenceId: 'adspower-profile-sharing' },
-    { criterion: 'API and automation', aliasMode: commonAliasMode.automation, competitor: 'AdsPower publishes a broader Local API and built-in automation documentation.', evidenceId: 'adspower-api-docs' },
+    { criterion: 'Free use', aliasMode: commonAliasModeFor('adspower').price, competitor: 'Two free profiles at the check date, followed by paid plans.', evidenceId: 'adspower-pricing' },
+    { criterion: 'Source availability', aliasMode: commonAliasModeFor('adspower').source, competitor: 'Closed source at the check date (2026-08-10); AdsPower publishes no repository.', evidenceId: 'adspower-homepage' },
+    { criterion: 'Local workflow', aliasMode: commonAliasModeFor('adspower').local, competitor: 'AdsPower describes profile data as local by default and offers optional synchronization. Product use follows its account and commercial platform model.', evidenceId: 'adspower-account-security' },
+    { criterion: 'Cloud and teams', aliasMode: commonAliasModeFor('adspower').team, competitor: 'Synchronization, profile sharing, permissions, and team features across commercial plans.', evidenceId: 'adspower-profile-sharing' },
+    { criterion: 'API and automation', aliasMode: commonAliasModeFor('adspower').automation, competitor: 'AdsPower publishes a broader Local API and built-in automation documentation.', evidenceId: 'adspower-api-docs' },
     { criterion: 'Migration', aliasMode: 'Supported API-shaped workflows can be mapped route by route. Profile archive migration is not presented as automatic.', competitor: 'AdsPower publishes a workflow for transferring profiles from other antidetect browsers.', evidenceId: 'adspower-transfer-profiles' },
   ],
   migration: ['Inventory every AdsPower API route the current tool calls.', 'Map only routes listed in the AliasMode Local API reference.', 'Create test groups and profiles before moving production identifiers.', 'Verify browser start, CDP attachment, cookies, cache, update, stop, and deletion.', 'Move one workflow at a time and keep the original data until validation is complete.'],

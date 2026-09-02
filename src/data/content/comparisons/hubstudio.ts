@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const hubstudioComparison: ComparisonPage = {
   path: '/alternatives/hubstudio/',
@@ -18,6 +18,8 @@ export const hubstudioComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers-for-ecommerce/', '/alternatives/bitbrowser/', '/docs/proxies/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers/', label: 'See the 2026 ranking', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const hubstudioComparison: ComparisonPage = {
     { id: 'hubstudio-sync', source: 'Hubstudio', title: 'Hubstudio window synchronization documentation', url: 'https://docs.hubstudio.cn/sync', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official material documents a free usage tier at the verification date, with paid plans adding profile counts, seats, and cloud phone devices.', evidenceId: 'hubstudio-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Hubstudio is closed-source; reviewed official material links no open-source license for the client.', evidenceId: 'hubstudio-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A free usage tier at the check date, with paid plans adding profile counts, seats, and cloud phone devices.', evidenceId: 'hubstudio-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Hubstudio is closed-source at the check date (2026-09-01).', evidenceId: 'hubstudio-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Profiles run on the local Windows client with account-linked synchronization.', evidenceId: 'hubstudio-homepage' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Team management covers sub-accounts, roles, and profile sharing across e-commerce operations.', evidenceId: 'hubstudio-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'Hubstudio documents an API plus window synchronization and RPA tooling for bulk store operations.', evidenceId: 'hubstudio-api-docs' },

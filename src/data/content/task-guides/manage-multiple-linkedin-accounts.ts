@@ -16,6 +16,8 @@ export const manageMultipleLinkedinAccountsTaskGuide: TaskGuidePage = {
   topicCluster: "social-accounts",
   parent: "/guides/",
   related: ["/guides/organize-client-browser-profiles/", "/guides/share-social-media-accounts-without-passwords/", "/best-antidetect-browsers-for-social-media/", "/use-cases/social-media-agencies/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',

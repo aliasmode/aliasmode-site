@@ -16,6 +16,8 @@ export const warmUpTiktokAccountTaskGuide: TaskGuidePage = {
   topicCluster: "social-accounts",
   parent: "/guides/",
   related: ["/guides/manage-multiple-tiktok-accounts/", "/best-antidetect-browsers-for-tiktok/", "/docs/proxies/", "/guides/one-proxy-per-browser-profile/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -58,8 +60,8 @@ export const warmUpTiktokAccountTaskGuide: TaskGuidePage = {
     ]},
   ],
   evidence: [
-    { id: "tt-guidelines", source: "TikTok", title: "Community Guidelines", url: "https://support.tiktok.com/", checkedOn: "2026-09-01" },
-    { id: "tt-start", source: "TikTok Support", title: "Getting started on TikTok", url: "https://support.tiktok.com/", checkedOn: "2026-09-01" },
-    { id: "tt-data", source: "TikTok Support", title: "Personalization and data on TikTok", url: "https://support.tiktok.com/", checkedOn: "2026-09-01" },
+    { id: "tt-guidelines", source: "TikTok", title: "Community Guidelines", url: "https://www.tiktok.com/community-guidelines", checkedOn: "2026-09-01" },
+    { id: "tt-start", source: "TikTok Support", title: "Getting started on TikTok", url: "https://support.tiktok.com/en/getting-started", checkedOn: "2026-09-01" },
+    { id: "tt-data", source: "TikTok Support", title: "Personalization and data on TikTok", url: "https://support.tiktok.com/en/tiktok-basics/personalization-and-region", checkedOn: "2026-09-01" },
   ],
 };

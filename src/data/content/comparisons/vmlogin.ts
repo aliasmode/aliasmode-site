@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const vmloginComparison: ComparisonPage = {
   path: '/alternatives/vmlogin/',
@@ -18,6 +18,8 @@ export const vmloginComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers/', '/docs/local-api/', '/alternatives/multilogin/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/integrations/playwright/', label: 'Automate AliasMode with Playwright', type: 'docs' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const vmloginComparison: ComparisonPage = {
     { id: 'vmlogin-features', source: 'VMLogin', title: 'VMLogin product feature pages', url: 'https://www.vmlogin.us/features/', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents paid subscription packages only at the verification date, with a trial period instead of a permanent free tier.', evidenceId: 'vmlogin-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'VMLogin is closed-source commercial software; reviewed official material links no open-source desktop license.', evidenceId: 'vmlogin-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Paid subscription packages only at the check date, with a trial period instead of a permanent free tier.', evidenceId: 'vmlogin-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Closed source at the check date (2026-09-01); VMLogin publishes no repository.', evidenceId: 'vmlogin-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Profiles run through the local client, but the product requires a VMLogin account and syncs through its platform.', evidenceId: 'vmlogin-homepage' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Paid packages document team sub-accounts and profile sharing with permission controls.', evidenceId: 'vmlogin-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'VMLogin builds automation ports into the client, exposing Selenium, Puppeteer, and Playwright hooks plus synchronized window control.', evidenceId: 'vmlogin-api-docs' },

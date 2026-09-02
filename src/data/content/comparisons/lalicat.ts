@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const lalicatComparison: ComparisonPage = {
   path: '/alternatives/lalicat/',
@@ -18,6 +18,8 @@ export const lalicatComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers/', '/pricing/', '/alternatives/gologin/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/pricing/', label: 'Check what is free', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const lalicatComparison: ComparisonPage = {
     { id: 'lalicat-tutorials', source: 'Lalicat', title: 'Lalicat tutorials', url: 'https://lalicat.com/tutorials', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents paid monthly or yearly plans at the verification date, commonly marketed as unlimited profiles, with a short free trial instead of a free tier.', evidenceId: 'lalicat-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Lalicat is closed-source commercial software; reviewed official material links no open-source license.', evidenceId: 'lalicat-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Paid monthly or yearly plans at the check date, commonly marketed as unlimited profiles, with a short free trial instead of a free tier.', evidenceId: 'lalicat-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Lalicat ships closed source as of the check date (2026-09-01).', evidenceId: 'lalicat-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'The Windows client runs profiles locally while licensing and synchronization run through a Lalicat account.', evidenceId: 'lalicat-homepage' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Team sharing and sub-accounts appear in official material for higher plans, with lighter collaboration tooling than agency platforms.', evidenceId: 'lalicat-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'Lalicat documents an API for browser start and stop plus Selenium integration.', evidenceId: 'lalicat-api-docs' },

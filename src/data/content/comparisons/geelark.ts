@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const geeLarkComparison: ComparisonPage = {
   path: '/alternatives/geelark/',
@@ -18,6 +18,8 @@ export const geeLarkComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers-for-tiktok/', '/best-antidetect-browsers-for-social-media/', '/alternatives/morelogin/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers/', label: 'See the 2026 ranking', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -31,8 +33,8 @@ export const geeLarkComparison: ComparisonPage = {
     { id: 'geelark-rpa', source: 'GeeLark', title: 'GeeLark RPA product page', url: 'https://www.geelark.com/rpa', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents a trial-based entry at the verification date, with paid plans priced by profile count, cloud phone devices, and team seats.', evidenceId: 'geelark-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'GeeLark is closed-source; no open-source license for the browser or cloud phone stack appears in reviewed official material.', evidenceId: 'geelark-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A trial-based entry at the check date, with paid plans priced by profile count, cloud phone devices, and team seats.', evidenceId: 'geelark-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'No open-source license for GeeLark at the check date (2026-09-01).', evidenceId: 'geelark-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Browser profiles run in the local client, but cloud phone devices execute on remote servers, and both bind to a GeeLark account.', evidenceId: 'geelark-cloud-phone' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Plans document team collaboration with roles, department structures, and shared automation templates.', evidenceId: 'geelark-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'GeeLark documents an API plus template-based RPA for cloud phones and browser windows.', evidenceId: 'geelark-api-docs' },

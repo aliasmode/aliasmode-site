@@ -16,6 +16,8 @@ export const warmUpInstagramAccountTaskGuide: TaskGuidePage = {
   topicCluster: "social-accounts",
   parent: "/guides/",
   related: ["/guides/manage-multiple-instagram-accounts/", "/guides/one-proxy-per-browser-profile/", "/best-antidetect-browsers-for-instagram/", "/docs/proxies/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -63,7 +65,7 @@ export const warmUpInstagramAccountTaskGuide: TaskGuidePage = {
     ]},
   ],
   evidence: [
-    { id: "ig-help", source: "Instagram Help Center", title: "Creating and managing your Instagram account", url: "https://help.instagram.com/", checkedOn: "2026-09-01" },
+    { id: "ig-help", source: "Instagram Help Center", title: "Creating and managing your Instagram account", url: "https://help.instagram.com/1559401974384809", checkedOn: "2026-09-01" },
     { id: "ig-terms", source: "Instagram", title: "Terms of Use", url: "https://help.instagram.com/581066165581870", checkedOn: "2026-09-01" },
     { id: "ig-security", source: "Instagram Help Center", title: "Keeping your Instagram account secure", url: "https://help.instagram.com/", checkedOn: "2026-09-01" },
   ],

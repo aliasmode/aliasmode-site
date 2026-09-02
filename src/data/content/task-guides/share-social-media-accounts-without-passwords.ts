@@ -16,6 +16,8 @@ export const shareSocialMediaAccountsWithoutPasswordsTaskGuide: TaskGuidePage = 
   topicCluster: "social-accounts",
   parent: "/guides/",
   related: ["/guides/manage-multiple-social-media-accounts-safely/", "/cloud/", "/guides/organize-client-browser-profiles/", "/security/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -64,7 +66,7 @@ export const shareSocialMediaAccountsWithoutPasswordsTaskGuide: TaskGuidePage = 
   ],
   evidence: [
     { id: "fb-sessions", source: "Facebook Help Center", title: "Manage where you are logged in", url: "https://www.facebook.com/help/", checkedOn: "2026-09-01" },
-    { id: "x-security", source: "X Help Center", title: "Keep your account secure", url: "https://help.x.com/", checkedOn: "2026-09-01" },
-    { id: "ig-2fa", source: "Instagram Help Center", title: "Two-factor authentication", url: "https://help.instagram.com/", checkedOn: "2026-09-01" },
+    { id: "x-security", source: "X Help Center", title: "Keep your account secure", url: "https://help.x.com/en/safety-and-security", checkedOn: "2026-09-01" },
+    { id: "ig-2fa", source: "Instagram Help Center", title: "Two-factor authentication", url: "https://help.instagram.com/566904886939949", checkedOn: "2026-09-01" },
   ],
 };

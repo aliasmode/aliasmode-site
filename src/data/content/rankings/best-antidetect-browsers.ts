@@ -88,7 +88,7 @@ export const bestAntidetectBrowsersRanking: RankingPage = {
       path: '/alternatives/multilogin/',
       summary: 'Established premium platform with a custom fingerprint engine and deep enterprise controls.',
       bestFor: 'Enterprises and agencies where budget is secondary and fingerprint polish matters most.',
-      pricing: 'No free plan; paid plans from roughly $99/mo.',
+      pricing: 'No free plan; paid plans from $99/mo, checked 2026-09-01.',
       strengths: [
         'Mature fingerprint quality with a long detection-test track record',
         'Deep team, permission, and profile-sharing controls',
@@ -107,7 +107,7 @@ export const bestAntidetectBrowsersRanking: RankingPage = {
       path: '/alternatives/adspower/',
       summary: 'Widely used commercial platform with the de facto standard Local API and built-in RPA automation.',
       bestFor: 'Teams already running AdsPower RPA flows or large campaign operations.',
-      pricing: 'Free plan with a few profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a few profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'AdsPower Local API is the automation shape most tools copy, including AliasMode',
         'Built-in no-code RPA flows for repetitive platform work',
@@ -126,7 +126,7 @@ export const bestAntidetectBrowsersRanking: RankingPage = {
       path: '/alternatives/gologin/',
       summary: 'Popular freemium antidetect browser with a broad template and automation surface.',
       bestFor: 'Solo operators who want a freemium tool with a mature template library.',
-      pricing: 'Free plan with about three profiles; paid tiers from roughly $24/mo.',
+      pricing: 'Free plan with about three profiles; paid tiers from $24/mo, checked 2026-09-01.',
       strengths: [
         'Free plan is enough to evaluate the product properly',
         'Windows, macOS, and Linux support plus a web version',
@@ -145,7 +145,7 @@ export const bestAntidetectBrowsersRanking: RankingPage = {
       path: '/alternatives/dolphin-anty/',
       summary: 'Team-friendly antidetect browser popular with media buyers and affiliate teams.',
       bestFor: 'Media buyers who live in team folders and ad-platform scenarios.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $89/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $89/mo, checked 2026-09-01.',
       strengths: [
         'Comfortable free tier for small setups',
         'Automation scenarios aimed at ad platforms',
@@ -164,7 +164,7 @@ export const bestAntidetectBrowsersRanking: RankingPage = {
       path: '/alternatives/incogniton/',
       summary: 'Lightweight freemium option with bulk profile management and synchronized profile data.',
       bestFor: 'Small teams that want bulk creation and sync without a big bill.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $20/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $20/mo, checked 2026-09-01.',
       strengths: [
         'Free tier covers small teams',
         'Bulk profile creation and CSV import',
@@ -183,7 +183,7 @@ export const bestAntidetectBrowsersRanking: RankingPage = {
       path: '/alternatives/octo-browser/',
       summary: 'Subscription platform focused on fingerprint updates and structured team workflows.',
       bestFor: 'Teams that value frequent, documented fingerprint updates.',
-      pricing: 'Free plan with a few profiles; paid tiers from roughly $22/mo.',
+      pricing: 'Free plan with a few profiles; paid tiers from $22/mo, checked 2026-09-01.',
       strengths: [
         'Regular, documented fingerprint-engine updates',
         'Team folders with role permissions',

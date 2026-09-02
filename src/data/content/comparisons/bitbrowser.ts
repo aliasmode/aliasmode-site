@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const bitBrowserComparison: ComparisonPage = {
   path: '/alternatives/bitbrowser/',
@@ -18,6 +18,8 @@ export const bitBrowserComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers-for-ecommerce/', '/integrations/playwright/', '/alternatives/adspower/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/integrations/playwright/', label: 'Automate AliasMode with Playwright', type: 'docs' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const bitBrowserComparison: ComparisonPage = {
     { id: 'bitbrowser-overview', source: 'BitBrowser', title: 'BitBrowser product overview', url: 'https://www.bitbrowser.net/', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents a free tier with a ten-profile allowance at the verification date, with inexpensive paid plans scaling profiles and seats.', evidenceId: 'bitbrowser-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'BitBrowser is closed-source; no open-source license for the desktop client appears in reviewed official material.', evidenceId: 'bitbrowser-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A free tier with a ten-profile allowance at the check date, with inexpensive paid plans scaling profiles and seats.', evidenceId: 'bitbrowser-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'No open-source license for BitBrowser at the check date (2026-09-01).', evidenceId: 'bitbrowser-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Profiles run on the local client while synchronization and window-control features pass through the BitBrowser account system.', evidenceId: 'bitbrowser-overview' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Paid plans document team management, role permissions, and profile sharing across workspaces.', evidenceId: 'bitbrowser-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'BitBrowser documents a Local API plus built-in RPA and window-synchronization tooling for bulk operations.', evidenceId: 'bitbrowser-api-docs' },

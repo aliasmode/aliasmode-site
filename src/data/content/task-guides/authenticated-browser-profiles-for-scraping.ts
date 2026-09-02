@@ -16,6 +16,8 @@ export const authenticatedBrowserProfilesForScrapingTaskGuide: TaskGuidePage = {
   topicCluster: "ai-agents",
   parent: "/guides/",
   related: ["/use-cases/ai-agents/", "/guides/one-proxy-per-browser-profile/", "/docs/local-api/", "/best-antidetect-browsers-for-ai-agents/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',

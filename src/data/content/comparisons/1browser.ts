@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const oneBrowserComparison: ComparisonPage = {
   path: '/alternatives/1browser/',
@@ -18,6 +18,8 @@ export const oneBrowserComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers/', '/pricing/', '/alternatives/vmlogin/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers/', label: 'See the 2026 ranking', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const oneBrowserComparison: ComparisonPage = {
     { id: '1browser-profiles', source: '1Browser', title: '1Browser profile management documentation', url: 'https://docs.1browser.com/profiles', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents a free entry tier with a limited profile allowance at the verification date, with paid subscriptions adding profiles and seats.', evidenceId: '1browser-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: '1Browser is closed-source; reviewed official material links no open-source license.', evidenceId: '1browser-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A free entry tier with a limited profile allowance at the check date, with paid subscriptions adding profiles and seats.', evidenceId: '1browser-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Closed source at the check date (2026-09-01); 1Browser publishes no repository.', evidenceId: '1browser-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Profiles run on the desktop client with account-linked synchronization.', evidenceId: '1browser-homepage' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Paid plans document team workspaces with shared profiles and role controls.', evidenceId: '1browser-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: '1Browser documents an API for profile and browser operations used with standard automation libraries.', evidenceId: '1browser-docs' },

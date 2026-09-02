@@ -16,6 +16,8 @@ export const manageMultipleSocialMediaAccountsSafelyTaskGuide: TaskGuidePage = {
   topicCluster: "social-accounts",
   parent: "/guides/",
   related: ["/guides/manage-multiple-instagram-accounts/", "/guides/manage-multiple-x-twitter-accounts/", "/best-antidetect-browsers-for-social-media/", "/docs/browser-profiles/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',

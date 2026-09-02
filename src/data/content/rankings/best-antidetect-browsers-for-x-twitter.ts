@@ -70,7 +70,7 @@ export const bestAntidetectBrowsersForXTwitterRanking: RankingPage = {
       path: '/alternatives/multilogin/',
       summary: 'Established premium platform with a custom fingerprint engine and deep enterprise controls.',
       bestFor: 'High-value brand and founder accounts where fingerprint polish pays.',
-      pricing: 'No free plan; paid plans from roughly $99/mo.',
+      pricing: 'No free plan; paid plans from $99/mo, checked 2026-09-01.',
       strengths: [
         'Mature fingerprint quality with a long detection-test track record',
         'Deep team, permission, and profile-sharing controls',
@@ -89,7 +89,7 @@ export const bestAntidetectBrowsersForXTwitterRanking: RankingPage = {
       path: '/alternatives/gologin/',
       summary: 'Popular freemium antidetect browser with a broad template and automation surface.',
       bestFor: 'Solo managers who want quick X templates and a free start.',
-      pricing: 'Free plan with about three profiles; paid tiers from roughly $24/mo.',
+      pricing: 'Free plan with about three profiles; paid tiers from $24/mo, checked 2026-09-01.',
       strengths: [
         'Free plan is enough to evaluate the product properly',
         'Windows, macOS, and Linux support plus a web version',
@@ -108,7 +108,7 @@ export const bestAntidetectBrowsersForXTwitterRanking: RankingPage = {
       path: '/alternatives/adspower/',
       summary: 'Widely used commercial platform with the de facto standard Local API and built-in RPA automation.',
       bestFor: 'Teams that want RPA flows for posting and engagement.',
-      pricing: 'Free plan with a few profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a few profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'AdsPower Local API is the automation shape most tools copy, including AliasMode',
         'Built-in no-code RPA flows for repetitive platform work',
@@ -127,7 +127,7 @@ export const bestAntidetectBrowsersForXTwitterRanking: RankingPage = {
       path: '/alternatives/dolphin-anty/',
       summary: 'Team-friendly antidetect browser popular with media buyers and affiliate teams.',
       bestFor: 'Growth teams juggling many handles in folders.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $89/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $89/mo, checked 2026-09-01.',
       strengths: [
         'Comfortable free tier for small setups',
         'Automation scenarios aimed at ad platforms',
@@ -146,7 +146,7 @@ export const bestAntidetectBrowsersForXTwitterRanking: RankingPage = {
       path: '/alternatives/morelogin/',
       summary: 'Freemium platform marketed around shared fingerprint environments and a built-in proxy pool.',
       bestFor: 'Budget operators combining profiles with its proxy pool.',
-      pricing: 'Free plan with a couple of profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a couple of profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'Cheap entry tier for small teams',
         'Aggregated proxy marketplace inside the app',
@@ -161,7 +161,7 @@ export const bestAntidetectBrowsersForXTwitterRanking: RankingPage = {
       path: '/alternatives/incogniton/',
       summary: 'Lightweight freemium option with bulk profile management and synchronized profile data.',
       bestFor: 'Bulk handle management for regional news or niche networks.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $20/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $20/mo, checked 2026-09-01.',
       strengths: [
         'Free tier covers small teams',
         'Bulk profile creation and CSV import',

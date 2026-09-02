@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const nstbrowserComparison: ComparisonPage = {
   path: '/alternatives/nstbrowser/',
@@ -18,6 +18,8 @@ export const nstbrowserComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers-for-ai-agents/', '/integrations/playwright/', '/guides/authenticated-browser-profiles-for-scraping/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/pricing/', label: 'Check what is free', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const nstbrowserComparison: ComparisonPage = {
     { id: 'nstbrowser-cloud', source: 'Nstbrowser', title: 'Nstbrowser cloud browser product page', url: 'https://nstbrowser.io/cloud-browser', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents a free tier at the verification date, with paid plans and pay-as-you-go billing for cloud browser usage.', evidenceId: 'nstbrowser-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Nstbrowser publishes client tooling and code examples, but no open-source license for the full core product appears in reviewed official material.', evidenceId: 'nstbrowser-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A free tier at the check date, with paid plans and pay-as-you-go billing for cloud browser usage.', evidenceId: 'nstbrowser-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Nstbrowser ships closed source as of the check date (2026-09-01).', evidenceId: 'nstbrowser-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'The client runs locally, while cloud browser sessions execute on Nstbrowser infrastructure under its account and billing model.', evidenceId: 'nstbrowser-cloud' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Team features center on cloud browser capacity and shared workspaces rather than desktop profile sync.', evidenceId: 'nstbrowser-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'Nstbrowser documents Puppeteer, Playwright, and Selenium access plus captcha solving and cloud browser endpoints.', evidenceId: 'nstbrowser-docs' },

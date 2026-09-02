@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const muLoginComparison: ComparisonPage = {
   path: '/alternatives/mulogin/',
@@ -18,6 +18,8 @@ export const muLoginComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers-for-agencies-and-teams/', '/pricing/', '/alternatives/hubstudio/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/integrations/playwright/', label: 'Automate AliasMode with Playwright', type: 'docs' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const muLoginComparison: ComparisonPage = {
     { id: 'mulogin-batch', source: 'MuLogin', title: 'MuLogin batch import documentation', url: 'https://docs.mulogin.com/batch-import', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents a time-limited trial at the verification date, with paid tiers stepping up by profile count.', evidenceId: 'mulogin-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'MuLogin is closed-source commercial software; reviewed official material links no open-source license.', evidenceId: 'mulogin-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A time-limited trial at the check date, with paid tiers stepping up by profile count.', evidenceId: 'mulogin-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'MuLogin is closed-source at the check date (2026-09-01).', evidenceId: 'mulogin-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'The Windows client stores profiles locally with synchronization through the MuLogin account.', evidenceId: 'mulogin-homepage' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Plans document team collaboration with shared profiles and sub-account permissions.', evidenceId: 'mulogin-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'MuLogin documents an API covering profile management and browser automation for Selenium and Puppeteer.', evidenceId: 'mulogin-api-docs' },

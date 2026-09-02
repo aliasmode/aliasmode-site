@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const multiloginComparison: ComparisonPage = {
   path: '/alternatives/multilogin/',
@@ -18,6 +18,8 @@ export const multiloginComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/product/', '/agencies/', '/pricing/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/integrations/playwright/', label: 'Automate AliasMode with Playwright', type: 'docs' },
   publishedOn: '2026-08-10',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-08-10',
@@ -30,11 +32,11 @@ export const multiloginComparison: ComparisonPage = {
     { id: 'multilogin-transfer', source: 'Multilogin', title: 'Multilogin profile transfer', url: 'https://multilogin.com/help/en_US/transferring-profiles-to-multilogin', checkedOn: '2026-08-10' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: commonAliasMode.price, competitor: 'Multilogin publishes a free tier and paid plans whose allowances can include seats, profiles, proxy traffic, API use, and mobile minutes.', evidenceId: 'multilogin-pricing' },
-    { criterion: 'Source availability', aliasMode: commonAliasMode.source, competitor: 'No open-source license for the complete core platform was linked from reviewed official product material.', evidenceId: 'multilogin-homepage' },
-    { criterion: 'Local workflow', aliasMode: commonAliasMode.local, competitor: 'Multilogin documents both local and cloud profile storage inside its account-backed product.', evidenceId: 'multilogin-storage' },
-    { criterion: 'Cloud and teams', aliasMode: commonAliasMode.team, competitor: 'Plans package team seats and cloud capabilities with commercial allowances.', evidenceId: 'multilogin-pricing' },
-    { criterion: 'API and automation', aliasMode: commonAliasMode.automation, competitor: 'Multilogin documents API access and browser automation within its platform and plans.', evidenceId: 'multilogin-pricing' },
+    { criterion: 'Free use', aliasMode: commonAliasModeFor('multilogin').price, competitor: 'Multilogin publishes a free tier and paid plans whose allowances can include seats, profiles, proxy traffic, API use, and mobile minutes.', evidenceId: 'multilogin-pricing' },
+    { criterion: 'Source availability', aliasMode: commonAliasModeFor('multilogin').source, competitor: 'Closed source at the check date (2026-08-10); Multilogin publishes no repository.', evidenceId: 'multilogin-homepage' },
+    { criterion: 'Local workflow', aliasMode: commonAliasModeFor('multilogin').local, competitor: 'Multilogin documents both local and cloud profile storage inside its account-backed product.', evidenceId: 'multilogin-storage' },
+    { criterion: 'Cloud and teams', aliasMode: commonAliasModeFor('multilogin').team, competitor: 'Plans package team seats and cloud capabilities with commercial allowances.', evidenceId: 'multilogin-pricing' },
+    { criterion: 'API and automation', aliasMode: commonAliasModeFor('multilogin').automation, competitor: 'Multilogin documents API access and browser automation within its platform and plans.', evidenceId: 'multilogin-pricing' },
     { criterion: 'Additional environments', aliasMode: 'Windows desktop browser profiles through CloakBrowser.', competitor: 'Multilogin also markets Android cloud phones and bundled proxy services.', evidenceId: 'multilogin-homepage' },
   ],
   migration: ['Choose whether each current profile uses local or cloud storage.', 'Record proxy, extensions, account purpose, and team owner.', 'Create equivalent AliasMode profiles and re-establish approved sessions.', 'Replace Multilogin-specific API calls with the documented AliasMode subset.', 'Verify handoff and synchronization behavior with a small workspace first.'],

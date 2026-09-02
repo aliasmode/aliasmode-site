@@ -16,6 +16,8 @@ export const localizationGeoTestingWithBrowserProfilesTaskGuide: TaskGuidePage =
   topicCluster: "geo-testing",
   parent: "/guides/",
   related: ["/docs/proxies/", "/integrations/playwright/", "/docs/local-api/", "/guides/one-proxy-per-browser-profile/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',

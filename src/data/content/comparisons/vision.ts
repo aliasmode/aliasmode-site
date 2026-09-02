@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const visionComparison: ComparisonPage = {
   path: '/alternatives/vision/',
@@ -18,6 +18,8 @@ export const visionComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers-for-ecommerce/', '/alternatives/hubstudio/', '/best-antidetect-browsers-for-tiktok/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/pricing/', label: 'Check what is free', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const visionComparison: ComparisonPage = {
     { id: 'vision-sync', source: 'Vision', title: 'Vision window synchronization documentation', url: 'https://docs.visionbrowser.com/window-sync', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents a free tier with a limited profile allowance at the verification date, with paid plans adding profiles, seats, and automation quota.', evidenceId: 'vision-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Vision is closed-source; reviewed official material links no open-source license.', evidenceId: 'vision-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A free tier with a limited profile allowance at the check date, with paid plans adding profiles, seats, and automation quota.', evidenceId: 'vision-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'No open-source license for Vision at the check date (2026-09-01).', evidenceId: 'vision-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Profiles run on the local client with account-linked synchronization across devices.', evidenceId: 'vision-homepage' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Team management covers sub-accounts and shared profile groups for seller teams.', evidenceId: 'vision-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'Vision documents an API plus window synchronization and RPA templates for bulk operations.', evidenceId: 'vision-sync' },

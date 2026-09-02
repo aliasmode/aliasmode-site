@@ -16,6 +16,8 @@ export const warmUpFacebookAccountTaskGuide: TaskGuidePage = {
   topicCluster: "social-accounts",
   parent: "/guides/",
   related: ["/guides/manage-multiple-facebook-accounts/", "/best-antidetect-browsers-for-facebook/", "/docs/browser-profiles/", "/guides/organize-client-browser-profiles/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',

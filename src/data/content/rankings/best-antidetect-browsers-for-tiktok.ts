@@ -70,7 +70,7 @@ export const bestAntidetectBrowsersForTiktokRanking: RankingPage = {
       path: '/alternatives/adspower/',
       summary: 'Widely used commercial platform with the de facto standard Local API and built-in RPA automation.',
       bestFor: 'Teams that want RPA scripts for posting and engagement routines.',
-      pricing: 'Free plan with a few profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a few profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'AdsPower Local API is the automation shape most tools copy, including AliasMode',
         'Built-in no-code RPA flows for repetitive platform work',
@@ -89,7 +89,7 @@ export const bestAntidetectBrowsersForTiktokRanking: RankingPage = {
       path: '/alternatives/gologin/',
       summary: 'Popular freemium antidetect browser with a broad template and automation surface.',
       bestFor: 'Solo creators who want TikTok quick-start templates.',
-      pricing: 'Free plan with about three profiles; paid tiers from roughly $24/mo.',
+      pricing: 'Free plan with about three profiles; paid tiers from $24/mo, checked 2026-09-01.',
       strengths: [
         'Free plan is enough to evaluate the product properly',
         'Windows, macOS, and Linux support plus a web version',
@@ -108,7 +108,7 @@ export const bestAntidetectBrowsersForTiktokRanking: RankingPage = {
       path: '/alternatives/morelogin/',
       summary: 'Freemium platform marketed around shared fingerprint environments and a built-in proxy pool.',
       bestFor: 'Shop operators who want a proxy marketplace beside profiles.',
-      pricing: 'Free plan with a couple of profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a couple of profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'Cheap entry tier for small teams',
         'Aggregated proxy marketplace inside the app',
@@ -123,7 +123,7 @@ export const bestAntidetectBrowsersForTiktokRanking: RankingPage = {
       path: '/alternatives/dolphin-anty/',
       summary: 'Team-friendly antidetect browser popular with media buyers and affiliate teams.',
       bestFor: 'Agencies coordinating client TikTok accounts at volume.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $89/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $89/mo, checked 2026-09-01.',
       strengths: [
         'Comfortable free tier for small setups',
         'Automation scenarios aimed at ad platforms',
@@ -161,7 +161,7 @@ export const bestAntidetectBrowsersForTiktokRanking: RankingPage = {
       path: '/alternatives/hidemyacc/',
       summary: 'Freemium browser popular in Southeast Asia with timed-profile automation features.',
       bestFor: 'High-volume farming on minimal budgets.',
-      pricing: 'Free plan with a handful of profiles; paid tiers from roughly $5/mo.',
+      pricing: 'Free plan with a handful of profiles; paid tiers from $5/mo, checked 2026-09-01.',
       strengths: [
         'Very cheap paid tiers',
         'Simple interface for beginners',

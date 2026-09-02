@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const incognitonComparison: ComparisonPage = {
   path: '/alternatives/incogniton/',
@@ -18,6 +18,8 @@ export const incognitonComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-free-antidetect-browsers/', '/docs/browser-profiles/', '/integrations/import/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/docs/local-api/', label: 'Read the Local API reference', type: 'view-local-api-reference' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -31,8 +33,8 @@ export const incognitonComparison: ComparisonPage = {
     { id: 'incogniton-bulk', source: 'Incogniton', title: 'Incogniton bulk profile creation guide', url: 'https://incogniton.com/bulk-profile-creation/', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents a free starter tier with up to ten profiles at the verification date, followed by paid tiers that scale profiles and seats.', evidenceId: 'incogniton-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Incogniton ships a closed desktop client; reviewed official material links no open-source license for the core product.', evidenceId: 'incogniton-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A free starter tier with up to ten profiles at the check date, followed by paid tiers that scale profiles and seats.', evidenceId: 'incogniton-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Incogniton ships closed source as of the check date (2026-09-01).', evidenceId: 'incogniton-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'The client runs on the operator machine, but profiles and synchronization are bound to an Incogniton account on its cloud storage.', evidenceId: 'incogniton-homepage' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Paid plans document synchronized profile storage with team sharing and role management at higher tiers.', evidenceId: 'incogniton-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'Incogniton documents a REST API plus Selenium and Puppeteer integration guides for browser automation.', evidenceId: 'incogniton-api-docs' },

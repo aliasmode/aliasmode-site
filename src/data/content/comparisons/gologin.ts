@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const gologinComparison: ComparisonPage = {
   path: '/alternatives/gologin/',
@@ -18,6 +18,8 @@ export const gologinComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/product/', '/pricing/', '/integrations/playwright/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/pricing/', label: 'Check what is free', type: 'compare' },
   publishedOn: '2026-08-10',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-08-10',
@@ -32,11 +34,11 @@ export const gologinComparison: ComparisonPage = {
     { id: 'gologin-homepage', source: 'GoLogin', title: 'GoLogin homepage', url: 'https://gologin.com/', checkedOn: '2026-08-10' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: commonAliasMode.price, competitor: 'GoLogin publishes free access and trial options alongside paid profile and team plans. Confirm current checkout terms before purchase.', evidenceId: 'gologin-pricing' },
-    { criterion: 'Source availability', aliasMode: commonAliasMode.source, competitor: 'GoLogin publishes SDK repositories. No open-source license for the complete core desktop product was linked in reviewed official material.', evidenceId: 'gologin-github' },
-    { criterion: 'Local workflow', aliasMode: commonAliasMode.local, competitor: 'GoLogin centers an account-backed service with profile synchronization and Cloud Browser options.', evidenceId: 'gologin-sync' },
-    { criterion: 'Cloud and teams', aliasMode: commonAliasMode.team, competitor: 'Official pricing and documentation describe synchronized profiles, team workspaces, sharing, and cloud execution options.', evidenceId: 'gologin-pricing' },
-    { criterion: 'API and automation', aliasMode: commonAliasMode.automation, competitor: 'GoLogin publishes APIs and maintained SDKs for browser-profile automation.', evidenceId: 'gologin-api-quickstart' },
+    { criterion: 'Free use', aliasMode: commonAliasModeFor('gologin').price, competitor: 'GoLogin publishes free access and trial options alongside paid profile and team plans. Confirm current checkout terms before purchase.', evidenceId: 'gologin-pricing' },
+    { criterion: 'Source availability', aliasMode: commonAliasModeFor('gologin').source, competitor: 'No open-source license for GoLogin at the check date (2026-08-10).', evidenceId: 'gologin-github' },
+    { criterion: 'Local workflow', aliasMode: commonAliasModeFor('gologin').local, competitor: 'GoLogin centers an account-backed service with profile synchronization and Cloud Browser options.', evidenceId: 'gologin-sync' },
+    { criterion: 'Cloud and teams', aliasMode: commonAliasModeFor('gologin').team, competitor: 'Official pricing and documentation describe synchronized profiles, team workspaces, sharing, and cloud execution options.', evidenceId: 'gologin-pricing' },
+    { criterion: 'API and automation', aliasMode: commonAliasModeFor('gologin').automation, competitor: 'GoLogin publishes APIs and maintained SDKs for browser-profile automation.', evidenceId: 'gologin-api-quickstart' },
     { criterion: 'Profile transfer', aliasMode: 'AliasMode documents profile creation and API workflows rather than a one-click GoLogin archive import.', competitor: 'GoLogin publishes profile import and export documentation.', evidenceId: 'gologin-transfer' },
   ],
   migration: ['List the profile fields, cookies, extensions, proxy details, and automation hooks in use.', 'Create equivalent AliasMode profile records and proxy assignments.', 'Re-establish approved account sessions through the normal sign-in process.', 'Replace SDK-specific calls with documented AliasMode Local API and CDP calls.', 'Verify one complete operator workflow before expanding the migration.'],

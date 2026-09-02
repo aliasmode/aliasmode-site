@@ -16,6 +16,8 @@ export const manageMultipleInstagramAccountsTaskGuide: TaskGuidePage = {
   topicCluster: "social-accounts",
   parent: "/guides/",
   related: ["/guides/warm-up-instagram-account/", "/best-antidetect-browsers-for-instagram/", "/guides/share-social-media-accounts-without-passwords/", "/docs/browser-profiles/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -63,8 +65,8 @@ export const manageMultipleInstagramAccountsTaskGuide: TaskGuidePage = {
     ]},
   ],
   evidence: [
-    { id: "ig-multi", source: "Instagram Help Center", title: "Managing multiple Instagram accounts", url: "https://help.instagram.com/", checkedOn: "2026-09-01" },
+    { id: "ig-multi", source: "Instagram Help Center", title: "Managing multiple Instagram accounts", url: "https://help.instagram.com/160015284933059", checkedOn: "2026-09-01" },
     { id: "ig-terms", source: "Instagram", title: "Terms of Use", url: "https://help.instagram.com/581066165581870", checkedOn: "2026-09-01" },
-    { id: "ig-2fa", source: "Instagram Help Center", title: "Two-factor authentication and login security", url: "https://help.instagram.com/", checkedOn: "2026-09-01" },
+    { id: "ig-2fa", source: "Instagram Help Center", title: "Two-factor authentication and login security", url: "https://help.instagram.com/566904886939949", checkedOn: "2026-09-01" },
   ],
 };

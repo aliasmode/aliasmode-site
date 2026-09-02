@@ -70,7 +70,7 @@ export const bestAntidetectBrowsersForEcommerceRanking: RankingPage = {
       path: '/alternatives/multilogin/',
       summary: 'Established premium platform with a custom fingerprint engine and deep enterprise controls.',
       bestFor: 'High-revenue storefronts where fingerprint polish justifies the premium.',
-      pricing: 'No free plan; paid plans from roughly $99/mo.',
+      pricing: 'No free plan; paid plans from $99/mo, checked 2026-09-01.',
       strengths: [
         'Mature fingerprint quality with a long detection-test track record',
         'Deep team, permission, and profile-sharing controls',
@@ -89,7 +89,7 @@ export const bestAntidetectBrowsersForEcommerceRanking: RankingPage = {
       path: '/alternatives/gologin/',
       summary: 'Popular freemium antidetect browser with a broad template and automation surface.',
       bestFor: 'Sellers who want quick templates for marketplaces and ad platforms.',
-      pricing: 'Free plan with about three profiles; paid tiers from roughly $24/mo.',
+      pricing: 'Free plan with about three profiles; paid tiers from $24/mo, checked 2026-09-01.',
       strengths: [
         'Free plan is enough to evaluate the product properly',
         'Windows, macOS, and Linux support plus a web version',
@@ -108,7 +108,7 @@ export const bestAntidetectBrowsersForEcommerceRanking: RankingPage = {
       path: '/alternatives/adspower/',
       summary: 'Widely used commercial platform with the de facto standard Local API and built-in RPA automation.',
       bestFor: 'Operations teams that want RPA flows for catalog and ad maintenance.',
-      pricing: 'Free plan with a few profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a few profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'AdsPower Local API is the automation shape most tools copy, including AliasMode',
         'Built-in no-code RPA flows for repetitive platform work',
@@ -127,7 +127,7 @@ export const bestAntidetectBrowsersForEcommerceRanking: RankingPage = {
       path: '/alternatives/dolphin-anty/',
       summary: 'Team-friendly antidetect browser popular with media buyers and affiliate teams.',
       bestFor: 'Agencies running many client storefronts in team folders.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $89/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $89/mo, checked 2026-09-01.',
       strengths: [
         'Comfortable free tier for small setups',
         'Automation scenarios aimed at ad platforms',
@@ -146,7 +146,7 @@ export const bestAntidetectBrowsersForEcommerceRanking: RankingPage = {
       path: '/alternatives/morelogin/',
       summary: 'Freemium platform marketed around shared fingerprint environments and a built-in proxy pool.',
       bestFor: 'Cost-sensitive sellers who want an integrated proxy pool.',
-      pricing: 'Free plan with a couple of profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a couple of profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'Cheap entry tier for small teams',
         'Aggregated proxy marketplace inside the app',
@@ -161,7 +161,7 @@ export const bestAntidetectBrowsersForEcommerceRanking: RankingPage = {
       path: '/alternatives/incogniton/',
       summary: 'Lightweight freemium option with bulk profile management and synchronized profile data.',
       bestFor: 'Sellers who need bulk profiles for regional storefront variants.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $20/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $20/mo, checked 2026-09-01.',
       strengths: [
         'Free tier covers small teams',
         'Bulk profile creation and CSV import',
@@ -180,7 +180,7 @@ export const bestAntidetectBrowsersForEcommerceRanking: RankingPage = {
       path: '/alternatives/kameleo/',
       summary: 'Premium tool known for mobile fingerprint emulation and enterprise-grade APIs.',
       bestFor: 'Teams that need mobile fingerprints for marketplace apps.',
-      pricing: 'No free plan; paid plans from roughly $59/mo.',
+      pricing: 'No free plan; paid plans from $59/mo, checked 2026-09-01.',
       strengths: [
         'Android and iOS fingerprint emulation is a real differentiator',
         'Local API across Selenium and Playwright',

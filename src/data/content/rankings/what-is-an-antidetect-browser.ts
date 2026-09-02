@@ -198,7 +198,7 @@ export const whatIsAnAntidetectBrowserRanking: RankingPage = {
             },
             {
               question: 'What does an antidetect browser cost?',
-              answer: 'Commercial tools run free tiers of two to ten profiles with paid plans from roughly $9 to $99 per month. AliasMode is free with unlimited profiles; its only paid product is optional support.',
+              answer: 'Commercial tools run free tiers of two to ten profiles with paid plans from $9 to $99 per month. AliasMode is free with unlimited profiles; its only paid product is optional support.',
             },
           ],
         },

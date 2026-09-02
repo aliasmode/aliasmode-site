@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const antbrowserComparison: ComparisonPage = {
   path: '/alternatives/antbrowser/',
@@ -18,6 +18,8 @@ export const antbrowserComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers/', '/docs/proxies/', '/alternatives/lalicat/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/pricing/', label: 'Check what is free', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const antbrowserComparison: ComparisonPage = {
     { id: 'antbrowser-proxies', source: 'AntBrowser', title: 'AntBrowser proxy packages page', url: 'https://antbrowser.pro/proxy', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents paid subscription packages at the verification date, with bundles that include proxy packages rather than a permanent free tier.', evidenceId: 'antbrowser-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'AntBrowser is closed-source; reviewed official material links no open-source license.', evidenceId: 'antbrowser-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Paid subscription packages at the check date, with bundles that include proxy packages rather than a permanent free tier.', evidenceId: 'antbrowser-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Closed source at the check date (2026-09-01); AntBrowser publishes no repository.', evidenceId: 'antbrowser-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Profiles run on the local client, with proxy bundles managed through the AntBrowser subscription.', evidenceId: 'antbrowser-proxies' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Team features are lighter than agency platforms; sharing relies on profile export and account access.', evidenceId: 'antbrowser-docs' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'AntBrowser documents automation support for browser control used with external scripts.', evidenceId: 'antbrowser-docs' },

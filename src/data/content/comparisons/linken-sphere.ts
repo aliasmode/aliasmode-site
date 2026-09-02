@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const linkenSphereComparison: ComparisonPage = {
   path: '/alternatives/linken-sphere/',
@@ -18,6 +18,8 @@ export const linkenSphereComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers/', '/security/', '/best-antidetect-browsers-for-windows/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/docs/local-api/', label: 'Read the Local API reference', type: 'view-local-api-reference' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const linkenSphereComparison: ComparisonPage = {
     { id: 'linken-sphere-sessions', source: 'Linken Sphere', title: 'Linken Sphere session management documentation', url: 'https://docs.ls.link/sessions', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official material documents paid licensing at the verification date, historically a one-time purchase model rather than monthly subscriptions.', evidenceId: 'linken-sphere-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Linken Sphere is closed-source; no public repository or license for the core client appears in reviewed official material.', evidenceId: 'linken-sphere-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Paid licensing at the check date, historically a one-time purchase model rather than monthly subscriptions.', evidenceId: 'linken-sphere-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'No open-source license for Linken Sphere at the check date (2026-09-01).', evidenceId: 'linken-sphere-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Sessions store locally and the vendor markets a no-logs privacy posture, with crypto-based purchasing and account activation.', evidenceId: 'linken-sphere-homepage' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Managed team collaboration is not a documented centerpiece; sharing happens through session export files rather than workspaces.', evidenceId: 'linken-sphere-sessions' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'Reviewed official material emphasizes manual session work and mass session management over a public automation API.', evidenceId: 'linken-sphere-docs' },

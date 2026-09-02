@@ -16,6 +16,8 @@ export const persistentBrowserProfilesForAiAgentsTaskGuide: TaskGuidePage = {
   topicCluster: "ai-agents",
   parent: "/guides/",
   related: ["/use-cases/ai-agents/", "/docs/local-api/", "/integrations/playwright/", "/best-antidetect-browsers-for-ai-agents/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -65,6 +67,6 @@ export const persistentBrowserProfilesForAiAgentsTaskGuide: TaskGuidePage = {
   evidence: [
     { id: "pw-cdp", source: "Playwright", title: "Browser.connectOverCDP API reference", url: "https://playwright.dev/docs/api/class-browser", checkedOn: "2026-09-01" },
     { id: "cdp", source: "Chrome DevTools Protocol", title: "DevTools Protocol documentation", url: "https://chromedevtools.github.io/devtools-protocol/", checkedOn: "2026-09-01" },
-    { id: "mcp", source: "Model Context Protocol", title: "MCP specification and concepts", url: "https://modelcontextprotocol.io/", checkedOn: "2026-09-01" },
+    { id: "mcp", source: "Model Context Protocol", title: "MCP specification and concepts", url: "https://modelcontextprotocol.io/docs/getting-started/intro", checkedOn: "2026-09-01" },
   ],
 };

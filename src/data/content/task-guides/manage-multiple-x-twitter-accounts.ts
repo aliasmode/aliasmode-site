@@ -16,6 +16,8 @@ export const manageMultipleXTwitterAccountsTaskGuide: TaskGuidePage = {
   topicCluster: "social-accounts",
   parent: "/guides/",
   related: ["/guides/warm-up-x-twitter-account/", "/best-antidetect-browsers-for-x-twitter/", "/guides/share-social-media-accounts-without-passwords/", "/docs/proxies/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -63,8 +65,8 @@ export const manageMultipleXTwitterAccountsTaskGuide: TaskGuidePage = {
     ]},
   ],
   evidence: [
-    { id: "x-multi", source: "X Help Center", title: "How to manage multiple X accounts", url: "https://help.x.com/", checkedOn: "2026-09-01" },
+    { id: "x-multi", source: "X Help Center", title: "How to manage multiple X accounts", url: "https://help.x.com/en/managing-your-account/managing-multiple-accounts", checkedOn: "2026-09-01" },
     { id: "x-rules", source: "X Help Center", title: "Platform manipulation and spam policy", url: "https://help.x.com/en/rules-and-policies/platform-manipulation", checkedOn: "2026-09-01" },
-    { id: "x-security", source: "X Help Center", title: "Keep your X account secure", url: "https://help.x.com/", checkedOn: "2026-09-01" },
+    { id: "x-security", source: "X Help Center", title: "Keep your X account secure", url: "https://help.x.com/en/safety-and-security", checkedOn: "2026-09-01" },
   ],
 };

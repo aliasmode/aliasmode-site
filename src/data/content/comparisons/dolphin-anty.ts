@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const dolphinAntyComparison: ComparisonPage = {
   path: '/alternatives/dolphin-anty/',
@@ -18,6 +18,8 @@ export const dolphinAntyComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/product/', '/pricing/', '/docs/local-api/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/integrations/playwright/', label: 'Automate AliasMode with Playwright', type: 'docs' },
   publishedOn: '2026-08-10',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-08-10',
@@ -28,11 +30,11 @@ export const dolphinAntyComparison: ComparisonPage = {
     { id: 'dolphin-anty-docs', source: 'Dolphin Anty', title: 'Dolphin Anty public documentation', url: 'https://docs.dolphin-anty.com/', checkedOn: '2026-08-10' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: commonAliasMode.price, competitor: 'Dolphin Anty advertised five free profiles at the verification date, with paid capacity and team plans beyond that allowance.', evidenceId: 'dolphin-anty-homepage' },
-    { criterion: 'Source availability', aliasMode: commonAliasMode.source, competitor: 'No open-source license for the complete core desktop product was linked in reviewed official material.', evidenceId: 'dolphin-anty-homepage' },
-    { criterion: 'Local workflow', aliasMode: commonAliasMode.local, competitor: 'Dolphin documents an option to disable cloud synchronization inside its account-backed commercial product.', evidenceId: 'dolphin-anty-homepage' },
-    { criterion: 'Cloud and teams', aliasMode: commonAliasMode.team, competitor: 'Official material describes roles, sharing, synchronization, and team workflows.', evidenceId: 'dolphin-anty-homepage' },
-    { criterion: 'API and automation', aliasMode: commonAliasMode.automation, competitor: 'Dolphin Anty publishes API and automation capabilities for its product workflow.', evidenceId: 'dolphin-anty-homepage' },
+    { criterion: 'Free use', aliasMode: commonAliasModeFor('dolphin-anty').price, competitor: 'Dolphin Anty advertised five free profiles at the check date, with paid capacity and team plans beyond that allowance.', evidenceId: 'dolphin-anty-homepage' },
+    { criterion: 'Source availability', aliasMode: commonAliasModeFor('dolphin-anty').source, competitor: 'No open-source license for Dolphin Anty at the check date (2026-08-10).', evidenceId: 'dolphin-anty-homepage' },
+    { criterion: 'Local workflow', aliasMode: commonAliasModeFor('dolphin-anty').local, competitor: 'Dolphin documents an option to disable cloud synchronization inside its account-backed commercial product.', evidenceId: 'dolphin-anty-homepage' },
+    { criterion: 'Cloud and teams', aliasMode: commonAliasModeFor('dolphin-anty').team, competitor: 'Roles, sharing, synchronization, and team workflows.', evidenceId: 'dolphin-anty-homepage' },
+    { criterion: 'API and automation', aliasMode: commonAliasModeFor('dolphin-anty').automation, competitor: 'Dolphin Anty publishes API and automation capabilities for its product workflow.', evidenceId: 'dolphin-anty-homepage' },
     { criterion: 'Operating model', aliasMode: 'Cloud and Local functionality is free; optional donations support the non-profit project.', competitor: 'Free allowance plus commercial plans and service.', evidenceId: 'dolphin-anty-homepage' },
   ],
   migration: ['Export only data the current Dolphin workflow can safely provide.', 'Record profile names, groups, proxies, owners, and extensions.', 'Create matching AliasMode profiles and re-establish approved sessions.', 'Map API operations to the documented AliasMode subset.', 'Test one full launch, work, close, and handoff cycle before scaling.'],

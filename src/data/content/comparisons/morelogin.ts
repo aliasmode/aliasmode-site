@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const moreloginComparison: ComparisonPage = {
   path: '/alternatives/morelogin/',
@@ -18,6 +18,8 @@ export const moreloginComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-free-antidetect-browsers/', '/integrations/playwright/', '/alternatives/dolphin-anty/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/pricing/', label: 'Check what is free', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -30,8 +32,8 @@ export const moreloginComparison: ComparisonPage = {
     { id: 'morelogin-cloud-phone', source: 'MoreLogin', title: 'MoreLogin cloud phone product page', url: 'https://www.morelogin.com/cloud-phone/', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents a free tier with a small profile allowance at the verification date; paid plans raise profile counts and add team members.', evidenceId: 'morelogin-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'MoreLogin distributes a closed-source client; no open-source license for the core product appeared in reviewed official material.', evidenceId: 'morelogin-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A free tier with a small profile allowance at the check date; paid plans raise profile counts and add team members.', evidenceId: 'morelogin-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'MoreLogin is closed-source at the check date (2026-09-01).', evidenceId: 'morelogin-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'Profiles run through an account-linked client with cloud synchronization, and Android cloud phone devices execute on remote infrastructure rather than the workstation.', evidenceId: 'morelogin-cloud-phone' },
     { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Paid plans document team member seats, environment sharing, and role controls alongside the free tier.', evidenceId: 'morelogin-pricing' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'MoreLogin publishes Local API documentation for profile and browser operations, including cloud phone endpoints.', evidenceId: 'morelogin-api-docs' },

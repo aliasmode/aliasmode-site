@@ -1,5 +1,5 @@
 import type { ComparisonPage } from '../types.ts';
-import { commonAliasMode, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
+import { commonAliasModeFor, comparisonEyebrow, comparisonH1, comparisonTitle } from './vendor.ts';
 
 export const octoBrowserComparison: ComparisonPage = {
   path: '/alternatives/octo-browser/',
@@ -18,6 +18,8 @@ export const octoBrowserComparison: ComparisonPage = {
   topicCluster: 'comparisons',
   parent: '/alternatives/',
   related: ['/best-antidetect-browsers-for-agencies-and-teams/', '/docs/local-api/', '/alternatives/adspower/'],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/integrations/playwright/', label: 'Automate AliasMode with Playwright', type: 'docs' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',
@@ -31,10 +33,10 @@ export const octoBrowserComparison: ComparisonPage = {
     { id: 'octo-browser-profiles', source: 'Octo Browser', title: 'Octo Browser profiles documentation', url: 'https://docs.octobrowser.net/profiles', checkedOn: '2026-09-01' },
   ],
   rows: [
-    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'Official pricing documents a free entry tier with a small profile allowance at the verification date, with paid subscriptions unlocking larger profile counts, team seats, and API access.', evidenceId: 'octo-browser-pricing' },
-    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Octo Browser ships a closed desktop client; no open-source license for the core product was linked in reviewed official material at the verification date.', evidenceId: 'octo-browser-homepage' },
+    { criterion: 'Free use', aliasMode: 'Cloud and Local are free with unlimited profiles. Paid service is support only.', competitor: 'A free entry tier with a small profile allowance at the check date, with paid subscriptions unlocking larger profile counts, team seats, and API access.', evidenceId: 'octo-browser-pricing' },
+    { criterion: 'Source availability', aliasMode: 'Desktop client is Apache-2.0 open source. CloakBrowser and managed Cloud are separate.', competitor: 'Closed source at the check date (2026-09-01); Octo Browser publishes no repository.', evidenceId: 'octo-browser-homepage' },
     { criterion: 'Local workflow', aliasMode: 'Local mode needs no AliasMode account and sends no traffic to AliasMode Cloud.', competitor: 'The desktop client stores profile data locally and synchronizes it through account-linked cloud storage, so daily operation follows its commercial account model.', evidenceId: 'octo-browser-profiles' },
-    { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Official documentation describes team workspaces with roles, bot accounts, and profile sharing on suitable plans.', evidenceId: 'octo-browser-team' },
+    { criterion: 'Cloud and teams', aliasMode: 'Free Cloud sync with one workspace, owner/member roles, device revocation, and trash.', competitor: 'Team workspaces with roles, bot accounts, and profile sharing on suitable plans.', evidenceId: 'octo-browser-team' },
     { criterion: 'API and automation', aliasMode: 'AdsPower-shaped Local API subset and Playwright attachment over CDP.', competitor: 'Octo Browser documents a Local API for browser start, stop, and fingerprint operations on qualifying plans.', evidenceId: 'octo-browser-api-docs' },
     { criterion: 'Migration', aliasMode: 'AdsPower-shaped endpoints map route by route, and profile records rebuild through the documented Local API; no Octo-specific archive import is offered.', competitor: 'Octo Browser supports profile export and transfer between Octo workspaces; moving to another vendor rebuilds profiles from exported data.', evidenceId: 'octo-browser-profiles' },
   ],

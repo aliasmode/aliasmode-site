@@ -16,6 +16,8 @@ export const manageMultipleGoogleAdsMetaAdsClientAccountsTaskGuide: TaskGuidePag
   topicCluster: "ads",
   parent: "/guides/",
   related: ["/guides/organize-client-browser-profiles/", "/agencies/", "/use-cases/social-media-agencies/", "/best-antidetect-browsers-for-agencies-and-teams/"],
+  primaryCta: { href: '/download/', label: 'Download AliasMode free', type: 'download-installer' },
+  secondaryCta: { href: '/best-antidetect-browsers-for-social-media/', label: 'Best antidetect browsers for social media', type: 'compare' },
   publishedOn: '2026-09-01',
   modifiedOn: '2026-09-01',
   verifiedOn: '2026-09-01',

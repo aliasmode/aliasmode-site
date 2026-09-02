@@ -70,7 +70,7 @@ export const bestAntidetectBrowsersForAffiliateMarketingRanking: RankingPage = {
       path: '/alternatives/adspower/',
       summary: 'Widely used commercial platform with the de facto standard Local API and built-in RPA automation.',
       bestFor: 'Campaign teams that want RPA scripts for ad platforms and networks.',
-      pricing: 'Free plan with a few profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a few profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'AdsPower Local API is the automation shape most tools copy, including AliasMode',
         'Built-in no-code RPA flows for repetitive platform work',
@@ -89,7 +89,7 @@ export const bestAntidetectBrowsersForAffiliateMarketingRanking: RankingPage = {
       path: '/alternatives/dolphin-anty/',
       summary: 'Team-friendly antidetect browser popular with media buyers and affiliate teams.',
       bestFor: 'Media buyers running many offers across team folders.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $89/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $89/mo, checked 2026-09-01.',
       strengths: [
         'Comfortable free tier for small setups',
         'Automation scenarios aimed at ad platforms',
@@ -127,7 +127,7 @@ export const bestAntidetectBrowsersForAffiliateMarketingRanking: RankingPage = {
       path: '/alternatives/gologin/',
       summary: 'Popular freemium antidetect browser with a broad template and automation surface.',
       bestFor: 'Solo affiliates who want templates and a workable free tier.',
-      pricing: 'Free plan with about three profiles; paid tiers from roughly $24/mo.',
+      pricing: 'Free plan with about three profiles; paid tiers from $24/mo, checked 2026-09-01.',
       strengths: [
         'Free plan is enough to evaluate the product properly',
         'Windows, macOS, and Linux support plus a web version',
@@ -146,7 +146,7 @@ export const bestAntidetectBrowsersForAffiliateMarketingRanking: RankingPage = {
       path: '/alternatives/morelogin/',
       summary: 'Freemium platform marketed around shared fingerprint environments and a built-in proxy pool.',
       bestFor: 'Budget-focused operators who want an integrated proxy pool.',
-      pricing: 'Free plan with a couple of profiles; paid tiers from roughly $9/mo.',
+      pricing: 'Free plan with a couple of profiles; paid tiers from $9/mo, checked 2026-09-01.',
       strengths: [
         'Cheap entry tier for small teams',
         'Aggregated proxy marketplace inside the app',
@@ -161,7 +161,7 @@ export const bestAntidetectBrowsersForAffiliateMarketingRanking: RankingPage = {
       path: '/alternatives/hidemyacc/',
       summary: 'Freemium browser popular in Southeast Asia with timed-profile automation features.',
       bestFor: 'High-volume, low-budget farming with timed automation.',
-      pricing: 'Free plan with a handful of profiles; paid tiers from roughly $5/mo.',
+      pricing: 'Free plan with a handful of profiles; paid tiers from $5/mo, checked 2026-09-01.',
       strengths: [
         'Very cheap paid tiers',
         'Simple interface for beginners',
@@ -180,7 +180,7 @@ export const bestAntidetectBrowsersForAffiliateMarketingRanking: RankingPage = {
       path: '/alternatives/undetectable/',
       summary: 'Freemium browser aimed at affiliate and betting verticals with a cookie-warming robot.',
       bestFor: 'Affiliate and betting verticals that need cookie warming.',
-      pricing: 'Free plan with about ten profiles; paid tiers from roughly $49/mo.',
+      pricing: 'Free plan with about ten profiles; paid tiers from $49/mo, checked 2026-09-01.',
       strengths: [
         'Comfortable free quota',
         'Windows-first app with API automation',
