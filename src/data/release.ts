@@ -4,10 +4,10 @@ export type Release =
 
 export const release: Release = {
   state: 'published',
-  version: '0.1.0-beta.42',
-  tag: 'v0.1.0-beta.42',
-  windowsFile: 'AliasMode_0.1.0-beta.42_x64-setup.exe',
-  sha256: 'f5db1a56b2fdbab85e36633cc14469094bd7c5940a2d1c4f3e8811c1f4143850',
+  version: '0.1.0-beta.47',
+  tag: 'v0.1.0-beta.47',
+  windowsFile: 'AliasMode_0.1.0-beta.47_x64-offline-setup.exe',
+  sha256: '97811d347ad7b8e56ae8e1854f41f087f5ae65e3fd8c8dc20741dc0349113621',
 };
 
 const releases = 'https://github.com/aliasmode/aliasmode/releases';
