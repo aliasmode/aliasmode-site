@@ -1,0 +1,104 @@
+---
+/** CSS mockup of the AliasMode window, in the homepage `.app/.prow` language. Purely illustrative. */
+interface Row { label: string; meta: string; state?: string }
+interface Props { variant: 'profiles' | 'team' | 'terminal'; title?: string; rows: Row[] }
+const { variant, title, rows } = Astro.props;
+
+const tints = ['violet', 'teal', 'night'];
+const accent = /^(open|next|owner|active|running|live)$/i;
+const initials = (label: string) =>
+  variant === 'team'
+    ? label.split(/\s+/).slice(0, 2).map((word) => word[0] ?? '').join('').toUpperCase()
+    : (label.trim()[0] ?? 'A').toUpperCase();
+const sidebar = [
+  { label: 'All profiles', count: variant === 'profiles' ? rows.length : undefined, active: variant === 'profiles' },
+  { label: 'Team', count: variant === 'team' ? rows.length : undefined, active: variant === 'team' },
+  { label: 'Trash', count: undefined, active: false },
+];
+const heading = variant === 'team' ? 'Team' : 'Browser profiles';
+const action = variant === 'team' ? '+ Invite' : '+ New';
+---
+<div class="mockup" role="img" aria-label={title ?? (variant === 'terminal' ? 'AliasMode terminal session' : 'AliasMode workspace')}>
+  {variant === 'terminal' ? (
+    <div class="term">
+      <div class="bar"><span></span><span></span><span></span><b>{title ?? 'aliasmode'}</b></div>
+      <div class="term-body">
+        {rows.map((row) => (
+          <div class="tline">
+            <div class="cmd"><b>$</b> {row.label}</div>
+            <div class="out">{row.meta}{row.state && <em>{row.state}</em>}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div class="app">
+      <div class="bar"><span></span><span></span><span></span><b>{title ?? 'AliasMode'}</b></div>
+      <div class="app-body">
+        <aside>
+          <span class="side-label">Workspace</span>
+          {sidebar.map((item) => (
+            <span class:list={['side-item', { 'is-active': item.active }]}>{item.label}{item.count !== undefined && <i>{item.count}</i>}</span>
+          ))}
+        </aside>
+        <div class="board">
+          <div class="board-head"><strong>{heading}</strong><span class="board-new">{action}</span></div>
+          {rows.map((row, index) => (
+            <div class="prow">
+              <span class:list={['prow-icon', tints[index % tints.length]]}>{initials(row.label)}</span>
+              <div class="prow-text"><strong>{row.label}</strong><small>{row.meta}</small></div>
+              {row.state && <span class:list={['prow-state', { accent: accent.test(row.state) }]}>{row.state}</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  .mockup { margin: 1.6rem 0; max-width: 100%; min-width: 0; }
+  .bar { align-items: center; background: linear-gradient(180deg, #221c3c, var(--night)); border: 1px solid rgba(160, 132, 255, .22); border-bottom: 0; border-radius: .95rem .95rem 0 0; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07); display: flex; gap: .35rem; height: 2.3rem; padding: 0 .9rem; }
+  .bar span { background: var(--night-3); border-radius: 50%; height: .42rem; width: .42rem; }
+  .bar span:first-child { background: var(--violet); box-shadow: 0 0 .5rem rgba(124, 92, 255, .8); }
+  .bar b { color: var(--night-ink-2); font: 600 .6rem/1 var(--font-mono); margin-left: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Workspace window */
+  .app { border-radius: .95rem; box-shadow: var(--shadow-lg); }
+  .app-body { display: grid; grid-template-columns: 7.6rem minmax(0, 1fr); }
+  .app-body aside { background: var(--night); border: 1px solid rgba(160, 132, 255, .22); border-radius: 0 0 0 .95rem; border-right: 0; border-top: 0; display: flex; flex-direction: column; gap: .2rem; padding: .9rem .55rem; }
+  .side-label { color: var(--night-ink-2); font: 500 .52rem/1.4 var(--font-mono); letter-spacing: .1em; padding: 0 .35rem .45rem; text-transform: uppercase; }
+  .side-item { align-items: center; border-radius: .45rem; color: var(--night-ink-2); display: flex; font-size: .66rem; gap: .4rem; justify-content: space-between; padding: .5rem .55rem; }
+  .side-item i { font: 500 .52rem/1 var(--font-mono); font-style: normal; opacity: .75; }
+  .side-item.is-active { background: linear-gradient(150deg, #7c5cff, #5a35e6); box-shadow: 0 .45rem 1rem -.35rem rgba(109, 74, 255, .75); color: #fff; font-weight: 600; }
+  .side-item.is-active i { color: #ded3ff; opacity: 1; }
+  .board { background: var(--panel-2); border: 1px solid var(--line); border-left: 0; border-radius: 0 0 .95rem 0; border-top: 0; min-width: 0; padding: .95rem; }
+  .board-head { align-items: center; display: flex; justify-content: space-between; margin-bottom: .7rem; }
+  .board-head strong { font-family: var(--font-display); font-size: .92rem; letter-spacing: -.025em; }
+  .board-new { background: var(--violet); border-radius: var(--r-pill); color: #fff; font-size: .52rem; font-weight: 700; padding: .32rem .65rem; }
+  .prow { align-items: center; background: #fff; border: 1px solid var(--line); border-radius: .65rem; box-shadow: 0 .35rem .8rem -.35rem rgba(46, 27, 122, .22); display: grid; gap: .6rem; grid-template-columns: auto minmax(0, 1fr) auto; margin-bottom: .5rem; padding: .6rem .7rem; }
+  .prow:last-child { margin-bottom: 0; }
+  .prow-icon { align-items: center; border-radius: .45rem; color: #fff; display: flex; flex: 0 0 auto; font-size: .6rem; font-weight: 800; height: 1.65rem; justify-content: center; width: 1.65rem; }
+  .prow-icon.violet { background: linear-gradient(150deg, #8b6bff, var(--violet)); }
+  .prow-icon.teal { background: linear-gradient(150deg, #16c2b8, var(--signal)); }
+  .prow-icon.night { background: linear-gradient(150deg, #3b3268, var(--night-3)); }
+  .prow-text { display: flex; flex-direction: column; gap: .1rem; min-width: 0; }
+  .prow-text strong { font-size: .68rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .prow-text small { color: var(--violet-deep); font: 500 .5rem/1.5 var(--font-mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .prow-state { background: var(--pass-soft); border-radius: var(--r-pill); color: var(--pass); font-size: .48rem; font-weight: 700; padding: .25rem .55rem; white-space: nowrap; }
+  .prow-state.accent { background: var(--violet-soft); color: var(--violet-deep); }
+
+  /* Terminal window */
+  .term { background: linear-gradient(152deg, var(--night), #241d47); border: 1px solid var(--night-line); border-radius: .95rem; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .term-body { display: grid; gap: .7rem; font: 500 .72rem/1.6 var(--font-mono); overflow-x: auto; padding: 1rem 1.1rem; }
+  .cmd { color: #ded6f8; white-space: nowrap; }
+  .cmd b { color: #a58cff; margin-right: .25rem; }
+  .out { color: #7d74a8; white-space: nowrap; }
+  .out em { background: rgba(111, 224, 212, .14); border-radius: var(--r-pill); color: #6fe0d4; font-style: normal; margin-left: .5rem; padding: .05rem .5rem; }
+
+  @media (max-width: 36rem) {
+    .app-body { grid-template-columns: 1fr; }
+    .app-body aside { display: none; }
+    .board { border-left: 1px solid var(--line); border-radius: 0 0 .95rem .95rem; }
+  }
+</style>

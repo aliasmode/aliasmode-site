@@ -1,0 +1,15 @@
+---
+/** Answer-first callout rendered directly under a hero. */
+interface Props { text: string; label?: string }
+const { text, label = 'Direct answer' } = Astro.props;
+---
+<section class="direct-answer" aria-labelledby="direct-answer-label">
+  <p class="eyebrow" id="direct-answer-label">{label}</p>
+  <p class="answer">{text}</p>
+</section>
+
+<style>
+  .direct-answer { background: var(--violet-soft); border-left: .35rem solid var(--violet); border-radius: 0 var(--r-lg) var(--r-lg) 0; margin: 2.5rem 0 0; padding: clamp(1.3rem, 3.5vw, 2rem) clamp(1.4rem, 4vw, 2.4rem); }
+  .direct-answer .eyebrow { margin: 0 0 .6rem; }
+  .answer { color: var(--ink); font-size: clamp(1.02rem, 1.6vw, 1.15rem); line-height: 1.55; margin: 0; max-width: 72ch; }
+</style>

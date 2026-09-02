@@ -6,7 +6,7 @@ import GitHubButton from './GitHubButton.astro';
   <section class="card">
     <h2>Download for Windows</h2>
     <p>Version {published.version}</p>
-    <div class="download-actions"><a class="button" href={published.downloadUrl} data-track-cta data-cta-type="download" data-page-group="download" data-destination="windows" data-campaign={published.version}>Download {published.windowsFile}</a><GitHubButton href={published.pageUrl} label="Source code and release notes" tone="outline" compact track pageGroup="download" ctaType="github-release" /></div>
+    <div class="download-actions"><a class="button" href={published.downloadUrl} data-track-cta data-cta-type="download-installer" data-destination="windows" data-campaign={published.version}>Download {published.windowsFile}</a><GitHubButton href={published.pageUrl} label="Source code and release notes" tone="outline" compact track ctaType="download-release-asset" destination="github-release" /></div>
     <p class="muted">SHA-256: <code>{published.sha256}</code></p>
     <p class="muted">Compare the file checksum before you run it. A checksum confirms the file you downloaded; it is not code signing.</p>
   </section>
@@ -14,7 +14,7 @@ import GitHubButton from './GitHubButton.astro';
   <section class="notice">
     <h2>Windows beta is not published yet</h2>
     <p>The release tag, Windows asset, and checksum are not published, so there is no download link yet.</p>
-    <GitHubButton href={releasePage} label="Watch GitHub Releases" tone="outline" compact track pageGroup="download" ctaType="github-release" />
+    <GitHubButton href={releasePage} label="Watch GitHub Releases" tone="outline" compact track ctaType="download-release-asset" destination="github-release" />
   </section>
 )}
 

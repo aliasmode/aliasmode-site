@@ -1,0 +1,32 @@
+---
+import type { Evidence } from '../data/content/types';
+import { monthYear } from './format';
+
+/** Plain-text evidence list. Never renders `url` and never emits a link. */
+interface Props { evidence: Evidence[]; heading?: string; id?: string }
+const { evidence, heading, id = 'sources' } = Astro.props;
+---
+{evidence.length > 0 && (heading ? (
+  <section class="source-section" id={id} aria-labelledby={`${id}-title`}>
+    <p class="eyebrow">Evidence</p>
+    <h2 id={`${id}-title`}>{heading}</h2>
+    <ul class="source-notes">{evidence.map((item) => <li><span class="source">{item.source}</span> · {item.title} <small>(checked {monthYear(item.checkedOn)})</small></li>)}</ul>
+    <p class="source-foot">Public product details can change after the check date. Facts are re-checked on a monthly cycle.</p>
+  </section>
+) : (
+  <div class="source-notes-wrap">
+    <ul class="source-notes">{evidence.map((item) => <li><span class="source">{item.source}</span> · {item.title} <small>(checked {monthYear(item.checkedOn)})</small></li>)}</ul>
+    <p class="source-foot">Public product details can change after the check date. Facts are re-checked on a monthly cycle.</p>
+  </div>
+))}
+
+<style>
+  .source-section { margin-top: 4.5rem; }
+  .source-notes { color: var(--ink-2); font-size: .88rem; list-style: none; margin: 1.2rem 0 0; max-width: none; padding: 0; }
+  .source-notes-wrap .source-notes { margin-top: 0; }
+  .source-notes li { border-top: 1px solid var(--line); margin: 0; padding: .7rem 0; }
+  .source-notes li:last-child { border-bottom: 1px solid var(--line); }
+  .source-notes .source { color: var(--ink); font-weight: 700; }
+  .source-notes small { color: var(--ink-3); font: 600 .72rem/1 var(--font-mono); white-space: nowrap; }
+  .source-foot { color: var(--ink-3); font-size: .8rem; margin: .9rem 0 0; }
+</style>

@@ -1,0 +1,202 @@
+---
+import spec from '../data/generated/local-api.openapi.json';
+import CodeCard from './CodeCard.astro';
+import { slugify } from './format';
+
+/** Renders every operation of the generated Local API OpenAPI 3.1 document, grouped by tag. */
+type Dict = Record<string, any>;
+const api = spec as Dict;
+const methods = ['get', 'post', 'put', 'patch', 'delete'];
+
+const resolve = (schema: Dict | undefined): Dict | undefined => {
+  if (!schema) return undefined;
+  const ref: unknown = schema.$ref;
+  if (typeof ref !== 'string') return schema;
+  const target = ref.replace(/^#\//, '').split('/').reduce<Dict | undefined>((node, key) => node?.[key], api);
+  if (!target) return schema;
+  const resolved = resolve(target) ?? target;
+  return schema.description ? { ...resolved, description: schema.description } : resolved;
+};
+const typeOf = (schema: Dict | undefined): string => {
+  const s = resolve(schema);
+  if (!s) return 'any';
+  if (Array.isArray(s.enum)) return s.enum.map((value: unknown) => JSON.stringify(value)).join(' | ');
+  if (s.type === 'array') return `${typeOf(s.items)}[]`;
+  if (Array.isArray(s.type)) return s.type.join(' | ');
+  const union = s.oneOf ?? s.anyOf;
+  if (Array.isArray(union)) return union.map((item: Dict) => typeOf(item)).join(' | ');
+  return typeof s.type === 'string' ? s.type : s.properties ? 'object' : 'any';
+};
+interface Field { name: string; type: string; required: boolean; description: string }
+const fieldsOf = (schema: Dict | undefined): Field[] => {
+  const s = resolve(schema);
+  const required: string[] = Array.isArray(s?.required) ? s.required : [];
+  return Object.entries<Dict>(s?.properties ?? {}).map(([name, value]) => ({
+    name,
+    type: typeOf(value),
+    required: required.includes(name),
+    description: resolve(value)?.description ?? '',
+  }));
+};
+const mediaOf = (content: Dict | undefined) => content?.['application/json'] ?? content?.[Object.keys(content ?? {})[0] ?? ''];
+const exampleOf = (media: Dict | undefined) => {
+  const named = media?.examples ? Object.values<Dict>(media.examples)[0]?.value : undefined;
+  const value = media?.example ?? named ?? resolve(media?.schema)?.example;
+  return value === undefined ? undefined : JSON.stringify(value, null, 2);
+};
+const payload = (holder: Dict | undefined) => {
+  const media = mediaOf(holder?.content);
+  return { fields: fieldsOf(media?.schema), type: typeOf(media?.schema), example: exampleOf(media) };
+};
+
+const operations = Object.entries<Dict>(api.paths ?? {}).flatMap(([path, item]) =>
+  methods.filter((method) => item?.[method]).map((method) => {
+    const op: Dict = item[method];
+    const body = op.requestBody ? resolve(op.requestBody) : undefined;
+    return {
+      id: `op-${slugify(op.operationId ?? `${method}-${path}`)}`,
+      method: method.toUpperCase(),
+      path,
+      summary: op.summary ?? '',
+      description: op.description ?? '',
+      tag: op.tags?.[0] ?? 'General',
+      parameters: [...(item.parameters ?? []), ...(op.parameters ?? [])].map(resolve).filter((param): param is Dict => Boolean(param)),
+      body: body ? { required: Boolean(body.required), description: body.description ?? '', ...payload(body) } : undefined,
+      responses: Object.entries<Dict>(op.responses ?? {}).map(([status, response]) => {
+        const resolved = resolve(response) ?? {};
+        return { status, description: resolved.description ?? '', ...payload(resolved) };
+      }),
+    };
+  }),
+);
+const declaredTags: Dict[] = Array.isArray(api.tags) ? api.tags : [];
+const tagNames = [...new Set([...declaredTags.map((tag) => tag.name), ...operations.map((op) => op.tag)])];
+const groups = tagNames
+  .map((tag) => ({ tag, id: `tag-${slugify(tag)}`, description: declaredTags.find((item) => item.name === tag)?.description ?? '', operations: operations.filter((op) => op.tag === tag) }))
+  .filter((group) => group.operations.length);
+const server = api.servers?.[0]?.url;
+---
+<div class="openapi">
+  <div class="api-head">
+    <p class="api-meta"><b>{api.info?.title ?? 'Local API'}</b>{api.info?.version && <span class="chip">v{api.info.version}</span>}{server && <code>{server}</code>}</p>
+    {api.info?.description && <p class="muted">{api.info.description}</p>}
+  </div>
+
+  {operations.length === 0 ? (
+    <p class="muted">The OpenAPI document is generated from the AliasMode source at build time and is not available in this build.</p>
+  ) : (
+    <>
+      <nav class="op-nav" aria-labelledby="op-nav-title">
+        <p class="eyebrow" id="op-nav-title">Operations</p>
+        <div class="op-nav-groups">
+          {groups.map((group) => (
+            <div>
+              <strong>{group.tag}</strong>
+              <ul>{group.operations.map((op) => <li><a href={`#${op.id}`}><span class:list={['method', op.method.toLowerCase()]}>{op.method}</span><code>{op.path}</code></a></li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </nav>
+
+      {groups.map((group) => (
+        <section class="op-group" aria-labelledby={group.id}>
+          <h3 id={group.id}>{group.tag}</h3>
+          {group.description && <p class="muted">{group.description}</p>}
+          {group.operations.map((op) => (
+            <article class="op" id={op.id}>
+              <div class="op-head"><span class:list={['method', op.method.toLowerCase()]}>{op.method}</span><code class="op-path">{op.path}</code></div>
+              <h4>{op.summary || op.id}</h4>
+              {op.description && <p>{op.description}</p>}
+
+              {op.parameters.length > 0 && (
+                <div class="table-scroll op-table" tabindex="0" role="region">
+                  <table>
+                    <caption>Parameters</caption>
+                    <thead><tr><th scope="col">Name</th><th scope="col">In</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead>
+                    <tbody>{op.parameters.map((param) => <tr><td><code>{param.name}</code></td><td>{param.in}</td><td class="type">{typeOf(param.schema)}</td><td>{param.required ? 'Yes' : 'No'}</td><td>{param.description ?? ''}</td></tr>)}</tbody>
+                  </table>
+                </div>
+              )}
+
+              {op.body && (
+                <div class="op-part">
+                  <p class="op-label">Request body{op.body.required ? ' · required' : ''}</p>
+                  {op.body.description && <p class="muted">{op.body.description}</p>}
+                  {op.body.fields.length > 0 ? (
+                    <div class="table-scroll op-table" tabindex="0" role="region">
+                      <table>
+                        <caption>Request body fields</caption>
+                        <thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead>
+                        <tbody>{op.body.fields.map((field) => <tr><td><code>{field.name}</code></td><td class="type">{field.type}</td><td>{field.required ? 'Yes' : 'No'}</td><td>{field.description}</td></tr>)}</tbody>
+                      </table>
+                    </div>
+                  ) : <p class="type-line">Schema: <code>{op.body.type}</code></p>}
+                  {op.body.example && <CodeCard code={op.body.example} title="Request example" language="json" />}
+                </div>
+              )}
+
+              {op.responses.map((response) => (
+                <div class="op-part">
+                  <p class="op-label">Response <span class="status">{response.status}</span>{response.description && <span class="muted"> · {response.description}</span>}</p>
+                  {response.fields.length > 0 && (
+                    <div class="table-scroll op-table" tabindex="0" role="region">
+                      <table>
+                        <caption>Response envelope</caption>
+                        <thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Description</th></tr></thead>
+                        <tbody>{response.fields.map((field) => <tr><td><code>{field.name}</code></td><td class="type">{field.type}</td><td>{field.required ? 'Yes' : 'No'}</td><td>{field.description}</td></tr>)}</tbody>
+                      </table>
+                    </div>
+                  )}
+                  {response.example && <CodeCard code={response.example} title={`Response ${response.status}`} language="json" />}
+                </div>
+              ))}
+            </article>
+          ))}
+        </section>
+      ))}
+    </>
+  )}
+</div>
+
+<style>
+  .openapi { min-width: 0; }
+  .api-head { margin-bottom: 1.5rem; }
+  .api-meta { align-items: center; display: flex; flex-wrap: wrap; gap: .6rem; margin: 0 0 .5rem; max-width: none; }
+  .api-meta b { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: -.02em; }
+  .api-meta code { font-size: .8rem; }
+  .chip { background: var(--violet-soft); border-radius: var(--r-pill); color: var(--violet-ink); font: 700 .66rem/1 var(--font-mono); padding: .35rem .6rem; }
+  .method { border-radius: .35rem; color: #fff; display: inline-block; flex: 0 0 auto; font: 800 .62rem/1 var(--font-mono); letter-spacing: .06em; min-width: 3.4rem; padding: .35rem .45rem; text-align: center; }
+  .method.get { background: var(--signal); }
+  .method.post { background: var(--violet); }
+  .method.put, .method.patch { background: var(--warn); }
+  .method.delete { background: var(--fail); }
+
+  .op-nav { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-md); margin-bottom: 2rem; padding: 1.2rem 1.4rem; }
+  .op-nav-groups { display: grid; gap: 1rem 2rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-top: .8rem; }
+  .op-nav strong { display: block; font-family: var(--font-display); font-size: .95rem; letter-spacing: -.02em; margin-bottom: .4rem; }
+  .op-nav ul { list-style: none; margin: 0; max-width: none; padding: 0; }
+  .op-nav li { margin: 0; }
+  .op-nav a { align-items: center; border-radius: var(--r-sm); color: var(--ink-2); display: flex; gap: .6rem; padding: .3rem .4rem; text-decoration: none; }
+  .op-nav a:hover { background: var(--violet-soft); color: var(--violet-deep); }
+  .op-nav code { background: transparent; color: inherit; font-size: .78rem; padding: 0; }
+
+  .op-group + .op-group { margin-top: 2.5rem; }
+  .op-group > h3 { border-bottom: 1px solid var(--line); font-size: 1.3rem; padding-bottom: .5rem; }
+  .op { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); margin-top: 1rem; padding: clamp(1.1rem, 2.5vw, 1.5rem); }
+  .op-head { align-items: center; display: flex; flex-wrap: wrap; gap: .6rem; }
+  .op-path { background: var(--night); border-radius: .4rem; color: #ded6f8; font-size: .82rem; padding: .35rem .6rem; word-break: break-all; }
+  .op h4 { font-size: 1.05rem; margin: .9rem 0 .3rem; }
+  .op > p { color: var(--ink-2); font-size: .92rem; margin: 0; }
+  .op-part { margin-top: 1.2rem; }
+  .op-label { color: var(--violet-ink); font: 700 .68rem/1.4 var(--font-mono); letter-spacing: .1em; margin: 0 0 .5rem; text-transform: uppercase; }
+  .op-label .status { background: var(--pass-soft); border-radius: var(--r-pill); color: var(--pass); padding: .15rem .5rem; }
+  .op-label .muted { letter-spacing: 0; text-transform: none; }
+  .type-line { font-size: .88rem; margin: 0; }
+  .op-table { border: 1px solid var(--line); border-radius: var(--r-sm); margin-top: .6rem; }
+  .op-table table { min-width: 36rem; }
+  .op-table caption { caption-side: top; color: var(--ink-3); font-size: .76rem; padding: .55rem .8rem; text-align: left; }
+  .op-table th, .op-table td { font-size: .84rem; padding: .6rem .8rem; }
+  .op-table td.type { color: var(--violet-deep); font-family: var(--font-mono); font-size: .76rem; white-space: nowrap; }
+  .op-table tbody tr:last-child td { border-bottom: 0; }
+  .op :global(.code-card) { margin: .8rem 0 0; }
+</style>

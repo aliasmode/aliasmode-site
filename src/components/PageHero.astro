@@ -1,32 +1,36 @@
 ---
+import type { Cta } from '../data/content/types';
 import TrackedCta from './TrackedCta.astro';
 
 interface Props {
   eyebrow: string;
   title: string;
   lead: string;
-  primaryHref?: string;
-  primaryLabel?: string;
-  secondaryHref?: string;
-  secondaryLabel?: string;
+  primary?: Cta;
+  secondary?: Cta;
+  /** Small dated status line, e.g. "Checked September 2026 · Updated 2026-09-01". */
+  meta?: string;
 }
-const { eyebrow, title, lead, primaryHref, primaryLabel, secondaryHref, secondaryLabel } = Astro.props;
-const pageGroup = eyebrow.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const { eyebrow, title, lead, primary, secondary, meta } = Astro.props;
 ---
 <header class="page-hero">
   <p class="eyebrow">{eyebrow}</p>
   <h1>{title}</h1>
   <p class="lead">{lead}</p>
-  {(primaryHref || secondaryHref) && (
+  {(primary || secondary) && (
     <div class="actions">
-      {primaryHref && primaryLabel && <TrackedCta href={primaryHref} label={primaryLabel} type="primary" pageGroup={pageGroup} />}
-      {secondaryHref && secondaryLabel && <TrackedCta href={secondaryHref} label={secondaryLabel} type="secondary" pageGroup={pageGroup} destination={secondaryHref.startsWith('https://xreacher.com') ? 'xreacher' : 'aliasmode'} class="button secondary" />}
+      {primary && <TrackedCta href={primary.href} label={primary.label} type={primary.type} />}
+      {secondary && <TrackedCta href={secondary.href} label={secondary.label} type={secondary.type} class="button secondary" />}
     </div>
   )}
+  {meta && <p class="hero-meta">{meta}</p>}
 </header>
 
 <style>
   .page-hero { border-bottom: 1px solid var(--line); padding: 1rem 0 clamp(2.5rem, 6vw, 4rem); }
   .page-hero h1 { font-size: clamp(2.4rem, 5vw, 4.2rem); max-width: 17ch; }
   .page-hero .lead { font-size: clamp(1.05rem, 2vw, 1.25rem); max-width: 62ch; }
+  .page-hero .actions { margin-bottom: 0; }
+  .hero-meta { color: var(--ink-3); font: 600 .72rem/1.5 var(--font-mono); letter-spacing: .04em; margin: 1.4rem 0 0; }
+  .page-hero .actions + .hero-meta { margin-top: 1.6rem; }
 </style>

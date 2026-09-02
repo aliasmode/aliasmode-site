@@ -1,17 +1,16 @@
 ---
-import { getSiteRoute } from '../data/site-routes';
-import type { SiteRoute } from '../data/site-routes';
+import { requireSiteRoute } from '../data/site-routes';
 
 interface Props { paths: string[]; title?: string }
 const { paths, title = 'Continue with AliasMode' } = Astro.props;
-const routes = paths.map(getSiteRoute).filter(Boolean);
+const routes = paths.map((path) => requireSiteRoute(path, `${Astro.url.pathname} related links`));
 ---
 {routes.length > 0 && (
   <aside class="related" aria-labelledby="related-title">
     <p class="eyebrow">Related</p>
     <h2 id="related-title">{title}</h2>
     <div class="related-grid">
-      {routes.map((route: SiteRoute | undefined) => route && (
+      {routes.map((route) => (
         <a href={route.path}>
           <strong>{route.label}</strong>
           <span>{route.description}</span>

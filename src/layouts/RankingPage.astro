@@ -1,0 +1,80 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Blocks from '../components/Blocks.astro';
+import DirectAnswer from '../components/DirectAnswer.astro';
+import PageHero from '../components/PageHero.astro';
+import RankingTable from '../components/RankingTable.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+import { siteConfig } from '../../site.config.mjs';
+import type { RankingPage } from '../data/content/types';
+
+interface Props { page: RankingPage }
+const { page } = Astro.props;
+const url = new URL(page.path, siteConfig.metadataOrigin).toString();
+
+const schema: Record<string, unknown>[] = [
+  {
+    '@type': 'Article',
+    headline: page.title,
+    description: page.description,
+    articleSection: page.variant === 'ranking' ? 'Antidetect browser ranking' : 'Antidetect browser guide',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+  },
+];
+if (page.variant === 'ranking' && page.entries?.length) {
+  schema.push({
+    '@type': 'ItemList',
+    itemListElement: page.entries.map((entry) => ({
+      '@type': 'ListItem',
+      position: entry.rank,
+      name: entry.name,
+      url: entry.path ? new URL(entry.path, siteConfig.metadataOrigin).toString() : undefined,
+    })),
+  });
+}
+---
+<BaseLayout layout="sections" schema={schema}>
+  <article data-page-family="ranking">
+    <PageHero
+      eyebrow={page.eyebrow}
+      title={page.h1}
+      lead={page.lead}
+      primary={page.primaryCta}
+      secondary={page.secondaryCta}
+      meta={page.checkedOn ? `Rankings checked ${page.checkedOn}. Official sources are listed at the end.` : undefined}
+    />
+    {page.directAnswer && <DirectAnswer text={page.directAnswer} />}
+    {page.facts && <div class="fact-strip">{page.facts.map((fact) => <div><strong>{fact.value}</strong><span>{fact.label}</span></div>)}</div>}
+
+    {page.variant === 'ranking' && page.entries?.length && (
+      <section class="family-section" aria-labelledby="ranking-title">
+        <h2 id="ranking-title">{page.checkedOn ? `Ranking checked ${page.checkedOn}` : 'The ranking'}</h2>
+        <RankingTable entries={page.entries} evidence={page.evidence} />
+      </section>
+    )}
+
+    {page.matrix && (
+      <section class="family-section" aria-labelledby="matrix-title">
+        <h2 id="matrix-title">Side-by-side summary</h2>
+        <div class="table-scroll family-table" tabindex="0" role="region">
+          <table>
+            <thead><tr>{page.matrix.columns.map((column) => <th scope="col">{column}</th>)}</tr></thead>
+            <tbody>{page.matrix.rows.map((row) => <tr>{row.map((cell, index) => index === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>)}</tr>)}</tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    <Blocks sections={page.sections} evidence={page.evidence} />
+    <RelatedLinks paths={page.related} />
+  </article>
+</BaseLayout>
+
+<style>
+  .family-section { margin-top: 4.5rem; }
+  .family-section h2 { font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+  .family-table { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); margin-top: 1.4rem; }
+  .family-table table { min-width: 34rem; }
+  .family-table th[scope="row"] { background: var(--panel-2); color: var(--ink); font-family: var(--font-body); font-size: .9rem; font-weight: 700; letter-spacing: 0; text-transform: none; }
+  .family-table td { font-size: .9rem; }
+</style>

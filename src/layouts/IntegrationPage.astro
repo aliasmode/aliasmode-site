@@ -1,0 +1,84 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Blocks from '../components/Blocks.astro';
+import Checklist from '../components/Checklist.astro';
+import DirectAnswer from '../components/DirectAnswer.astro';
+import PageHero from '../components/PageHero.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+import StepList from '../components/StepList.astro';
+import { siteConfig } from '../../site.config.mjs';
+import type { IntegrationPage } from '../data/content/types';
+
+interface Props { page: IntegrationPage }
+const { page } = Astro.props;
+const url = new URL(page.path, siteConfig.metadataOrigin).toString();
+
+const transportLabels: Record<string, string> = {
+  'local-stdio': 'Local MCP (stdio)',
+  'remote-oauth': 'Remote MCP (OAuth)',
+  'remote-bearer': 'Remote MCP (bearer token)',
+  'local-api': 'Local API (HTTP)',
+  cdp: 'Playwright CDP',
+};
+
+const schema: Record<string, unknown>[] = [
+  {
+    '@type': 'TechArticle',
+    headline: page.title,
+    description: page.description,
+    articleSection: 'AliasMode integration',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    about: { '@type': 'SoftwareApplication', name: page.client },
+  },
+];
+---
+<BaseLayout layout="sections" schema={schema}>
+  <article data-page-family="integration">
+    <PageHero
+      eyebrow={page.eyebrow}
+      title={page.h1}
+      lead={page.lead}
+      primary={page.primaryCta}
+      secondary={page.secondaryCta}
+      meta={[...page.transports.map((transport) => transportLabels[transport] ?? transport), page.platforms.join(' · '), page.testedOn && `Tested ${page.testedOn}`].filter(Boolean).join(' — ')}
+    />
+    {page.directAnswer && <DirectAnswer text={page.directAnswer} />}
+    {page.facts && <div class="fact-strip">{page.facts.map((fact) => <div><strong>{fact.value}</strong><span>{fact.label}</span></div>)}</div>}
+
+    <section class="family-section" aria-labelledby="setup-title">
+      <h2 id="setup-title">Set up {page.client}</h2>
+      <StepList steps={page.setup} />
+    </section>
+
+    {page.verification.length && (
+      <section class="family-section" aria-labelledby="integration-verify-title">
+        <h2 id="integration-verify-title">Verify the connection</h2>
+        <Checklist items={page.verification} />
+      </section>
+    )}
+
+    {page.troubleshooting.length && (
+      <section class="family-section" aria-labelledby="troubleshooting-title">
+        <h2 id="troubleshooting-title">Troubleshooting</h2>
+        <div class="table-scroll family-table" tabindex="0" role="region">
+          <table>
+            <thead><tr><th scope="col">Symptom</th><th scope="col">Fix</th></tr></thead>
+            <tbody>{page.troubleshooting.map((item) => <tr><th scope="row">{item.symptom}</th><td>{item.fix}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    <Blocks sections={page.sections} evidence={page.evidence} />
+    <RelatedLinks paths={page.related} />
+  </article>
+</BaseLayout>
+
+<style>
+  .family-section { margin-top: 4.5rem; }
+  .family-section h2 { font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+  .family-table { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); margin-top: 1.4rem; }
+  .family-table table { min-width: 30rem; }
+  .family-table th[scope="row"] { background: var(--panel-2); color: var(--ink); font-family: var(--font-body); font-size: .9rem; font-weight: 700; letter-spacing: 0; text-transform: none; }
+  .family-table td { font-size: .9rem; }
+</style>

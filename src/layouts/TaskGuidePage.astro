@@ -1,0 +1,94 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Blocks from '../components/Blocks.astro';
+import Callout from '../components/Callout.astro';
+import Checklist from '../components/Checklist.astro';
+import DirectAnswer from '../components/DirectAnswer.astro';
+import PageHero from '../components/PageHero.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+import StepList from '../components/StepList.astro';
+import { siteConfig } from '../../site.config.mjs';
+import type { TaskGuidePage } from '../data/content/types';
+
+interface Props { page: TaskGuidePage }
+const { page } = Astro.props;
+const url = new URL(page.path, siteConfig.metadataOrigin).toString();
+
+const schema: Record<string, unknown>[] = [
+  {
+    '@type': 'HowTo',
+    name: page.h1,
+    description: page.description,
+    totalTime: undefined,
+    step: [...page.steps, ...page.aliasModeWorkflow].map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.title,
+      text: step.body,
+      url: `${url}#${page.sections[0]?.id ?? 'steps'}`,
+    })),
+  },
+];
+---
+<BaseLayout layout="sections" schema={schema}>
+  <article data-page-family="task-guide">
+    <PageHero
+      eyebrow={page.eyebrow}
+      title={page.h1}
+      lead={page.lead}
+      primary={page.primaryCta}
+      secondary={page.secondaryCta}
+      meta={`Guide updated ${page.modifiedOn}. Follow the steps in order.`}
+    />
+    {page.directAnswer && <DirectAnswer text={page.directAnswer} />}
+    {page.facts && <div class="fact-strip">{page.facts.map((fact) => <div><strong>{fact.value}</strong><span>{fact.label}</span></div>)}</div>}
+
+    <section class="family-section guide-outcome" aria-labelledby="outcome-title">
+      <h2 id="outcome-title">What you will accomplish</h2>
+      <Callout tone="tip" title="Outcome" body={page.outcome} />
+    </section>
+
+    {page.prerequisites.length && (
+      <section class="family-section" aria-labelledby="prereq-title">
+        <h2 id="prereq-title">Before you start</h2>
+        <Checklist items={page.prerequisites} />
+      </section>
+    )}
+
+    <section class="family-section" aria-labelledby="steps-title">
+      <h2 id="steps-title">Step-by-step</h2>
+      <StepList steps={page.steps} />
+    </section>
+
+    {page.aliasModeWorkflow.length && (
+      <section class="family-section" aria-labelledby="workflow-title">
+        <h2 id="workflow-title">The AliasMode workflow</h2>
+        <StepList steps={page.aliasModeWorkflow} />
+      </section>
+    )}
+
+    {page.verification.length && (
+      <section class="family-section" aria-labelledby="verify-title">
+        <h2 id="verify-title">Verify it worked</h2>
+        <Checklist items={page.verification} />
+      </section>
+    )}
+
+    {page.cautions?.length && (
+      <section class="family-section" aria-labelledby="cautions-title">
+        <h2 id="cautions-title">Cautions</h2>
+        <Callout tone="warning" body="These steps keep accounts separated and reduce risk, but no workflow can promise platform outcomes." />
+        <ul class="cautions-list">{page.cautions.map((item) => <li>{item}</li>)}</ul>
+      </section>
+    )}
+
+    <Blocks sections={page.sections} evidence={page.evidence} />
+    <RelatedLinks paths={page.related} />
+  </article>
+</BaseLayout>
+
+<style>
+  .family-section { margin-top: 4.5rem; }
+  .family-section h2 { font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+  .cautions-list { color: var(--ink-2); font-size: .95rem; margin-top: 1rem; }
+</style>

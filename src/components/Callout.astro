@@ -1,0 +1,23 @@
+---
+/** Toned aside. Pass `body` for a single paragraph or use the slot for richer content. */
+interface Props { tone?: 'note' | 'tip' | 'warning'; title?: string; body?: string }
+const { tone = 'note', title, body } = Astro.props;
+const defaultTitle = { note: 'Note', tip: 'Tip', warning: 'Warning' }[tone];
+---
+<aside class:list={['callout-block', tone]} aria-label={title ?? defaultTitle}>
+  <strong class="callout-title">{title ?? defaultTitle}</strong>
+  {body && <p>{body}</p>}
+  <slot />
+</aside>
+
+<style>
+  .callout-block { background: var(--violet-soft); border-left: .3rem solid var(--violet); border-radius: 0 var(--r-md) var(--r-md) 0; margin: 1.4rem 0; padding: 1.1rem 1.4rem; }
+  .callout-block.tip { background: var(--signal-soft); border-left-color: var(--signal); }
+  .callout-block.warning { background: #fff8ef; border-left-color: var(--warn); }
+  .callout-title { display: block; font: 700 .68rem/1.2 var(--font-mono); letter-spacing: .12em; margin-bottom: .4rem; text-transform: uppercase; }
+  .callout-block.note .callout-title { color: var(--violet-deep); }
+  .callout-block.tip .callout-title { color: #0a5f5a; }
+  .callout-block.warning .callout-title { color: var(--warn); }
+  .callout-block p { margin: 0; }
+  .callout-block :global(ul), .callout-block :global(ol) { margin: .4rem 0 0; }
+</style>

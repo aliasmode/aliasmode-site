@@ -1,0 +1,98 @@
+---
+import type { Block, Evidence, Section } from '../data/content/types';
+import Callout from './Callout.astro';
+import CodeCard from './CodeCard.astro';
+import DetectionTable from './DetectionTable.astro';
+import McpToolCatalog from './McpToolCatalog.astro';
+import OpenApiReference from './OpenApiReference.astro';
+import ProcessDiagram from './ProcessDiagram.astro';
+import ProductMockup from './ProductMockup.astro';
+import ProviderTable from './ProviderTable.astro';
+import ProxyCalculator from './ProxyCalculator.astro';
+import SourceNotes from './SourceNotes.astro';
+import StepList from './StepList.astro';
+
+/**
+ * Renders `Section[]` from the content model. `two` keeps the sticky-heading
+ * rhythm (h2 left, copy right); `single` stacks the heading above the copy.
+ * Sections holding a wide block always stack.
+ */
+interface Props { sections: Section[]; evidence?: Evidence[]; columns?: 'two' | 'single' }
+const { sections, evidence = [], columns = 'two' } = Astro.props;
+const wideBlocks = new Set<Block['type']>(['detection', 'calculator', 'providers', 'openapi', 'mcp-catalog']);
+const stacked = (section: Section) => columns === 'single' || section.blocks.some((block) => wideBlocks.has(block.type));
+---
+<div class:list={['content-body', columns]}>
+  {sections.map((section) => (
+    <section id={section.id} class:list={['content-section', { stacked: stacked(section) }]} aria-labelledby={`${section.id}-title`}>
+      <div><h2 id={`${section.id}-title`}>{section.title}</h2></div>
+      <div class="content-section-copy">
+        {section.blocks.map((block) => (
+          <>
+            {block.type === 'prose' && block.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            {block.type === 'bullets' && <ul>{block.items.map((item) => <li>{item}</li>)}</ul>}
+            {block.type === 'numbered' && <ol>{block.items.map((item) => <li>{item}</li>)}</ol>}
+            {block.type === 'steps' && <StepList steps={block.items} />}
+            {block.type === 'table' && (
+              <div class="table-scroll block-table" tabindex="0" role="region">
+                <table>
+                  {block.caption && <caption>{block.caption}</caption>}
+                  <thead><tr>{block.columns.map((column) => <th scope="col">{column}</th>)}</tr></thead>
+                  <tbody>{block.rows.map((row) => <tr>{row.map((cell, index) => index === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>)}</tr>)}</tbody>
+                </table>
+              </div>
+            )}
+            {block.type === 'code' && <CodeCard code={block.code} title={block.title} language={block.language} />}
+            {block.type === 'callout' && <Callout tone={block.tone} title={block.title} body={block.body} />}
+            {block.type === 'links' && <div class="section-links">{block.items.map((link) => <a href={link.href}>{link.label} <i aria-hidden="true">→</i></a>)}</div>}
+            {block.type === 'faq' && <div class="faq">{block.items.map((item) => <details><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div>}
+            {block.type === 'diagram' && <ProcessDiagram variant={block.variant} title={block.title} nodes={block.nodes} />}
+            {block.type === 'mockup' && <ProductMockup variant={block.variant} title={block.title} rows={block.rows} />}
+            {block.type === 'detection' && <DetectionTable />}
+            {block.type === 'calculator' && <ProxyCalculator />}
+            {block.type === 'providers' && <ProviderTable />}
+            {block.type === 'openapi' && <OpenApiReference />}
+            {block.type === 'mcp-catalog' && <McpToolCatalog />}
+            {block.type === 'sources' && <SourceNotes evidence={evidence} />}
+          </>
+        ))}
+      </div>
+    </section>
+  ))}
+</div>
+
+<style>
+  .content-body.single .content-section, .content-section.stacked { grid-template-columns: 1fr; }
+  .content-body.single .content-section h2, .content-section.stacked h2 { position: static; }
+  .content-body.single { gap: 3rem; }
+  .content-body.single .content-section h2 { font-size: clamp(1.55rem, 2.4vw, 2rem); margin-bottom: .4rem; }
+  .content-section-copy { min-width: 0; }
+  .content-section-copy > p { color: var(--ink-2); font-size: .98rem; }
+  .content-section-copy > ul, .content-section-copy > ol { color: var(--ink-2); font-size: .96rem; }
+  .content-section-copy :global(.detection-results) { margin: 0; }
+  .content-section-copy :global(.detection-results h2) { font-size: 1.4rem; position: static; }
+
+  .block-table { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); margin: 1.4rem 0; }
+  .block-table table { min-width: 36rem; }
+  .block-table caption { caption-side: top; color: var(--ink-3); font-size: .78rem; padding: .8rem .9rem; text-align: left; }
+  .block-table th[scope="row"] { background: var(--panel-2); color: var(--ink); font-family: var(--font-body); font-size: .88rem; font-weight: 700; letter-spacing: 0; text-transform: none; }
+  .block-table td { font-size: .9rem; }
+  .block-table tbody tr:last-child th, .block-table tbody tr:last-child td { border-bottom: 0; }
+
+  .section-links { display: flex; flex-wrap: wrap; gap: .6rem .8rem; margin-top: 1.3rem; }
+  .section-links a { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-pill); color: var(--violet-deep); font-size: .86rem; font-weight: 700; padding: .5rem 1rem; text-decoration: none; transition: background .16s ease, border-color .16s ease; }
+  .section-links a:hover { background: var(--violet-soft); border-color: var(--violet-line); }
+  .section-links i { display: inline-block; font-style: normal; transition: transform .16s ease; }
+  .section-links a:hover i { transform: translateX(.2rem); }
+
+  .faq { display: grid; gap: .5rem; margin: 1.2rem 0; }
+  .faq details { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-md); padding: 0 1.2rem; }
+  .faq details[open] { border-color: var(--violet-line); }
+  .faq summary { cursor: pointer; font-family: var(--font-display); font-size: 1.02rem; font-weight: 700; letter-spacing: -.02em; list-style: none; padding: .95rem 1.8rem .95rem 0; position: relative; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { color: var(--violet); content: '+'; font-size: 1.3rem; font-weight: 400; line-height: 1; position: absolute; right: 0; top: .85rem; transition: transform .18s ease; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq summary:hover { color: var(--violet-deep); }
+  .faq p { color: var(--ink-2); font-size: .94rem; margin: 0 0 1rem; }
+  @media (prefers-reduced-motion: reduce) { .section-links a, .section-links i, .faq summary::after { transition: none; } }
+</style>

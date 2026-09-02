@@ -1,29 +1,24 @@
 ---
+import type { CtaType } from '../data/content/types';
+
 interface Props {
   href: string;
   label: string;
-  type: string;
-  pageGroup: string;
+  type: CtaType;
+  class?: string;
   destination?: string;
   campaign?: string;
-  class?: string;
 }
-const {
-  href,
-  label,
-  type,
-  pageGroup,
-  destination = 'aliasmode',
-  campaign = '',
-  class: className = 'button',
-} = Astro.props;
+const { href, label, type, class: className = 'button', destination, campaign } = Astro.props;
+const external = /^https?:\/\//.test(href);
+const resolvedDestination = destination ?? (href.startsWith('https://xreacher.com') ? 'xreacher' : href.startsWith('https://github.com') ? 'github' : 'aliasmode');
 ---
 <a
   href={href}
   class={className}
+  rel={external ? 'noopener' : undefined}
   data-track-cta
   data-cta-type={type}
-  data-page-group={pageGroup}
-  data-destination={destination}
+  data-destination={resolvedDestination}
   data-campaign={campaign}
 >{label}</a>

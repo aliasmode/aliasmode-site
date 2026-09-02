@@ -1,0 +1,51 @@
+---
+/** Pure-CSS diagram. `flow` joins pill nodes with arrows; `layers` stacks them as bands. */
+interface Props { variant: 'flow' | 'layers'; title?: string; nodes: { label: string; detail?: string }[] }
+const { variant, title, nodes } = Astro.props;
+---
+<figure class:list={['diagram', variant]}>
+  {title && <figcaption>{title}</figcaption>}
+  <ol>
+    {nodes.map((node) => (
+      <li><strong>{node.label}</strong>{node.detail && <small>{node.detail}</small>}</li>
+    ))}
+  </ol>
+</figure>
+
+<style>
+  .diagram { margin: 1.6rem 0; max-width: 100%; }
+  .diagram figcaption { color: var(--ink-3); font: 700 .68rem/1.2 var(--font-mono); letter-spacing: .12em; margin-bottom: .8rem; text-transform: uppercase; }
+  .diagram ol { list-style: none; margin: 0; max-width: none; padding: 0; }
+  .diagram li { margin: 0; min-width: 0; }
+  .diagram strong { display: block; font-family: var(--font-display); letter-spacing: -.02em; }
+  .diagram small { display: block; font-size: .78rem; line-height: 1.45; margin-top: .2rem; }
+
+  /* Flow: pills in a row, arrows between them, wrapping into a column on phones. */
+  .flow ol { display: flex; flex-wrap: wrap; gap: .6rem 1.7rem; }
+  .flow li { background: #fff; border: 1px solid var(--violet-line); border-radius: var(--r-md); box-shadow: var(--shadow-sm); flex: 1 1 9rem; padding: .85rem 1rem; position: relative; }
+  .flow li:first-child { background: linear-gradient(150deg, #7c5cff, var(--violet)); border-color: transparent; color: #fff; }
+  .flow li:first-child small { color: #e4dbff; }
+  .flow li:last-child { background: linear-gradient(150deg, var(--night), #241d47); border-color: transparent; color: #fff; }
+  .flow li:last-child small { color: var(--night-ink); }
+  .flow small { color: var(--ink-2); }
+  .flow li + li::before { color: var(--violet); content: '\2192'; font-size: 1.1rem; font-weight: 800; left: -1.35rem; position: absolute; top: 50%; transform: translateY(-50%); }
+
+  /* Layers: stacked bands from the outermost layer down. */
+  .layers ol { display: grid; gap: .4rem; }
+  .layers li { align-items: baseline; border-radius: var(--r-md); display: grid; gap: .2rem 1.2rem; grid-template-columns: minmax(9rem, .38fr) minmax(0, 1fr); padding: .95rem 1.2rem; }
+  .layers li:nth-child(4n+1) { background: linear-gradient(150deg, var(--night), #241d47); color: #fff; }
+  .layers li:nth-child(4n+1) small { color: var(--night-ink); }
+  .layers li:nth-child(4n+2) { background: linear-gradient(150deg, #7c5cff, var(--violet)); color: #fff; }
+  .layers li:nth-child(4n+2) small { color: #e4dbff; }
+  .layers li:nth-child(4n+3) { background: var(--violet-soft); color: var(--violet-ink); }
+  .layers li:nth-child(4n+4) { background: var(--peach-soft); color: var(--ink); }
+  .layers li:nth-child(4n+3) small, .layers li:nth-child(4n+4) small { color: var(--ink-2); }
+  .layers small { margin-top: 0; }
+
+  @media (max-width: 36rem) {
+    .flow ol { flex-direction: column; gap: 1.4rem; }
+    .flow li { flex-basis: auto; }
+    .flow li + li::before { content: '\2193'; left: 50%; top: -1.25rem; transform: translateX(-50%); }
+    .layers li { grid-template-columns: 1fr; }
+  }
+</style>

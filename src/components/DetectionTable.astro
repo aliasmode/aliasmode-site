@@ -23,7 +23,7 @@ const isTechnical = (check: string) => /^(navigator\.|window\.|UA string|CDP|TLS
   <p class="detection-lead">{lead}</p>
   <p class="detection-meta">All tests verified against live detection services. Last tested: <strong>{detectionLastTested}</strong> ({detectionBrowserVersion}).</p>
 
-  <div class="table-scroll detection-table">
+  <div class="table-scroll detection-table" tabindex="0" role="region">
     <table>
       <thead>
         <tr>

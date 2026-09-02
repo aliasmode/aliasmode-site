@@ -1,0 +1,28 @@
+---
+import type { Section } from '../data/content/types';
+
+/** In-page table of contents built from section ids. Sticky on wide screens. */
+interface Props { sections: Section[]; label?: string }
+const { sections, label = 'On this page' } = Astro.props;
+---
+<nav class="section-nav" aria-labelledby="section-nav-title">
+  <p class="eyebrow" id="section-nav-title">{label}</p>
+  <ol>
+    {sections.map((section) => <li><a href={`#${section.id}`}>{section.title}</a></li>)}
+  </ol>
+</nav>
+
+<style>
+  .section-nav { align-self: start; position: sticky; top: calc(var(--header-h) + 1.25rem); }
+  .section-nav ol { border-left: 2px solid var(--line-2); display: grid; gap: .1rem; list-style: none; margin: .8rem 0 0; padding: 0; }
+  .section-nav li { margin: 0; }
+  .section-nav a { border-left: 2px solid transparent; color: var(--ink-2); display: block; font-size: .84rem; font-weight: 600; margin-left: -2px; padding: .35rem .85rem; text-decoration: none; transition: border-color .15s ease, color .15s ease; }
+  .section-nav a:hover { border-left-color: var(--violet); color: var(--violet-deep); }
+  @media (max-width: 60rem) {
+    .section-nav { position: static; }
+    .section-nav ol { border: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+    .section-nav a { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-pill); margin: 0; padding: .4rem .85rem; }
+    .section-nav a:hover { background: var(--violet-soft); border-color: var(--violet-line); }
+  }
+  @media (prefers-reduced-motion: reduce) { .section-nav a { transition: none; } }
+</style>

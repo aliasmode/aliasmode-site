@@ -1,0 +1,136 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Blocks from '../components/Blocks.astro';
+import ComparisonTable from '../components/ComparisonTable.astro';
+import DirectAnswer from '../components/DirectAnswer.astro';
+import PageHero from '../components/PageHero.astro';
+import RelatedLinks from '../components/RelatedLinks.astro';
+import SourceNotes from '../components/SourceNotes.astro';
+import { siteConfig } from '../../site.config.mjs';
+import type { ComparisonPage } from '../data/content/types';
+
+interface Props { page: ComparisonPage }
+const { page } = Astro.props;
+const url = new URL(page.path, siteConfig.metadataOrigin).toString();
+
+const schema: Record<string, unknown>[] = [
+  {
+    '@type': 'Article',
+    headline: page.title,
+    description: page.description,
+    articleSection: page.variant === 'vendor' ? 'Antidetect browser comparison' : 'Browser ecosystem landscape',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    about: page.variant === 'vendor'
+      ? [
+          { '@type': 'SoftwareApplication', name: 'AliasMode', applicationCategory: 'SecurityApplication', operatingSystem: 'Windows' },
+          { '@type': 'SoftwareApplication', name: page.vendor?.name ?? 'Competitor browser', applicationCategory: 'SecurityApplication' },
+        ]
+      : { '@type': 'Thing', name: page.eyebrow },
+  },
+];
+if (page.variant === 'ecosystem' && page.products?.length) {
+  schema.push({
+    '@type': 'ItemList',
+    itemListElement: page.products.map((product, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: product.name,
+      description: product.summary,
+    })),
+  });
+}
+---
+<BaseLayout layout="sections" schema={schema}>
+  <article data-page-family="comparison">
+    <PageHero
+      eyebrow={page.eyebrow}
+      title={page.h1}
+      lead={page.lead}
+      primary={page.primaryCta}
+      secondary={page.secondaryCta}
+      meta={`Facts last verified ${page.checkedOn}. Official sources appear beside comparison rows.`}
+    />
+    {page.directAnswer && <DirectAnswer text={page.directAnswer} />}
+    {page.facts && <div class="fact-strip">{page.facts.map((fact) => <div><strong>{fact.value}</strong><span>{fact.label}</span></div>)}</div>}
+
+    {page.variant === 'vendor' && page.rows && (
+      <section class="family-section" aria-labelledby="side-by-side-title">
+        <h2 id="side-by-side-title">AliasMode vs {page.vendor?.name}</h2>
+        <ComparisonTable rows={page.rows} competitor={page.vendor?.name ?? 'the competitor'} evidence={page.evidence} />
+      </section>
+    )}
+
+    {page.variant === 'vendor' && (page.aliasModeFits?.length || page.competitorFits?.length) && (
+      <section class="fit-grid" aria-label="Who should choose each product?">
+        <h2 class="sr-only">Who should choose each product?</h2>
+        <div>
+          <h3>Choose AliasMode when</h3>
+          <ul>{page.aliasModeFits?.map((item) => <li>{item}</li>)}</ul>
+        </div>
+        <div>
+          <h3>Choose {page.vendor?.name} when</h3>
+          <ul>{page.competitorFits?.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </section>
+    )}
+
+    {page.variant === 'vendor' && page.migration?.length && (
+      <section class="family-section" aria-labelledby="migration-title">
+        <h2 id="migration-title">Migration plan</h2>
+        <p class="section-intro">Move one verified workflow at a time and keep the original data until every check passes.</p>
+        <ol class="migration-list">{page.migration.map((item) => <li>{item}</li>)}</ol>
+      </section>
+    )}
+
+    {page.variant === 'ecosystem' && page.products?.length && (
+      <section class="family-section" aria-labelledby="landscape-title">
+        <h2 id="landscape-title">Products in this landscape</h2>
+        <div class="table-scroll family-table" tabindex="0" role="region">
+          <table>
+            <thead><tr><th scope="col">Product</th><th scope="col">What it does</th><th scope="col">Best for</th><th scope="col">Model</th></tr></thead>
+            <tbody>
+              {page.products.map((product) => (
+                <tr>
+                  <th scope="row">{product.name}</th>
+                  <td>{product.summary}</td>
+                  <td>{product.bestFor}</td>
+                  <td>{product.pricing ?? product.license ?? '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )}
+
+    <Blocks sections={page.sections} evidence={page.evidence} />
+
+    {page.evidence?.length && (
+      <section class="family-section" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">Official product evidence</h2>
+        <SourceNotes evidence={page.evidence} id="evidence-sources" />
+      </section>
+    )}
+
+    <RelatedLinks paths={page.related} />
+  </article>
+</BaseLayout>
+
+<style>
+  .family-section { margin-top: 4.5rem; }
+  .family-section h2 { font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+  .section-intro { color: var(--ink-2); margin-top: .6rem; }
+  .fit-grid { display: grid; gap: .8rem; grid-template-columns: 1fr 1fr; margin-top: 4.5rem; }
+  .fit-grid h2 { grid-column: 1 / -1; font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+  .fit-grid > div { background: var(--panel-2); border: 1px solid var(--line); border-radius: var(--r-md); padding: clamp(1.4rem, 3vw, 2.2rem); }
+  .fit-grid > div + div { background: var(--violet-soft); border-color: var(--violet-line); }
+  .fit-grid h3 { font-size: 1.15rem; margin-bottom: .8rem; }
+  .fit-grid ul { color: var(--ink-2); font-size: .95rem; }
+  .migration-list { color: var(--ink-2); font-size: .95rem; }
+  .family-table { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); margin-top: 1.4rem; }
+  .family-table table { min-width: 34rem; }
+  .family-table th[scope="row"] { background: var(--panel-2); color: var(--ink); font-family: var(--font-body); font-size: .9rem; font-weight: 700; letter-spacing: 0; text-transform: none; }
+  .family-table td { font-size: .9rem; }
+  .sr-only { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+  @media (max-width: 48rem) { .fit-grid { grid-template-columns: 1fr; } }
+</style>

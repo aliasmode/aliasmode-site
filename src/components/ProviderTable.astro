@@ -1,0 +1,41 @@
+---
+import { proxyCriteria, proxyProviders } from '../data/proxy-providers';
+/** Proxy provider comparison. Provider names and source labels are plain text, never outbound links. */
+---
+<div class="provider-block">
+  <h3>Evaluation criteria</h3>
+  <p class="muted">The same questions, in the same order, for every provider.</p>
+  <ol class="criteria">{proxyCriteria.map((criterion) => <li>{criterion}</li>)}</ol>
+  <div class="table-scroll provider-table" tabindex="0" role="region">
+    <table>
+      <caption>Static residential and ISP proxy providers, from public product pages</caption>
+      <thead><tr><th scope="col">Provider</th><th scope="col">Best fit</th><th scope="col">Public offer</th><th scope="col">Targeting and protocols</th><th scope="col">Commercial model</th><th scope="col">Source</th></tr></thead>
+      <tbody>
+        {proxyProviders.map((provider) => (
+          <tr>
+            <th scope="row">{provider.name}</th>
+            <td>{provider.fit}</td>
+            <td>{provider.publicOffer}</td>
+            <td>{provider.targeting} {provider.protocols}</td>
+            <td>{provider.commercialModel}</td>
+            <td class="source">{provider.sourceLabel}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .provider-block h3 { margin-top: 0; }
+  .criteria { columns: 2; column-gap: 2rem; font-size: .92rem; margin: .8rem 0 0; max-width: none; }
+  .criteria li { break-inside: avoid; }
+  .provider-table { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); margin: 1.8rem 0 0; }
+  .provider-table table { min-width: 68rem; }
+  .provider-table caption { caption-side: top; color: var(--ink-3); font-size: .78rem; padding: .8rem .9rem; text-align: left; }
+  .provider-table td { font-size: .88rem; min-width: 12rem; }
+  .provider-table th[scope="row"] { background: var(--panel-2); color: var(--ink); font-family: var(--font-body); font-size: .95rem; letter-spacing: 0; text-transform: none; white-space: nowrap; }
+  .provider-table td.source { color: var(--ink-3); font-size: .78rem; }
+  .provider-table tbody tr:last-child th, .provider-table tbody tr:last-child td { border-bottom: 0; }
+  @media (max-width: 36rem) { .criteria { columns: 1; } }
+</style>
