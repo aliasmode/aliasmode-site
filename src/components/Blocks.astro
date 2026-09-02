@@ -34,7 +34,7 @@ const stacked = (section: Section) => columns === 'single' || section.blocks.som
             {block.type === 'numbered' && <ol>{block.items.map((item) => <li>{item}</li>)}</ol>}
             {block.type === 'steps' && <StepList steps={block.items} />}
             {block.type === 'table' && (
-              <div class="table-scroll block-table">
+              <div class="table-scroll block-table" tabindex="0" role="region">
                 <table>
                   {block.caption && <caption>{block.caption}</caption>}
                   <thead><tr>{block.columns.map((column) => <th scope="col">{column}</th>)}</tr></thead>
