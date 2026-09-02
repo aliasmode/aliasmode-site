@@ -1,9 +1,10 @@
 {
   "schemaVersion": 1,
   "productVersion": "0.1.0-beta.47",
-  "productRef": "88e0acc5adafa703e6a8f54160855b2934505390",
+  "productRef": "5dc04af362285acfa4c5da887f07a08e64bc7dee",
   "releasedVersions": [
-    "0.1.0-beta.42"
+    "0.1.0-beta.42",
+    "0.1.0-beta.47"
   ],
   "artifacts": {
     "openapi": {
@@ -17,6 +18,10 @@
     "mcp:0.1.0-beta.42": {
       "path": "mcp-tools/0.1.0-beta.42.json",
       "sha256": "a868580f141c2252e3102d66b64e0a98c5bcf1cf6705d4e31b8614e7a8d297bd"
+    },
+    "mcp:0.1.0-beta.47": {
+      "path": "mcp-tools/0.1.0-beta.47.json",
+      "sha256": "b9d76f95b60024b54db03db2fa72b2c741f7165872ffa725bb7afef2b0705170"
     }
   }
 }

@@ -27,7 +27,7 @@ export const macosDocs: DocsPage = {
     { value: 'Apache-2.0', label: 'Client source license' },
   ],
   requirements: [ 'Bun, a current release for macOS', 'Rust and Tauri prerequisites for desktop builds', 'A supported CloakBrowser installation', 'Git for cloning the repository' ],
-  versionNote: 'Commands match the current repository README. The packaged Windows installer (0.1.0-beta.42) is the supported release; macOS runs from source at the current source version (0.1.0-beta.47).',
+  versionNote: 'Commands match the current repository README. The packaged Windows installer (0.1.0-beta.47) is the supported release; macOS runs from source at the current source version (0.1.0-beta.47).',
   testedOn: '2026-09-01',
   sections: [
     { id: 'what-works-on-macos', title: 'What works on macOS today', blocks: [ { type: 'prose', paragraphs: [ 'There is no native macOS installer. The download page ships a Windows installer only. On macOS, AliasMode runs from the Apache-2.0 client source with Bun, which gives you the dashboard and the local runtime on that machine.' ] }, { type: 'bullets', items: [ 'React dashboard served locally', 'Bun/TypeScript sidecar for the local runtime', 'CloakBrowser process lifecycle', 'Local SQLite profile storage', 'Portable session capture and restore', 'Optional AdsPower-compatible API bound to loopback only' ] } ] },

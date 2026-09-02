@@ -9,7 +9,7 @@ export const claudeCodeIntegration: IntegrationPage = {
   h1: 'Give Claude Code your persistent AliasMode profiles.',
   eyebrow: 'Claude Code integration',
   lead: 'AliasMode registers as a user-scope MCP server in Claude Code. Profiles, browser lifecycle, and 31 Playwright page actions become tools your coding agent can call on the Windows machine that holds the profiles.',
-  directAnswer: 'Run aliasmode-mcp setup --yes --client claude in the AliasMode install directory, restart Claude Code, and confirm the 39-tool list (beta.42). The registration is user-scoped, so every project on the machine gets it.',
+  directAnswer: 'Run aliasmode-mcp setup --yes --client claude in the AliasMode install directory, restart Claude Code, and confirm the 40-tool list (beta.47). The registration is user-scoped, so every project on the machine gets it.',
   audience: 'developers',
   intent: 'reference',
   intentKey: 'integration:claude-code',
@@ -27,7 +27,7 @@ export const claudeCodeIntegration: IntegrationPage = {
   testedOn: '2026-09-01',
   facts: [
     { value: 'stdio', label: 'Local transport' },
-    { value: '39', label: 'Tools on beta.42' },
+    { value: '40', label: 'Tools on beta.47' },
     { value: 'User scope', label: 'Registration level' },
   ],
   setup: [
@@ -38,12 +38,12 @@ export const claudeCodeIntegration: IntegrationPage = {
     { title: 'Restart Claude Code', body: 'Start a new session so user-scope servers load, then run /mcp to confirm the aliasmode server connects.' },
     { title: 'Run a browser test', body: 'Ask Claude Code to exercise the profile end to end:', code: 'List my AliasMode profiles.\nOpen the profile named Research headless.\nTake a page snapshot and list the headings.\nClose the browser.' },
   ],
-  verification: [ 'claude mcp list shows the aliasmode server at user scope.', 'The session tool list includes aliasmode_profiles_list plus 31 Playwright actions — 39 tools on the beta.42 installer.', 'aliasmode_browser_open starts the profile and browser_snapshot returns real page content.', 'GET /api/v1/status on 127.0.0.1:50400 responds while the desktop app is open.', 'aliasmode_browser_close ends the session and the profile shows closed in AliasMode.' ],
+  verification: [ 'claude mcp list shows the aliasmode server at user scope.', 'The session tool list includes aliasmode_profiles_list plus 31 Playwright actions — 40 tools on the beta.47 installer.', 'aliasmode_browser_open starts the profile and browser_snapshot returns real page content.', 'GET /api/v1/status on 127.0.0.1:50400 responds while the desktop app is open.', 'aliasmode_browser_close ends the session and the profile shows closed in AliasMode.' ],
   troubleshooting: [
     { symptom: 'Claude Code shows no aliasmode tools', fix: 'Confirm the helper path with claude mcp list, restart the session so user-scope servers load, and rerun aliasmode-mcp setup --yes --client claude after an AliasMode update.' },
     { symptom: 'Tool calls fail with a runtime readiness error', fix: 'The helper starts AliasMode in the background and waits briefly. Open the desktop app manually, wait for the dashboard to load, then retry the call.' },
     { symptom: 'Playwright tools return a selection error', fix: 'Open a profile with aliasmode_browser_open or select an open browser with aliasmode_browser_select before page actions.' },
-    { symptom: 'The tool list shows fewer tools than documented', fix: 'Update to the current release and reconnect so the client reloads the list. beta.42 serves 39 tools; beta.47 source builds add aliasmode_profiles_replace_proxies.' },
+    { symptom: 'The tool list shows fewer tools than documented', fix: 'Update to the current release and reconnect so the client reloads the list. beta.47 serves 40 tools; the previous beta.42 release served 39 aliasmode_profiles_replace_proxies.' },
   ],
   sections: [
     { id: 'what-claude-code-gets', title: 'What Claude Code gets', blocks: [ { type: 'bullets', items: [ 'Profile lifecycle: list, create, and delete profiles from chat', 'Browser control: open headful or headless, select an open browser, check status, close safely', 'Page actions: 31 Playwright tools for navigation, forms, mouse work, screenshots, and verification', 'User-scope registration: available in every project on this machine, not just one repository' ] } ] },
@@ -55,6 +55,6 @@ export const claudeCodeIntegration: IntegrationPage = {
   evidence: [
     { id: 'claude-code-mcp-docs', source: 'Anthropic', title: 'Claude Code documentation — MCP server configuration (claude mcp add)', url: 'https://docs.anthropic.com/en/docs/claude-code/mcp', checkedOn: '2026-09-01' },
     { id: 'mcp-helper-source', source: 'AliasMode repository', title: 'agent/setup.ts — generated Claude Code registration command', url: 'https://github.com/aliasmode/aliasmode/blob/main/agent/setup.ts', checkedOn: '2026-09-01' },
-    { id: 'mcp-catalog-beta-42', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.42 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
+    { id: 'mcp-catalog-beta-47', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.47 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
   ],
 };

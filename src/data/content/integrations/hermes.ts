@@ -9,7 +9,7 @@ export const hermesIntegration: IntegrationPage = {
   h1: 'Give the Hermes agent persistent AliasMode browser profiles.',
   eyebrow: 'Hermes integration',
   lead: 'AliasMode registers as a local stdio MCP server in the Hermes agent. The agent gets profile lifecycle, browser control, and 31 Playwright page actions on the Windows machine that holds the profiles.',
-  directAnswer: 'Run aliasmode-mcp setup --yes --client hermes in the AliasMode install directory, restart the agent, and confirm the aliasmode tool list (39 tools on the beta.42 installer).',
+  directAnswer: 'Run aliasmode-mcp setup --yes --client hermes in the AliasMode install directory, restart the agent, and confirm the aliasmode tool list (40 tools on the beta.47 installer).',
   audience: 'developers',
   intent: 'reference',
   intentKey: 'integration:hermes',
@@ -27,7 +27,7 @@ export const hermesIntegration: IntegrationPage = {
   testedOn: '2026-09-01',
   facts: [
     { value: 'stdio', label: 'Local transport' },
-    { value: '39', label: 'Tools on beta.42' },
+    { value: '40', label: 'Tools on beta.47' },
     { value: 'Local mode', label: 'Works without an account' },
   ],
   setup: [
@@ -38,7 +38,7 @@ export const hermesIntegration: IntegrationPage = {
     { title: 'Restart the agent', body: 'Restart the Hermes agent so the new MCP server loads, then confirm the aliasmode tools appear in the tool list.' },
     { title: 'Run a browser test', body: 'Give the agent a small end-to-end task:', code: 'List my AliasMode profiles.\nOpen the profile named Ops headless, load the dashboard URL, and report the page title.\nClose the browser.' },
   ],
-  verification: [ 'The Hermes tool list shows the aliasmode server with its tools loaded.', 'The tool list includes aliasmode_profiles_list plus 31 Playwright actions — 39 tools on the beta.42 installer.', 'A headless browser opens from a named profile and browser_snapshot returns real page content.', 'GET /api/v1/status on 127.0.0.1:50400 responds on the same machine while the desktop app is open.' ],
+  verification: [ 'The Hermes tool list shows the aliasmode server with its tools loaded.', 'The tool list includes aliasmode_profiles_list plus 31 Playwright actions — 40 tools on the beta.47 installer.', 'A headless browser opens from a named profile and browser_snapshot returns real page content.', 'GET /api/v1/status on 127.0.0.1:50400 responds on the same machine while the desktop app is open.' ],
   troubleshooting: [
     { symptom: 'Hermes does not show the aliasmode tools', fix: 'Rerun aliasmode-mcp setup --yes --client hermes, then restart the agent so the MCP server reloads. Confirm the helper path points inside the AliasMode install directory.' },
     { symptom: 'Tool calls fail with a runtime readiness error', fix: 'The helper starts AliasMode in the background and waits briefly. Open the desktop app manually, wait for the dashboard to load, then retry.' },
@@ -53,6 +53,6 @@ export const hermesIntegration: IntegrationPage = {
   evidence: [
     { id: 'mcp-stdio-spec', source: 'Model Context Protocol', title: 'MCP specification — stdio transport and server lifecycle', url: 'https://modelcontextprotocol.io/docs/concepts/transports', checkedOn: '2026-09-01' },
     { id: 'mcp-helper-source', source: 'AliasMode repository', title: 'agent/setup.ts — generated Hermes registration command', url: 'https://github.com/aliasmode/aliasmode/blob/main/agent/setup.ts', checkedOn: '2026-09-01' },
-    { id: 'mcp-catalog-beta-42', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.42 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
+    { id: 'mcp-catalog-beta-47', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.47 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
   ],
 };

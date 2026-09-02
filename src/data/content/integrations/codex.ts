@@ -9,7 +9,7 @@ export const codexIntegration: IntegrationPage = {
   h1: 'Point Codex CLI at your persistent AliasMode profiles.',
   eyebrow: 'Codex CLI integration',
   lead: 'AliasMode registers as a local stdio MCP server in Codex CLI. Profile lifecycle, browser control, and the Playwright action set become tools the terminal agent can call on the machine that holds the profiles.',
-  directAnswer: 'Run aliasmode-mcp setup --yes --client codex, or add the server by hand with codex mcp add. Codex writes the aliasmode entry to ~/.codex/config.toml and loads 39 tools from the beta.42 installer.',
+  directAnswer: 'Run aliasmode-mcp setup --yes --client codex, or add the server by hand with codex mcp add. Codex writes the aliasmode entry to ~/.codex/config.toml and loads 40 tools from the beta.47 installer.',
   audience: 'developers',
   intent: 'reference',
   intentKey: 'integration:codex',
@@ -28,7 +28,7 @@ export const codexIntegration: IntegrationPage = {
   facts: [
     { value: 'stdio', label: 'Local transport' },
     { value: 'config.toml', label: 'Registration file' },
-    { value: '39', label: 'Tools on beta.42' },
+    { value: '40', label: 'Tools on beta.47' },
   ],
   setup: [
     { title: 'Install AliasMode on Windows', body: 'Download the installer, install CloakBrowser, and create at least one profile. Keep the desktop app available; the MCP helper starts it in the background when needed.' },
@@ -38,7 +38,7 @@ export const codexIntegration: IntegrationPage = {
     { title: 'Confirm the config file', body: 'The command writes an mcp_servers.aliasmode entry to the Codex config at %USERPROFILE%\\.codex\\config.toml:', code: '[mcp_servers.aliasmode]\ncommand = "C:\\\\Users\\\\<you>\\\\AppData\\\\Local\\\\AliasMode\\\\aliasmode-mcp.exe"\nargs = ["serve"]' },
     { title: 'Run a browser test', body: 'Start Codex in the repo where the work happens and ask for a profile run:', code: 'List my AliasMode profiles.\nOpen the profile named Checkout headless, visit the staging site, and save a screenshot.\nClose the browser.' },
   ],
-  verification: [ 'codex mcp list shows the aliasmode server.', 'The config.toml entry points at aliasmode-mcp.exe with the serve argument.', 'The tool list includes aliasmode_profiles_list plus 31 Playwright actions — 39 tools on the beta.42 installer.', 'A headless browser opens from a named profile and browser_snapshot returns real page content.', 'Closing the browser returns the profile to closed state in AliasMode.' ],
+  verification: [ 'codex mcp list shows the aliasmode server.', 'The config.toml entry points at aliasmode-mcp.exe with the serve argument.', 'The tool list includes aliasmode_profiles_list plus 31 Playwright actions — 40 tools on the beta.47 installer.', 'A headless browser opens from a named profile and browser_snapshot returns real page content.', 'Closing the browser returns the profile to closed state in AliasMode.' ],
   troubleshooting: [
     { symptom: 'Codex does not list the aliasmode server', fix: 'Rerun codex mcp add, confirm %USERPROFILE%\\.codex\\config.toml contains the mcp_servers.aliasmode block, and restart the Codex session.' },
     { symptom: 'The path in config.toml fails after hand-editing', fix: 'Escape backslashes in TOML basic strings ("C:\\\\Users\\\\...") or switch the value to a single-quoted TOML literal string.' },
@@ -53,6 +53,6 @@ export const codexIntegration: IntegrationPage = {
   evidence: [
     { id: 'codex-mcp-docs', source: 'OpenAI', title: 'Codex documentation — MCP server configuration (config.toml mcp_servers)', url: 'https://developers.openai.com/codex/mcp', checkedOn: '2026-09-01' },
     { id: 'mcp-helper-source', source: 'AliasMode repository', title: 'agent/setup.ts — generated Codex registration command', url: 'https://github.com/aliasmode/aliasmode/blob/main/agent/setup.ts', checkedOn: '2026-09-01' },
-    { id: 'mcp-catalog-beta-42', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.42 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
+    { id: 'mcp-catalog-beta-47', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.47 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
   ],
 };

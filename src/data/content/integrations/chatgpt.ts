@@ -38,11 +38,11 @@ export const chatgptIntegration: IntegrationPage = {
     { title: 'Or create a bearer connector', body: 'For API and agent clients that use static credentials, create a connector token on the Windows host and configure the client to send it as Authorization: Bearer.', code: 'cd "%LOCALAPPDATA%\\AliasMode"\naliasmode-mcp remote-mcp create --name "ChatGPT"\naliasmode-mcp remote-mcp list' },
     { title: 'Run a first task', body: 'Select a profile, then let ChatGPT work:', code: 'List my AliasMode profiles.\nOpen the profile named Research headless.\nTake a page snapshot and summarize the page.\nClose the browser.' },
   ],
-  verification: [ 'The connector shows as connected in ChatGPT and lists the AliasMode tools.', 'The tool list includes aliasmode_profiles_list plus 31 Playwright actions — 39 tools on the beta.42 installer.', 'Asking for profiles returns the roster of the Windows host, not another device.', 'A headless open plus browser_snapshot returns real page content from the host browser.', 'Closing the browser ends the session and the profile shows closed on the host.' ],
+  verification: [ 'The connector shows as connected in ChatGPT and lists the AliasMode tools.', 'The tool list includes aliasmode_profiles_list plus 31 Playwright actions — 40 tools on the beta.47 installer.', 'Asking for profiles returns the roster of the Windows host, not another device.', 'A headless open plus browser_snapshot returns real page content from the host browser.', 'Closing the browser ends the session and the profile shows closed on the host.' ],
   troubleshooting: [
     { symptom: 'Creating the connector fails', fix: 'Confirm developer mode is on, paste the URL exactly as Account & Settings shows it, and retry. The host must be online and signed in during registration.' },
     { symptom: 'Tools appear but calls fail with an offline error', fix: 'AliasMode is closed or the Windows machine is asleep. Reopen the app and keep the machine awake; remote clients cannot queue work for an offline device.' },
-    { symptom: 'Some AliasMode tools are missing in ChatGPT', fix: 'ChatGPT loads the tool list the connector advertises. beta.42 serves 39 tools; beta.47 source builds add aliasmode_profiles_replace_proxies. Reconnect the connector after updates.' },
+    { symptom: 'Some AliasMode tools are missing in ChatGPT', fix: 'ChatGPT loads the tool list the connector advertises. beta.47 serves 40 tools; the previous beta.42 release served 39 aliasmode_profiles_replace_proxies. Reconnect the connector after updates.' },
     { symptom: 'Playwright actions return a selection error', fix: 'Open a profile or select an already-open browser first; lifecycle tools work without a selection, page actions do not.' },
   ],
   sections: [
@@ -54,6 +54,6 @@ export const chatgptIntegration: IntegrationPage = {
     { id: 'openai-connectors-docs', source: 'OpenAI', title: 'Help Center — developer mode and custom connectors in ChatGPT', url: 'https://help.openai.com/', checkedOn: '2026-09-01' },
     { id: 'mcp-auth-spec', source: 'Model Context Protocol', title: 'MCP authorization specification — OAuth 2.1 flow used by remote servers', url: 'https://modelcontextprotocol.io/specification', checkedOn: '2026-09-01' },
     { id: 'cloud-client-source', source: 'AliasMode repository', title: 'cloud-client.ts — pinned Remote MCP device URL format and connector management', url: 'https://github.com/aliasmode/aliasmode/blob/main/cloud-client.ts', checkedOn: '2026-09-01' },
-    { id: 'mcp-catalog-beta-42', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.42 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
+    { id: 'mcp-catalog-beta-47', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.47 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
   ],
 };

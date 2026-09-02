@@ -27,7 +27,7 @@ export const linuxRemoteMcpDocs: DocsPage = {
     { value: 'Bearer', label: 'Connector tokens for CLIs' },
   ],
   requirements: [ 'A Windows host with AliasMode running in Cloud mode', 'AliasMode Cloud account on the host and the client side', 'An MCP client on Linux that supports OAuth or bearer authorization', 'The pinned Remote MCP server URL from the host' ],
-  versionNote: 'Remote MCP behavior is documented against the released 0.1.0-beta.42 installer and the current source build (0.1.0-beta.47). Linux remains a client-only platform.',
+  versionNote: 'Remote MCP behavior is documented against the released 0.1.0-beta.47 installer and the previous 0.1.0-beta.42 release. Linux remains a client-only platform.',
   testedOn: '2026-09-01',
   sections: [
     { id: 'no-native-linux-app', title: 'No native Linux app', blocks: [ { type: 'prose', paragraphs: [ 'AliasMode ships a Windows installer and a macOS source run. There is no native Linux app or local Linux dashboard, and the loopback Local API is not part of a Linux story either. Linux works as the MCP client; the browser host stays a running Windows device.' ] }, { type: 'bullets', items: [ 'List and create profiles on the Windows host', 'Open browsers headful or headless on the host', 'Run the full Playwright action set in the selected browser', 'Check browser status and capture and close browsers safely' ] } ] },

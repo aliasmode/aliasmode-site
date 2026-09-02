@@ -9,7 +9,7 @@ export const openclawIntegration: IntegrationPage = {
   h1: 'Give OpenClaw your persistent AliasMode browser profiles.',
   eyebrow: 'OpenClaw integration',
   lead: 'AliasMode registers as a local stdio MCP server in OpenClaw. The assistant gets profile lifecycle, browser control, and 31 Playwright page actions on the Windows machine that holds the profiles.',
-  directAnswer: 'Run aliasmode-mcp setup --yes --client openclaw in the AliasMode install directory, restart the OpenClaw gateway, and confirm the aliasmode tool list (39 tools on the beta.42 installer).',
+  directAnswer: 'Run aliasmode-mcp setup --yes --client openclaw in the AliasMode install directory, restart the OpenClaw gateway, and confirm the aliasmode tool list (40 tools on the beta.47 installer).',
   audience: 'developers',
   intent: 'reference',
   intentKey: 'integration:openclaw',
@@ -27,7 +27,7 @@ export const openclawIntegration: IntegrationPage = {
   testedOn: '2026-09-01',
   facts: [
     { value: 'stdio', label: 'Local transport' },
-    { value: '39', label: 'Tools on beta.42' },
+    { value: '40', label: 'Tools on beta.47' },
     { value: 'Loopback', label: 'Everything stays on-device' },
   ],
   setup: [
@@ -38,7 +38,7 @@ export const openclawIntegration: IntegrationPage = {
     { title: 'Restart the gateway', body: 'Restart the OpenClaw gateway (or its equivalent runtime) so the new MCP server loads, then confirm the aliasmode tools appear in the tool list.' },
     { title: 'Run a browser test', body: 'Give the assistant a small end-to-end task:', code: 'List my AliasMode profiles.\nOpen the profile named Research headless and take a snapshot of the page.\nClose the browser.' },
   ],
-  verification: [ 'The OpenClaw tool list shows the aliasmode server with its tools loaded.', 'The tool list includes aliasmode_profiles_list plus 31 Playwright actions — 39 tools on the beta.42 installer.', 'A headless browser opens from a named profile and browser_snapshot returns real page content.', 'GET /api/v1/status on 127.0.0.1:50400 responds on the same machine while the desktop app is open.' ],
+  verification: [ 'The OpenClaw tool list shows the aliasmode server with its tools loaded.', 'The tool list includes aliasmode_profiles_list plus 31 Playwright actions — 40 tools on the beta.47 installer.', 'A headless browser opens from a named profile and browser_snapshot returns real page content.', 'GET /api/v1/status on 127.0.0.1:50400 responds on the same machine while the desktop app is open.' ],
   troubleshooting: [
     { symptom: 'OpenClaw does not show the aliasmode tools', fix: 'Rerun aliasmode-mcp setup --yes --client openclaw, then restart the gateway so the MCP server reloads. Confirm the helper path points inside the AliasMode install directory.' },
     { symptom: 'Tool calls fail with a runtime readiness error', fix: 'The helper starts AliasMode in the background and waits briefly. Open the desktop app manually, wait for the dashboard to load, then retry.' },
@@ -53,6 +53,6 @@ export const openclawIntegration: IntegrationPage = {
   evidence: [
     { id: 'openclaw-docs', source: 'OpenClaw', title: 'OpenClaw documentation — MCP server configuration', url: 'https://docs.openclaw.ai/', checkedOn: '2026-09-01' },
     { id: 'mcp-helper-source', source: 'AliasMode repository', title: 'agent/setup.ts — generated OpenClaw registration command', url: 'https://github.com/aliasmode/aliasmode/blob/main/agent/setup.ts', checkedOn: '2026-09-01' },
-    { id: 'mcp-catalog-beta-42', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.42 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
+    { id: 'mcp-catalog-beta-47', source: 'AliasMode', title: 'Generated MCP tool catalog for the released 0.1.0-beta.47 installer', url: 'https://github.com/aliasmode/aliasmode', checkedOn: '2026-09-01' },
   ],
 };
