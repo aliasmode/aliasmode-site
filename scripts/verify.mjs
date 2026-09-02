@@ -158,6 +158,16 @@ if (JSON.stringify(sitemapUrls) !== JSON.stringify(expectedSitemapUrls)) fail('s
 if (sitemap.includes('/auth/') || sitemap.includes('/404')) fail('sitemap contains a private route');
 
 const home = page('/');
+const homeGraph = jsonLdFrom(home).flatMap((item) => Array.isArray(item['@graph']) ? item['@graph'] : [item]);
+const organizationId = `${expectedOrigin}/#organization`;
+const organization = homeGraph.find((item) => item['@id'] === organizationId);
+if (organization?.['@type'] !== 'Organization' || organization.name !== 'AliasMode' || organization.url !== expectedOrigin) fail('home must identify AliasMode as its primary organization');
+const website = homeGraph.find((item) => item['@type'] === 'WebSite');
+if (website?.name !== 'AliasMode' || website.url !== expectedOrigin || website.publisher?.['@id'] !== organizationId) fail('home WebSite publisher must be AliasMode');
+const headerBrand = home.match(/<a class="brand" href="\/">([\s\S]*?)<\/a>/)?.[1].replace(/<[^>]+>/g, '').trim();
+if (headerBrand !== 'AliasMode') fail('site header must identify the brand as AliasMode');
+const detectionDisclaimer = home.match(/<p class="detection-disclaimer"[^>]*>([\s\S]*?)<\/p>/)?.[1];
+if (!detectionDisclaimer?.includes('data-nosnippet') || !detectionDisclaimer.includes('Point-in-time results')) fail('detection disclaimer must remain visible and be excluded from search snippets');
 const pricing = page('/pricing/');
 const localVsCloud = page('/local-vs-cloud/');
 for (const [route, text] of [['/', home], ['/pricing/', pricing], ['/local-vs-cloud/', localVsCloud]]) {

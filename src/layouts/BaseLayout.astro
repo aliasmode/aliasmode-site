@@ -46,9 +46,8 @@ if (route && policy === 'index') {
   schemas.push({
     '@type': 'Organization',
     '@id': organizationId,
-    name: 'Xreacher',
-    url: 'https://xreacher.com/',
-    brand: { '@type': 'Brand', name: 'AliasMode', url: siteConfig.metadataOrigin },
+    name: 'AliasMode',
+    url: siteConfig.metadataOrigin,
   });
   if (route.kind === 'home') {
     schemas.push({
@@ -152,7 +151,7 @@ const footerGroups = [
   <body>
     <div class="shell">
       <header class="site-header" data-nav="closed">
-        <a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 512 512" fill="none" aria-hidden="true"><path d="M152 96H320C380 96 416 136 416 196V316C416 376 376 416 316 416H196C136 416 96 376 96 316V288" stroke="currentColor" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 288C96 240 136 208 184 208H280" stroke="#6d4aff" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/></svg>AliasMode <span>by Xreacher</span></a>
+        <a class="brand" href="/"><svg class="brand-mark" viewBox="0 0 512 512" fill="none" aria-hidden="true"><path d="M152 96H320C380 96 416 136 416 196V316C416 376 376 416 316 416H196C136 416 96 376 96 316V288" stroke="currentColor" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/><path d="M96 288C96 240 136 208 184 208H280" stroke="#6d4aff" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/></svg>AliasMode</a>
         <div class="nav-panel" id="site-nav">
           <nav class="main-nav" aria-label="Main navigation">{navigation.map((item) => <a href={item.href}>{item.label}</a>)}</nav>
           <div class="nav-extra">
@@ -389,7 +388,6 @@ const footerGroups = [
   nav a:hover { background: var(--violet-soft); color: var(--violet-deep); }
   .site-header .brand { align-items: center; color: var(--ink); display: inline-flex; font-family: var(--font-display); font-size: 1.12rem; font-weight: 700; gap: .5rem; letter-spacing: -.03em; text-decoration: none; white-space: nowrap; }
   .site-header .brand-mark { height: 1.7rem; width: 1.7rem; }
-  .site-header .brand span { color: var(--ink-3); font-family: var(--font-body); font-size: .74rem; font-weight: 550; letter-spacing: 0; }
   .header-cta { background: linear-gradient(175deg, #7c5cff, var(--violet)); border-radius: var(--r-pill); box-shadow: var(--shadow-violet); color: #fff; font-size: .84rem; font-weight: 700; padding: .68rem 1.2rem; text-decoration: none; transition: box-shadow .18s ease, transform .18s ease, filter .18s ease; white-space: nowrap; }
   .header-cta:hover { filter: brightness(1.07); box-shadow: 0 .9rem 2rem -.5rem rgba(109, 74, 255, .6); transform: translateY(-1px); }
   .header-actions { align-items: center; display: flex; gap: .4rem; }
@@ -533,7 +531,6 @@ const footerGroups = [
   }
   @media (max-width: 36rem) {
     :root { --r-panel: 1.35rem; }
-    .site-header .brand span { display: none; }
     .footer-cols { grid-template-columns: 1fr 1fr; }
     .footer-brand { grid-column: 1 / -1; }
     table { min-width: 34rem; }
